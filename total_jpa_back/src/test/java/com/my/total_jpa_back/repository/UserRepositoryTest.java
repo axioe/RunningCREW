@@ -188,7 +188,7 @@ class UserRepositoryTest {
 
     @Test
     @DisplayName("이름에 kim 을 포함하는 자료 검색")
-    void 킴찾기() {
+    void 김찾기() {
         List<Users> users = userRepository.findByNameContaining("kim");
         for (Users user : users) {
             log.info("name = {}", user.getName());
