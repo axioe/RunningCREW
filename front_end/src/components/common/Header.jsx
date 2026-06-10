@@ -1,13 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../css/Header.css'; // 통일된 헤더 CSS
+import '../../css/Header.css';
 
 const Header = () => {
   const navigate = useNavigate();
 
   return (
     <header className="main-gnb-header">
+      {/* 1. 이 'header-inner'가 정렬의 핵심입니다. */}
       <div className="header-inner">
+        
         {/* 로고 영역 */}
         <div className="logo-area" onClick={() => navigate("/")}>
           <span className="logo-green-text">Running</span> Crew

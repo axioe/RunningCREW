@@ -37,7 +37,7 @@ const LoginPage = () => {
       <main className="login-centered-container">
         <div className="login-card">
           <div className="login-header">
-            <h2>Welcome Back!</h2>
+            <h2>Welcome!</h2>
             <p>Nature Runner와 함께 다시 달려볼까요?</p>
           </div>
 

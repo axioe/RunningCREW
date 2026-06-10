@@ -1,40 +1,60 @@
-/* 헤더 전체 컨테이너 */
+/* Header.css */
+
+/* 1. 외부 컨테이너: 전체 너비 점유 */
 .main-gnb-header {
     width: 100%;
     background: #ffffff;
     border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-/* 내부 정렬용 박스 (폭 제한) */
+/* 2. 내부 정렬 박스: 모든 페이지에서 동일한 max-width와 padding 공유 */
 .main-gnb-header .header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1400px;
+    width: 100%;
+    max-width: 1440px; /* 모든 페이지의 메인 컨테이너 최대 너비와 일치시키세요 */
     margin: 0 auto;
-    padding: 15px 50px;
+    padding: 15px 50px; /* 패딩 값 통일 */
+    height: 70px; /* 높이 고정 (가장 중요!) */
+    box-sizing: border-box;
 }
 
+/* 3. 로고 영역 */
 .logo-area { 
-  font-size: 24px !important; 
-  font-weight: 800 !important ;
-  cursor: pointer !important;
-  color: #1e293b !important;
-  display: flex !important; 
-  align-items: center !important;
-  white-space: nowrap !important;
-  line-height: 1 !important;
+    font-size: 24px; 
+    font-weight: 800;
+    cursor: pointer;
+    color: #1e293b;
+    display: flex; 
+    align-items: center;
+    text-decoration: none;
 }
-.logo-green-text { 
-  color: #16A34A !important;
-  font-weight: 800 !important;
- }
+.logo-green-text { color: #16A34A; }
 
+/* 4. 네비게이션 메뉴 */
 .nav-menu-bar { display: flex; gap: 30px; }
-.nav-menu-bar .menu-btn { background: none; border: none; font-size: 16px; color: #64748b; cursor: pointer; }
-.nav-menu-bar .menu-btn:hover { color: #16A34A; font-weight: bold; }
+.nav-menu-bar .menu-btn { 
+    background: none; border: none; font-size: 15px; color: #64748b; 
+    cursor: pointer; font-weight: 500; transition: color 0.2s;
+}
+.nav-menu-bar .menu-btn:hover,
+.nav-menu-bar .menu-btn.active { 
+    color: #16A34A; font-weight: bold; 
+}
 
-/* 로그인/회원가입 버튼 스타일 통일 */
-.gnb-user-actions { display: flex; gap: 12px; }
-.gnb-login-btn { background: none; border: none; font-weight: bold; color: #475569; cursor: pointer; }
-.gnb-signup-btn { background: #16A34A; color: white; border: none; padding: 8px 22px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+/* 5. 사용자 액션 (버튼 그룹) */
+.gnb-user-actions { display: flex; align-items: center; gap: 15px; }
+.gnb-login-btn { 
+    background: none; border: none; font-weight: 600; 
+    color: #475569; cursor: pointer; font-size: 14px;
+}
+.gnb-signup-btn { 
+    background: #16A34A; color: white; border: none; 
+    padding: 8px 20px; border-radius: 20px; font-weight: bold; 
+    cursor: pointer; font-size: 14px; transition: background 0.2s;
+}
+.gnb-signup-btn:hover { background: #15803d; }
