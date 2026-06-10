@@ -4,6 +4,8 @@ import MainPage from "./components/MainPage";
 import CourseRecommendation from "./components/CourseRecommendation"; // 1. 러닝 코스 페이지
 import SearchPage from "./components/SearchPage"; // 2. 독립된 검색 페이지
 import CrewRecruitment from "./components/CrewRecruitment"; 
+import LoginPage from "./components/LoginPage";
+import SignUpPage from "./components/SignUpPage";
 
 function App() {
   return (
@@ -20,6 +22,12 @@ function App() {
 
         {/* 메인 검색 버튼 전용 독립 경로 */}
         <Route path="/search" element={<SearchPage />} />
+
+        {/* 로그인 버튼 전용 독립 경로 */}
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* 회원가입 전용 경로 */}
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
     </Router>
   );

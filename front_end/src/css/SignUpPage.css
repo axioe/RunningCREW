@@ -1,0 +1,387 @@
+/* ==========================================================================
+   Nature Runner - SignUpPage CSS (GNB 버그 및 레이아웃 탈출 전면 교정본)
+   ========================================================================== */
+
+/* 1. 기본 스타일 스코프 격리 및 크기 계산 표준화 */
+.nature-runner-signup-wrapper {
+    width: 100% !important;
+    min-height: 100vh !important;
+    background-color: #f8fafc !important;
+    font-family: 'Malgun Gothic', sans-serif;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* 래퍼 하위의 모든 요소에 테두리 기준 크기 계산 강제 (박스 터짐 방지) */
+.nature-runner-signup-wrapper * {
+    box-sizing: border-box !important;
+}
+
+/* ==========================================================================
+   2. GNB 헤더 영역 (메인/로그인 페이지와 통일성 유지)
+   ========================================================================== */
+.main-gnb-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 20px 40px !important;
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+    width: 100% !important;
+}
+
+.logo-area {
+    font-size: 22px !important;
+    font-weight: bold !important;
+    color: #1e293b !important;
+    cursor: pointer !important;
+}
+
+.logo-green-text {
+    color: #16A34A !important;
+}
+
+.nav-menu-bar {
+    display: flex !important;
+    gap: 30px !important;
+}
+
+.nav-menu-bar .menu-btn {
+    background: none !important;
+    border: none !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    padding: 8px 0 !important;
+    transition: color 0.2s !important;
+}
+
+.nav-menu-bar .menu-btn:hover,
+.nav-menu-bar .menu-btn.active {
+    color: #16A34A !important;
+}
+
+/* GNB 우측 버튼 그룹 균형 조정 */
+.gnb-user-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+/* GNB 내 일반 버튼 스타일 초기화 */
+.gnb-login-btn, 
+.gnb-signup-btn {
+    background: none !important;
+    border: none !important;
+    padding: 10px 24px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    border-radius: 30px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.gnb-login-btn:hover, 
+.gnb-signup-btn:hover {
+    color: #16A34A !important;
+    background-color: #f0fdf4 !important;
+}
+
+/* GNB 내 활성화된 버튼 스타일 (초록 타원형 버그 교정) */
+.gnb-login-btn.active, 
+.gnb-signup-btn.active {
+    background-color: #16A34A !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2) !important;
+}
+
+.gnb-login-btn.active:hover, 
+.gnb-signup-btn.active:hover {
+    background-color: #15803d !important;
+    color: #ffffff !important;
+}
+
+
+/* ==========================================================================
+   3. 메인 콘텐츠 컨테이너 (2단 레이아웃 세팅)
+   ========================================================================== */
+.signup-container {
+    flex: 1 !important;
+    display: flex !important;
+    max-width: 1400px !important;
+    margin: 40px auto !important;
+    padding: 0 50px !important;
+    gap: 60px !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+
+/* ==========================================================================
+   4. 좌측 브랜드 비주얼 영역 스타일
+   ========================================================================== */
+.signup-visual-side {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+.visual-box h1 {
+    font-size: 46px !important;
+    font-weight: 800 !important;
+    color: #1e293b !important;
+    line-height: 1.35 !important;
+    margin: 0 0 20px 0 !important;
+}
+
+.sub-desc {
+    font-size: 18px !important;
+    color: #64748b !important;
+    line-height: 1.6 !important;
+    margin: 0 0 40px 0 !important;
+}
+
+/* 핵심 특징 리스트 구역 */
+.feature-list {
+    margin-bottom: 50px !important;
+}
+
+.feature-card {
+    display: flex !important;
+    align-items: center !important;
+    gap: 18px !important;
+    margin-bottom: 22px !important;
+}
+
+.feature-card i {
+    font-size: 22px !important;
+    color: #16A34A !important;
+    width: 32px !important;
+    text-align: center !important;
+}
+
+.feature-card strong {
+    display: block !important;
+    font-size: 16px !important;
+    color: #334155 !important;
+    margin-bottom: 2px !important;
+}
+
+.feature-card p {
+    font-size: 14px !important;
+    color: #94a3b8 !important;
+    margin: 0 !important;
+}
+
+/* 하단 카운터 통계 노드 */
+.stat-summary {
+    display: flex !important;
+    gap: 50px !important;
+    border-top: 1px solid #e2e8f0 !important;
+    padding-top: 35px !important;
+}
+
+.stat-node {
+    color: #64748b !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+.stat-node strong {
+    font-size: 26px !important;
+    color: #1e293b !important;
+    font-weight: 700 !important;
+}
+
+
+/* ==========================================================================
+   5. 우측 회원가입 폼 카드 스타일 (중앙 크기 제어 및 튕김 방지)
+   ========================================================================== */
+.signup-form-side {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.form-inner-card {
+    width: 100% !important;
+    max-width: 520px !important; /* 튀어나가지 않도록 안전 너비 고정 */
+    background: #ffffff !important;
+    border-radius: 28px !important;
+    padding: 45px 35px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05) !important;
+    text-align: center !important;
+}
+
+.form-inner-card h2 {
+    font-size: 30px !important;
+    color: #1e293b !important;
+    margin: 0 0 8px 0 !important;
+    font-weight: 700 !important;
+}
+
+.form-intro {
+    color: #94a3b8 !important;
+    margin: 0 0 35px 0 !important;
+    font-size: 14px !important;
+}
+
+/* 프로필 이미지 등록 세션 */
+.profile-upload-area {
+    margin-bottom: 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+.profile-circle {
+    width: 110px !important;
+    height: 110px !important;
+    background: #f1f5f9 !important;
+    border-radius: 50% !important;
+    margin: 0 auto 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 42px !important;
+    color: #cbd5e1 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.img-upload-trigger {
+    background: #16A34A !important;
+    color: white !important;
+    border: none !important;
+    padding: 8px 20px !important;
+    border-radius: 20px !important;
+    font-weight: bold !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+    margin-bottom: 6px !important;
+    transition: background 0.2s !important;
+}
+
+.img-upload-trigger:hover {
+    background: #15803d !important;
+}
+
+.upload-guide {
+    font-size: 12px !important;
+    color: #cbd5e1 !important;
+    margin: 0 !important;
+}
+
+/* 인풋 입력 필드 박스 공통 구조 */
+.signup-form-body {
+    width: 100% !important;
+}
+
+.signup-input-box {
+    position: relative !important;
+    width: 100% !important;
+    margin-bottom: 15px !important;
+}
+
+.signup-input-box i {
+    position: absolute !important;
+    left: 20px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #94a3b8 !important;
+}
+
+.signup-input-box input {
+    width: 100% !important;
+    padding: 15px 45px 15px 52px !important; /* 내부 패딩이 박스 크기를 늘리지 않음 */
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 14px !important;
+    font-size: 15px !important;
+    outline: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.signup-input-box input:focus {
+    border-color: #16A34A !important;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1) !important;
+}
+
+/* 비밀번호 시아 토글 아이콘 배치 */
+.password-eye-icon {
+    position: absolute !important;
+    right: 18px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    color: #94a3b8 !important;
+    font-size: 18px !important;
+    padding: 0 !important;
+    z-index: 5;
+}
+
+/* 하단 버튼 그룹 구성 (가로폭 100% 유지) */
+.signup-btn-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 25px !important;
+    width: 100% !important;
+}
+
+.btn-signup-submit {
+    width: 100% !important;
+    background: #16A34A !important;
+    color: white !important;
+    border: none !important;
+    padding: 16px !important;
+    border-radius: 14px !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+    transition: background 0.2s !important;
+}
+
+.btn-signup-submit:hover {
+    background: #15803d !important;
+}
+
+.btn-signup-reset {
+    width: 100% !important;
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+    border: none !important;
+    padding: 13px !important;
+    border-radius: 14px !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+    cursor: pointer !important;
+    transition: background 0.2s !important;
+}
+
+.btn-signup-reset:hover {
+    background: #e2e8f0 !important;
+}
+
+/* 가장 하단 로그인 링크 전환 구역 */
+.signup-footer-link {
+    margin-top: 30px !important;
+    font-size: 14px !important;
+    color: #94a3b8 !important;
+}
+
+.signup-footer-link button {
+    background: none !important;
+    border: none !important;
+    color: #16A34A !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    padding: 0 !important;
+    margin-left: 5px !important;
+}
