@@ -265,7 +265,7 @@ const CrewRecruitment = () => {
           <div className="crw-filter-widget">
             <label>난이도</label>
             <div className="crw-level-btn-row">
-              {["전체", "하", "중", "상"].map((lvl) => (
+              {["전체", "새싹", "나무", "숲"].map((lvl) => (
                 <button
                   key={lvl}
                   className={`crw-filter-pill ${difficulty === lvl ? "active" : ""}`}
