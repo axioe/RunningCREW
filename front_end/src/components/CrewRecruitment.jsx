@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/CrewRecruitment.css";
+import Header from "./common/Header";
 
 const CrewRecruitment = () => {
   const navigate = useNavigate();
@@ -88,23 +89,7 @@ const CrewRecruitment = () => {
   return (
     <div className="crw-global-container">
       
-      {/* 1. 네비게이션 헤더 바 */}
-      <header className="crw-top-gnb">
-        <div className="crw-logo" onClick={() => navigate("/")}>
-          <span className="crw-logo-green">Nature</span> Runner
-        </div>
-        <nav className="crw-nav-menu">
-          <button onClick={() => navigate("/")}>홈</button>
-          <button onClick={() => navigate("/search")}>검색</button>
-          <button onClick={() => navigate("/course-recommendation")}>러닝 코스</button>
-          <button className="active" onClick={() => navigate("/crew-recruitment")}>크루 모집</button>
-          <button onClick={() => navigate("/mypage")}>마이페이지</button>
-        </nav>
-        <div className="crw-user-actions">
-          <i className="fa-regular fa-bell icon-btn"></i>
-          <button className="crw-login-pill" onClick={() => navigate("/login")}>로그인</button>
-        </div>
-      </header>
+      <Header/>
 
       {/* 2. 메인 배너 섹션 */}
       <section className="crw-hero-banner">

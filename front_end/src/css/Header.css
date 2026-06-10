@@ -1,0 +1,40 @@
+/* 헤더 전체 컨테이너 */
+.main-gnb-header {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* 내부 정렬용 박스 (폭 제한) */
+.main-gnb-header .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 15px 50px;
+}
+
+.logo-area { 
+  font-size: 24px !important; 
+  font-weight: 800 !important ;
+  cursor: pointer !important;
+  color: #1e293b !important;
+  display: flex !important; 
+  align-items: center !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+}
+.logo-green-text { 
+  color: #16A34A !important;
+  font-weight: 800 !important;
+ }
+
+.nav-menu-bar { display: flex; gap: 30px; }
+.nav-menu-bar .menu-btn { background: none; border: none; font-size: 16px; color: #64748b; cursor: pointer; }
+.nav-menu-bar .menu-btn:hover { color: #16A34A; font-weight: bold; }
+
+/* 로그인/회원가입 버튼 스타일 통일 */
+.gnb-user-actions { display: flex; gap: 12px; }
+.gnb-login-btn { background: none; border: none; font-weight: bold; color: #475569; cursor: pointer; }
+.gnb-signup-btn { background: #16A34A; color: white; border: none; padding: 8px 22px; border-radius: 20px; font-weight: bold; cursor: pointer; }

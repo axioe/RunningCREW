@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/LoginPage.css";
+import Header from "./common/Header";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -29,22 +30,8 @@ const LoginPage = () => {
 
   return (
     <div className="nature-runner-login-wrapper">
-      {/* --- GNB 헤더 영역 (기존 페이지와 동일하게 유지) --- */}
-      <header className="main-gnb-header">
-        <div className="logo-area" onClick={() => navigate("/")}>
-          <span className="logo-green-text">Nature</span> Runner
-        </div>
-        <nav className="nav-menu-bar">
-          <button className="menu-btn" onClick={() => navigate("/")}>Home</button>
-          <button className="menu-btn" onClick={() => navigate("/course-recommendation")}>Running Course</button>
-          <button className="menu-btn" onClick={() => navigate("/crew-recruitment")}>Crew Recruitment</button>
-          <button className="menu-btn" onClick={() => navigate("/mypage")}>My Page</button>
-        </nav>
-        <div className="gnb-user-actions">
-          <button className="gnb-login-btn active">Login</button>
-          <button className="gnb-signup-btn" onClick={() => navigate("/signup")}>회원가입</button>
-        </div>
-      </header>
+
+      <Header/>
 
       {/* --- 중앙 정렬 로그인 폼 섹션 --- */}
       <main className="login-centered-container">

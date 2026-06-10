@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/MainPage.css";
+import Header from "./common/Header";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -8,24 +9,7 @@ const MainPage = () => {
   return (
     <div className="nature-runner-main-wrapper">
       
-      {/* GNB 헤더 바 영역 */}
-      <header className="main-gnb-header">
-        <div className="logo-area" onClick={() => navigate("/")}>
-          <span className="logo-green-text">Nature</span> Runner
-        </div>
-        <nav className="nav-menu-bar">
-          <button className="menu-btn active" onClick={() => navigate("/")}>홈</button>
-          
-          {/* 🌟 연동 1: 상단 '러닝 코스' 메뉴 클릭 -> 코스 추천 페이지 이동 */}
-          <button className="menu-btn" onClick={() => navigate("/search")}>검색</button>
-          <button className="menu-btn" onClick={() => navigate("/course-recommendation")}>러닝 코스</button>
-          <button className="menu-btn" onClick={() => navigate("/crew-recruitment")}>크루 모집</button>
-          <button className="menu-btn" onClick={() => navigate("/mypage")}>마이페이지</button>
-        </nav>
-        <div className="gnb-user-actions">
-          <button className="gnb-login-btn" onClick={() => navigate("/login")}>로그인</button>
-        </div>
-      </header>
+      <Header/>
 
       {/* 중앙 히어로 섹션 */}
       <section className="main-hero-banner">

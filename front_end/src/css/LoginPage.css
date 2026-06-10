@@ -1,17 +1,3 @@
-/* ==========================================================================
-   Nature Runner - LoginPage CSS (블록 깨짐 및 위치 탈출 교정본)
-   ========================================================================== */
-
-/* 1. 기본 스타일 스코프 격리 및 크기 계산 표준화 */
-.nature-runner-login-wrapper {
-    width: 100% !important;
-    min-height: 100vh !important;
-    background-color: #f8fafc !important;
-    font-family: 'Malgun Gothic', sans-serif;
-    display: flex !important;
-    flex-direction: column !important;
-}
-
 /* 래퍼 하위의 모든 요소에 크기 계산 기준 강제 적용 (가장 중요) */
 .nature-runner-login-wrapper * {
     box-sizing: border-box !important;

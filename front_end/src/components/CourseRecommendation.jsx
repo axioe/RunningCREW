@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/CourseRecommendation.css";
+import Header from "./common/Header";
 
 const CourseRecommendation = () => {
   const navigate = useNavigate();
@@ -83,23 +84,7 @@ const CourseRecommendation = () => {
   return (
     <div className="cr-page-global-container">
       
-      {/* GNB 영역 */}
-      <header className="cr-top-navigation">
-        <div className="cr-logo-brand" onClick={() => navigate("/")}>
-          <span className="cr-logo-green">Running</span> Crew
-        </div>
-        <nav className="cr-nav-link-group">
-          <button onClick={() => navigate("/")}>홈</button>
-          <button onClick={() => navigate("/search")}>검색</button>
-          <button className="active" onClick={() => navigate("/course-recommendation")}>러닝 코스</button>
-          <button onClick={() => navigate("/crew-recruitment")}>크루 모집</button>
-          <button onClick={() => navigate("/mypage")}>마이페이지</button>
-        </nav>
-        <div className="cr-right-actions">
-          <i className="fa-regular fa-bell cr-icon-btn"></i>
-          <button className="cr-login-pill-btn" onClick={() => navigate("/login")}>로그인</button>
-        </div>
-      </header>
+      <Header/>
 
       {/* 상단 그린 배너 */}
       <section className="cr-hero-illustration-banner">

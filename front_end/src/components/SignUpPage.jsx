@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/SignUpPage.css";
+import Header from "./common/Header";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -47,22 +48,8 @@ const SignUpPage = () => {
 
   return (
     <div className="nature-runner-signup-wrapper">
-      {/* --- GNB 헤더 영역 (기존 페이지와 연동) --- */}
-      <header className="main-gnb-header">
-        <div className="logo-area" onClick={() => navigate("/")}>
-          <span className="logo-green-text">Nature</span> Runner
-        </div>
-        <nav className="nav-menu-bar">
-          <button className="menu-btn" onClick={() => navigate("/")}>Home</button>
-          <button className="menu-btn" onClick={() => navigate("/course-recommendation")}>Running Course</button>
-          <button className="menu-btn" onClick={() => navigate("/crew-recruitment")}>Crew Recruitment</button>
-          <button className="menu-btn" onClick={() => navigate("/mypage")}>My Page</button>
-        </nav>
-        <div className="gnb-user-actions">
-          <button className="gnb-login-btn" onClick={() => navigate("/login")}>Login</button>
-          <button className="gnb-signup-btn active">회원가입</button>
-        </div>
-      </header>
+
+      <Header/>
 
       {/* --- 회원가입 본문 섹션 --- */}
       <main className="signup-container">

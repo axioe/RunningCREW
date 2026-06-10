@@ -1,60 +1,6 @@
-/* 다른 CSS의 간섭을 차단하기 위한 최상위 스코프 격리 */
-.nature-runner-main-wrapper {
-    width: 100% !important;
-    min-height: 100vh !important;
-    background-color: #f8fafc !important;
-    font-family: 'Malgun Gothic', sans-serif;
-    display: block !important;
-}
-
-/* GNB 영역 */
-.main-gnb-header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 15px 50px !important;
-    background: #ffffff !important;
-    border-bottom: 1px solid #e2e8f0 !important;
-}
-
-.logo-area {
-    font-size: 24px !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-    color: #1e293b !important;
-}
-
-.logo-green-text {
-    color: #16A34A !important;
-}
-
-.nav-menu-bar .menu-btn {
-    background: none !important;
-    border: none !important;
-    margin: 0 20px !important;
-    font-size: 16px !important;
-    font-weight: 500 !important;
-    cursor: pointer !important;
-    color: #64748b !important;
-}
-
-.nav-menu-bar .menu-btn:hover, 
-.nav-menu-bar .menu-btn.active {
-    color: #16A34A !important;
-    font-weight: bold !important;
-}
-
-.gnb-login-btn {
-    background: #16A34A !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 8px 22px !important;
-    border-radius: 20px !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-}
-
-/* 중앙 히어로 섹션 */
+/* --------------------------------------------------------------------------
+   중앙 히어로 섹션 및 메인 검색창 (기존 스타일 전면 유지)
+   -------------------------------------------------------------------------- */
 .main-hero-banner {
     background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
                 url('https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=1920') no-repeat center/cover !important;
@@ -76,7 +22,6 @@
     color: #cbd5e1 !important;
 }
 
-/* 메인 검색창 */
 .main-page-search-bar {
     display: inline-flex !important;
     width: 650px !important;
@@ -108,7 +53,10 @@
     cursor: pointer !important;
 }
 
-/* 3단 대시보드 그리드 레이아웃 */
+
+/* --------------------------------------------------------------------------
+   3단 대시보드 그리드 레이아웃 (기존 스타일 전면 유지)
+   -------------------------------------------------------------------------- */
 .main-dashboard-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;

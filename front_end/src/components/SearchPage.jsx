@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/SearchPage.css";
+import Header from "./common/Header";
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -15,24 +16,7 @@ const SearchPage = () => {
 
   return (
     <div className="search-page-container">
-      {/* 1. 상단 네비게이션 바 */}
-      <header className="search-gnb">
-        <div className="logo" onClick={() => navigate("/")}>
-          <span className="logo-green">Nature</span> Runner
-        </div>
-        <nav className="nav-menu">
-          <button onClick={() => navigate("/")}>홈</button>
-          <button className="active" onClick={() => navigate("/search")}>검색</button>
-          <button onClick={() => navigate("/course-recommendation")}>러닝 코스</button>
-          <button onClick={() => navigate("/crew-recruitment")}>크루 모집</button>
-          <button onClick={() => navigate("/mypage")}>마이페이지</button>
-        </nav>
-        <div className="user-actions">
-          <i className="fa-regular fa-bell icon"></i>
-          <i className="fa-regular fa-user icon"></i>
-          <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
-        </div>
-      </header>
+      <Header/>
 
       {/* 2. 검색 필터 헤더 섹션 */}
       <section className="search-header-section">

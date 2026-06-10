@@ -13,17 +13,8 @@
 .search-input-wrapper input { flex: 1; border: none; padding: 12px 20px; font-size: 14px; background: transparent; outline: none; }
 .search-submit-btn { background: #16A34A; color: #fff; border: none; padding: 0 25px; border-radius: 30px; font-weight: bold; cursor: pointer; }
 
-/* [레이아웃 대폭 수정] 좌측(사이드바) - 중앙(컨텐츠) - 우측(지도 블록) 3단 배열 구조 고정 */
-.search-main-content { 
-    display: flex; 
-    padding: 30px 50px; 
-    gap: 25px; 
-    max-width: 1440px; 
-    margin: 0 auto; 
-    align-items: flex-start;
-}
-
-.filter-sidebar { width: 260px; background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); flex-shrink: 0; }
+.search-main-content { display: flex; padding: 30px 50px; gap: 25px; max-width: 1440px; margin: 0 auto; }
+.filter-sidebar { width: 260px; background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); height: fit-content; }
 .sidebar-title-box { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .sidebar-title-box h3 { font-size: 16px; color: #1e293b; margin: 0; }
 .reset-btn { background: none; border: none; color: #94a3b8; font-size: 13px; cursor: pointer; }
@@ -48,8 +39,7 @@
 
 .apply-filter-btn { width: 100%; padding: 12px; background: #16A34A; color: #fff; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 10px; }
 
-/* 중앙 컨텐츠 너비 지정 */
-.results-container { flex: 1; min-width: 450px; }
+.results-container { flex: 1; }
 .tab-menu { display: flex; gap: 10px; margin-bottom: 20px; }
 .tab-menu button { padding: 8px 18px; background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; cursor: pointer; font-size: 14px; color: #64748b; }
 .tab-menu button.active { background: #16A34A; color: #fff; border-color: #16A34A; font-weight: bold; }
@@ -57,6 +47,7 @@
 .section-header h4 { font-size: 18px; color: #1e293b; margin: 0 0 20px 0; }
 .total-count { color: #16A34A; font-size: 14px; margin-left: 8px; font-weight: normal; }
 
+/* [교정 완료] 더보기 레이아웃 래퍼 균형 조정 */
 .section-sub-title {
     display: flex;
     justify-content: space-between;
@@ -65,6 +56,7 @@
     padding-right: 4px;
 }
 
+/* [교정 완료] 기획안 기반 세련된 더보기 링크 버튼 디자인 */
 .sp-more-redirect-btn {
     background: none;
     border: none;
@@ -89,48 +81,41 @@
     color: #16A34A;
     background-color: #f1f5f9;
 }
-.sp-more-redirect-btn:hover i { transform: translateX(2px); }
 
-.card-list { display: grid; grid-template-columns: 1fr; gap: 15px; }
-.course-card { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; display: flex; }
-.card-img-placeholder { width: 150px; height: auto; background: #e2e8f0; flex-shrink: 0; }
-.card-info { padding: 15px; flex: 1; }
+.sp-more-redirect-btn:hover i {
+    transform: translateX(2px);
+}
+
+.card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.course-card { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; }
+.card-img-placeholder { height: 130px; background: #e2e8f0; }
+.card-info { padding: 15px; }
 .card-info h5 { margin: 0 0 6px 0; font-size: 15px; color: #1e293b; }
 .card-info p { margin: 0 0 4px 0; font-size: 12px; color: #64748b; }
 
 .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #fff; margin-left: 5px; }
 .badge.amber { background: #f59e0b; }
 .badge.green { background: #10b981; }
-.detail-btn { width: fit-content; margin-top: 10px; padding: 6px 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 12px; cursor: pointer; color: #475569; }
+.detail-btn { width: 100%; margin-top: 10px; padding: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 12px; cursor: pointer; color: #475569; }
 
-/* [수정 완료] 우측에 독립된 단일 블록 형식의 기획안 스타일 지도 공간 인프라 정의 */
-.right-map-block-area { 
-    width: 320px; 
-    flex-shrink: 0; 
-    position: sticky;
-    top: 20px;
-}
-
+.right-map-area { width: 100%; }
+.map-placeholder { width: 100%; height: 400px; background: #e2e8f0; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #64748b; font-weight: 500; }
+.map-mock-marker { font-size: 32px; }
 .map-api-placeholder-box {
     width: 100%;
-    height: 480px;
-    background-color: #e2e8f0; /* 정돈된 그레이 */
+    height: 400px;
+    background-color: #e2e8f0; /* 회색 바탕 */
     border-radius: 16px;
-    border: 1px solid #cbd5e1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: #64748b;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     gap: 12px;
-    text-align: center;
-    padding: 0 20px;
-    box-sizing: border-box;
 }
-
 .map-placeholder-icon {
-    font-size: 42px;
+    font-size: 36px;
     color: #94a3b8;
 }
