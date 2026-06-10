@@ -1,0 +1,344 @@
+/* ==========================================================================
+   Nature Runner MyPage Style (격리 클래스 기반)
+   ========================================================================== */
+
+/* 기본 폰트 및 배경 설정 정의 */
+.nature-runner-mypage-wrapper {
+  font-family: "Malgun Gothic", sans-serif !important;
+  background-color: #f8fafc !important;
+  min-height: 100vh !important;
+  color: #1e293b !important;
+}
+
+/* 기존 GNB 헤더 스타일 백업 가이드 매칭 */
+.nature-runner-mypage-wrapper .main-gnb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+.nature-runner-mypage-wrapper .logo-area {
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.nature-runner-mypage-wrapper .logo-green-text {
+  color: #16a34a;
+}
+.nature-runner-mypage-wrapper .menu-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #64748b;
+}
+.nature-runner-mypage-wrapper .menu-btn.active {
+  color: #16a34a !important;
+  font-weight: bold;
+}
+
+/* --- 2단 분할 구조 레이아웃 --- */
+.nature-runner-mypage-wrapper .mypage-container {
+  display: flex !important;
+  max-width: 1200px;
+  margin: 2rem auto !important;
+  padding: 0 1rem;
+  gap: 2rem !important;
+  align-items: flex-start;
+}
+
+/* --- 좌측 사이드바 영역 --- */
+.nature-runner-mypage-wrapper .mypage-sidebar {
+  flex: 0 0 280px !important;
+  background-color: #ffffff !important;
+  border-radius: 16px !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+}
+
+.nature-runner-mypage-wrapper .sidebar-profile-card {
+  text-align: center;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 1.5rem;
+}
+
+.nature-runner-mypage-wrapper .profile-avatar {
+  width: 80px;
+  height: 80px;
+  background-color: #e2e8f0;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nature-runner-mypage-wrapper .avatar-placeholder {
+  font-size: 2rem;
+}
+
+.nature-runner-mypage-wrapper .profile-nickname {
+  font-size: 1.2rem;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.nature-runner-mypage-wrapper .profile-role-tag {
+  font-size: 0.85rem;
+  color: #64748b;
+  background-color: #f1f5f9;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+}
+
+/* 사이드바 탭 메뉴 버튼 리스트 */
+.nature-runner-mypage-wrapper .sidebar-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nature-runner-mypage-wrapper .sidebar-menu-item {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nature-runner-mypage-wrapper .sidebar-menu-item:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+.nature-runner-mypage-wrapper .sidebar-menu-item.active {
+  background-color: #e8f5e9 !important;
+  color: #16a34a !important;
+  font-weight: bold !important;
+}
+
+/* --- 우측 메인 대시보드 영역 --- */
+.nature-runner-mypage-wrapper .mypage-content-area {
+  flex: 1 !important;
+}
+
+.nature-runner-mypage-wrapper .tab-content-wrapper {
+  background-color: #ffffff !important;
+  border-radius: 16px !important;
+  padding: 2rem !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+}
+
+.nature-runner-mypage-wrapper .content-title {
+  font-size: 1.4rem;
+  color: #1e293b;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+/* --- 탭 1 스타일: 인포그래픽 통계 위젯 & 입력창 --- */
+.nature-runner-mypage-wrapper .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.nature-runner-mypage-wrapper .stat-card {
+  background-color: #f8fafc;
+  border-left: 4px solid #16a34a;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+}
+
+.nature-runner-mypage-wrapper .stat-label {
+  font-size: 0.85rem;
+  color: #64748b;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.nature-runner-mypage-wrapper .stat-value {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #1e293b;
+}
+.nature-runner-mypage-wrapper .stat-unit {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+/* 프로필 수정 폼 구조 및 인풋 */
+.nature-runner-mypage-wrapper .mypage-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.nature-runner-mypage-wrapper .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nature-runner-mypage-wrapper .form-group label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #1e293b;
+}
+
+.nature-runner-mypage-wrapper .mypage-input {
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px !important; /* 기획 규격 매칭 (16px) */
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.nature-runner-mypage-wrapper .mypage-input:focus {
+  border-color: #16a34a !important;
+}
+
+.nature-runner-mypage-wrapper .mypage-input:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.nature-runner-mypage-wrapper .mypage-submit-btn {
+  background-color: #16a34a !important;
+  color: #ffffff !important;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 30px !important; /* 가이드 안의 강조 라운딩 */
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: opacity 0.2s;
+}
+
+.nature-runner-mypage-wrapper .mypage-submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* --- 탭 2 스타일: 내 크루 현황 테이블 및 기존 태그 재활용 --- */
+.nature-runner-mypage-wrapper .crew-list-container {
+  overflow-x: auto;
+}
+
+.nature-runner-mypage-wrapper .crew-status-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.nature-runner-mypage-wrapper .crew-status-table th {
+  background-color: #f8fafc;
+  color: #64748b;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.nature-runner-mypage-wrapper .crew-status-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.95rem;
+}
+
+.nature-runner-mypage-wrapper .crew-name-cell {
+  font-weight: bold;
+  color: #1e293b;
+}
+
+/* 기존 프로젝트 crew-level-tag 재활용 커스텀 */
+.nature-runner-mypage-wrapper .crew-level-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.nature-runner-mypage-wrapper .level-beginner {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+.nature-runner-mypage-wrapper .level-advanced {
+  background-color: #fef9c3;
+  color: #ca8a04;
+}
+
+/* 참여 현황 상태 배지 */
+.nature-runner-mypage-wrapper .status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+.nature-runner-mypage-wrapper .badge-success {
+  background-color: #e8f5e9;
+  color: #16a34a;
+}
+.nature-runner-mypage-wrapper .badge-waiting {
+  background-color: #f8fafc;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+}
+
+/* --- 탭 3 스타일: 북마크 러닝 코스 그리드 --- */
+.nature-runner-mypage-wrapper .bookmark-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.nature-runner-mypage-wrapper .bookmark-course-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+
+.nature-runner-mypage-wrapper .bookmark-course-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.nature-runner-mypage-wrapper .course-thumb-placeholder {
+  width: 50px;
+  height: 50px;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.nature-runner-mypage-wrapper .course-info h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  color: #1e293b;
+}
+
+.nature-runner-mypage-wrapper .course-info p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
