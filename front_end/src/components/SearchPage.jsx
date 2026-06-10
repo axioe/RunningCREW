@@ -21,10 +21,11 @@ const SearchPage = () => {
           <span className="logo-green">Nature</span> Runner
         </div>
         <nav className="nav-menu">
-          <button onClick={() => navigate("/")}>Home</button>
-          <button onClick={() => navigate("/course-recommendation")}>Running Course</button>
-          <button className="active" onClick={() => navigate("/search")}>Crew Recruitment</button>
-          <button onClick={() => navigate("/mypage")}>My Page</button>
+          <button onClick={() => navigate("/")}>홈</button>
+          <button className="active" onClick={() => navigate("/search")}>검색</button>
+          <button onClick={() => navigate("/course-recommendation")}>러닝 코스</button>
+          <button onClick={() => navigate("/crew-recruitment")}>크루 모집</button>
+          <button onClick={() => navigate("/mypage")}>마이페이지</button>
         </nav>
         <div className="user-actions">
           <i className="fa-regular fa-bell icon"></i>

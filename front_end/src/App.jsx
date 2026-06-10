@@ -1,20 +1,26 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./components/MainPage"; 
-import SearchPage from "./components/SearchPage"; 
-import CourseRecommendation from "./components/CourseRecommendation"; // 1. 임포트 추가
+import MainPage from "./components/MainPage";
+import CourseRecommendation from "./components/CourseRecommendation"; // 1. 러닝 코스 페이지
+import SearchPage from "./components/SearchPage"; // 2. 독립된 검색 페이지
+import CrewRecruitment from "./components/CrewRecruitment"; 
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          {/* 2. 코스 추천 페이지 라우트 등록 */}
-          <Route path="/course-recommendation" element={<CourseRecommendation />} />
-        </Routes>
-      </div>
+      <Routes>
+        {/* 홈 (메인페이지) */}
+        <Route path="/" element={<MainPage />} />
+        
+        {/* 메뉴의 '러닝 코스' 전용 경로 */}
+        <Route path="/course-recommendation" element={<CourseRecommendation />} />
+        
+        {/* 크루 모집 페이지 */}
+        <Route path="/crew-recruitment" element={<CrewRecruitment />} />
+
+        {/* 메인 검색 버튼 전용 독립 경로 */}
+        <Route path="/search" element={<SearchPage />} />
+      </Routes>
     </Router>
   );
 }

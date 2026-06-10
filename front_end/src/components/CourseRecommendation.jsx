@@ -90,8 +90,9 @@ const CourseRecommendation = () => {
         </div>
         <nav className="cr-nav-link-group">
           <button onClick={() => navigate("/")}>홈</button>
+          <button onClick={() => navigate("/search")}>검색</button>
           <button className="active" onClick={() => navigate("/course-recommendation")}>러닝 코스</button>
-          <button onClick={() => navigate("/search")}>크루 모집</button>
+          <button onClick={() => navigate("/crew-recruitment")}>크루 모집</button>
           <button onClick={() => navigate("/mypage")}>마이페이지</button>
         </nav>
         <div className="cr-right-actions">
