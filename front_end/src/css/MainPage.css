@@ -1,398 +1,227 @@
-/* Nature Runner - MainPage 전역 스타일시트 (경로: src/css/MainPage.css) */
-.main-page-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #FFFFFF;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  box-sizing: border-box;
+/* 다른 CSS의 간섭을 차단하기 위한 최상위 스코프 격리 */
+.nature-runner-main-wrapper {
+    width: 100% !important;
+    min-height: 100vh !important;
+    background-color: #f8fafc !important;
+    font-family: 'Malgun Gothic', sans-serif;
+    display: block !important;
 }
 
-/* 상단 GNB 네비게이션 바 */
-.main-page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid #E5E7EB;
+/* GNB 영역 */
+.main-gnb-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 15px 50px !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
 }
 
-.main-page-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #16A34A; /* Primary Green */
-  cursor: pointer;
+.logo-area {
+    font-size: 24px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    color: #1e293b !important;
 }
 
-.main-page-nav {
-  display: flex;
-  align-items: center;
-  gap: 30px;
+.logo-green-text {
+    color: #16A34A !important;
 }
 
-.main-page-nav-item {
-  font-size: 15px;
-  font-weight: 600;
-  color: #14532D; /* Text Dark Green */
-  cursor: pointer;
-  transition: color 0.2s;
+.nav-menu-bar .menu-btn {
+    background: none !important;
+    border: none !important;
+    margin: 0 20px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    color: #64748b !important;
 }
 
-.main-page-nav-item:hover {
-  color: #16A34A;
+.nav-menu-bar .menu-btn:hover, 
+.nav-menu-bar .menu-btn.active {
+    color: #16A34A !important;
+    font-weight: bold !important;
 }
 
-.main-page-login-btn {
-  background-color: #16A34A;
-  color: #FFFFFF;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
+.gnb-login-btn {
+    background: #16A34A !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 8px 22px !important;
+    border-radius: 20px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
 }
 
-/* 히어로 검색 섹션 */
-.main-page-hero {
-  position: relative;
-  background: linear-gradient(rgba(240, 253, 244, 0.8), rgba(240, 253, 244, 0.5)), url('https://images.unsplash.com/photo-1502224562085-639556652f33?auto=format&fit=crop&w=1200&q=80') center/cover;
-  padding: 40px;
-  border-radius: 16px;
-  margin-top: 20px;
-  margin-bottom: 30px;
+/* 중앙 히어로 섹션 */
+.main-hero-banner {
+    background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
+                url('https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=1920') no-repeat center/cover !important;
+    padding: 100px 20px !important;
+    text-align: center !important;
+    color: #ffffff !important;
 }
 
-.main-page-hero-title {
-  font-size: 32px;
-  font-weight: 800;
-  color: #14532D;
-  margin: 0 0 8px 0;
+.hero-center-content h2 {
+    font-size: 36px !important;
+    margin-bottom: 10px !important;
+    font-weight: bold !important;
+    color: #ffffff !important;
 }
 
-.main-page-hero-subtitle {
-  font-size: 16px;
-  color: #4B5563;
-  margin: 0 0 24px 0;
+.hero-center-content p {
+    font-size: 18px !important;
+    margin-bottom: 30px !important;
+    color: #cbd5e1 !important;
 }
 
-.main-page-search-wrap {
-  display: flex;
-  max-width: 500px;
-  background-color: #FFFFFF;
-  border: 2px solid #16A34A;
-  border-radius: 30px;
-  padding: 4px 8px 4px 16px;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+/* 메인 검색창 */
+.main-page-search-bar {
+    display: inline-flex !important;
+    width: 650px !important;
+    background: #ffffff !important;
+    padding: 5px !important;
+    border-radius: 30px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
 }
 
-.main-page-search-placeholder {
-  flex: 1;
-  color: #9CA3AF;
-  font-size: 14px;
+.main-page-search-bar input {
+    flex: 1 !important;
+    border: none !important;
+    padding: 15px 25px !important;
+    font-size: 16px !important;
+    border-radius: 30px 0 0 30px !important;
+    outline: none !important;
+    background: transparent !important;
+    color: #333 !important;
 }
 
-.main-page-search-icon {
-  background-color: #16A34A;
-  color: white;
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.main-page-search-bar button {
+    background: #16A34A !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 0 35px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 30px !important;
+    cursor: pointer !important;
 }
 
-.main-page-quick-tags {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-  align-items: center;
+/* 3단 대시보드 그리드 레이아웃 */
+.main-dashboard-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 30px !important;
+    padding: 50px !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
 }
 
-.main-page-tag-label {
-  font-size: 12px;
-  font-weight: bold;
-  color: #4B5563;
+.dashboard-card-widget {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 25px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04) !important;
+    border: 1px solid #f1f5f9 !important;
 }
 
-.main-page-tag-item {
-  background-color: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  padding: 4px 12px;
-  border-radius: 15px;
-  font-size: 12px;
-  color: #374151;
+.card-widget-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 20px !important;
+    border-bottom: 2px solid #f1f5f9 !important;
+    padding-bottom: 12px !important;
 }
 
-/* 3단 대시보드 그리드 구조 */
-.main-page-grid-layout {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
-  gap: 20px;
+.card-widget-header h3 {
+    font-size: 18px !important;
+    color: #1e293b !important;
+    margin: 0 !important;
 }
 
-.main-page-block-card {
-  background-color: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
-  display: flex;
-  flex-direction: column;
+.card-more-link {
+    background: none !important;
+    border: none !important;
+    color: #16A34A !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
 }
 
-.main-page-block-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+.card-widget-body {
+    min-height: 120px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
-.main-page-block-title {
-  font-size: 16px;
-  font-weight: bold;
-  color: #111827;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.card-empty-msg {
+    color: #94a3b8 !important;
+    font-size: 14px !important;
 }
 
-.main-page-more-btn {
-  font-size: 12px;
-  color: #6B7280;
-  background: none;
-  border: none;
-  cursor: pointer;
+.main-crew-card-item {
+    width: 100% !important;
+    background: #f8fafc !important;
+    border-radius: 10px !important;
+    padding: 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    border-left: 4px solid #16A34A !important;
 }
 
-.main-page-more-btn:hover {
-  color: #16A34A;
+.crew-level-tag {
+    background: #dcfce7 !important;
+    color: #15803d !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
 }
 
-/* 왼쪽 블럭: 내 크루 현황 단락 */
-.main-page-login-box {
-  background-color: #F9FAFB;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 16px;
+.crew-text-summary h4 {
+    margin: 0 0 5px 0 !important;
+    font-size: 15px !important;
+    color: #334155 !important;
+    text-align: left !important;
 }
 
-.main-page-login-box-title {
-  font-size: 13px;
-  font-weight: bold;
-  color: #16A34A;
-  margin: 0 0 12px 0;
+.crew-text-summary p {
+    margin: 0 !important;
+    font-size: 13px !important;
+    color: #64748b !important;
+    text-align: left !important;
 }
 
-.main-page-login-box p {
-  font-size: 12px;
-  color: #6B7280;
-  margin: 0 0 16px 0;
+/* 날씨 위젯 */
+.main-weather-box {
+    display: flex !important;
+    align-items: center !important;
+    gap: 20px !important;
+    width: 100% !important;
+    justify-content: center !important;
 }
 
-.main-page-inline-login-btn {
-  background-color: #16A34A;
-  color: white;
-  border: none;
-  padding: 8px 24px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: bold;
-  cursor: pointer;
+.weather-large-icon {
+    font-size: 45px !important;
 }
 
-.main-page-sub-title {
-  font-size: 13px;
-  font-weight: bold;
-  color: #4B5563;
-  margin-bottom: 12px;
+.weather-info-text {
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-.main-page-side-crew {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #F3F4F6;
+.temp-number {
+    font-size: 28px !important;
+    font-weight: bold !important;
+    color: #1e293b !important;
+    text-align: left !important;
 }
 
-.main-page-side-crew-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.main-page-side-crew-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1F2937;
-}
-
-.main-page-side-crew-meta {
-  font-size: 11px;
-  color: #9CA3AF;
-  margin-top: 2px;
-}
-
-.main-page-side-crew-count {
-  font-size: 12px;
-  font-weight: bold;
-  color: #16A34A;
-}
-
-.main-page-footer-btn {
-  background-color: #F9FAFB;
-  border: 1px solid #E5E7EB;
-  color: #4B5563;
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 13px;
-  cursor: pointer;
-  margin-top: auto;
-  text-align: center;
-}
-
-/* 중앙 블럭: 추천 크루 카드 */
-.main-page-recommend-card {
-  display: flex;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid #F3F4F6;
-  border-radius: 12px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.main-page-recommend-card:hover {
-  transform: translateY(-2px);
-}
-
-.main-page-crew-thumb {
-  width: 70px;
-  height: 70px;
-  background-color: #E5E7EB;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.main-page-crew-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.main-page-badge-rec {
-  background-color: #DCFCE7;
-  color: #16A34A;
-  font-size: 10px;
-  font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 4px;
-  width: fit-content;
-  margin-bottom: 4px;
-}
-
-.main-page-crew-title {
-  font-size: 14px;
-  font-weight: bold;
-  color: #111827;
-}
-
-.main-page-crew-loc {
-  font-size: 11px;
-  color: #6B7280;
-  margin-top: 2px;
-}
-
-.main-page-crew-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.main-page-member-count {
-  font-size: 12px;
-  font-weight: bold;
-  color: #4B5563;
-}
-
-.main-page-join-btn {
-  background-color: #16A34A;
-  color: white;
-  border: none;
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* 오른쪽 블럭: 날씨 및 재난 정보 */
-.main-page-weather-widget {
-  background-color: #FFF;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid #F3F4F6;
-}
-
-.main-page-weather-loc {
-  font-size: 12px;
-  color: #16A34A;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.main-page-weather-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 12px;
-}
-
-.main-page-weather-temp {
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.main-page-weather-cond {
-  font-size: 13px;
-  color: #4B5563;
-}
-
-.main-page-weather-stats {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: #6B7280;
-  background-color: #F9FAFB;
-  padding: 8px;
-  border-radius: 6px;
-}
-
-.main-page-disaster-box {
-  margin-top: 16px;
-  border: 1px solid #F3F4F6;
-  border-radius: 12px;
-  padding: 12px;
-}
-
-.main-page-disaster-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #FFF;
-  padding: 10px;
-  border-radius: 8px;
-  border-left: 4px solid #16A34A;
-  cursor: pointer;
-  font-size: 13px;
+.temp-status-desc {
+    font-size: 14px !important;
+    color: #64748b !important;
+    margin-top: 2px !important;
 }
