@@ -6,7 +6,8 @@ import SearchPage from "./components/SearchPage"; // 2. 독립된 검색 페이�
 import CrewRecruitment from "./components/CrewRecruitment";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
-import MyPage from "./components/MyPage/Mypage";
+import MyPage from "./components/MyPage";
+import CrewPostForm from "./components/CrewPostForm";
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
 
         {/* 마이페이지 버튼 전용 독립 경로 */}
         <Route path="/mypage" element={<MyPage />} />
+
+        {/* /write 경로로 들어오면 CrewPostForm 컴포넌트를 보여주겠다고 설정 */}
+        <Route path="/write" element={<CrewPostForm />} />
 
         {/* 로그인 버튼 전용 독립 경로 */}
         <Route path="/login" element={<LoginPage />} />
