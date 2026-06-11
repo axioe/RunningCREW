@@ -62,7 +62,7 @@ export default function MyPost({ post, addPost }) {
         </div>
       )}
 
-      {post.map((po, index) => {
+      {post?.map((po, index) => {
         return (
           <div key={index} className="mb-4">
             <h6 className="f2-bold text-primary mb-2">{po.title}</h6>

@@ -48,7 +48,7 @@ const MainPage = () => {
           </div>
           <div className="card-widget-body" style={{ display: 'block' }}>
             <div className="main-crew-card-item">
-              <span className="crew-level-tag">초급</span>
+              <span className="crew-level-tag">새싹</span>
               <div className="crew-text-summary">
                 <h4>[서울] 여의도 한강 저녁 힐링 러닝</h4>
                 <p>매주 수요일 저녁 8시 • 5km 이내</p>
