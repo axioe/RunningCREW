@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../css/MyPage.css";
-import Header from "../common/Header";
-import MyPost from "./MyPost";
-import TabContent from "./TabContent";
+import "../css/MyPage.css";
+import Header from "./common/Header";
+import MyPost from "./MyPage/MyPost";
+import TabContent from "./MyPage/TabContent";
 
 const MyPage = () => {
   const navigate = useNavigate();
