@@ -1,206 +1,94 @@
-/* 래퍼 하위의 모든 요소에 크기 계산 기준 강제 적용 (가장 중요) */
-.nature-runner-login-wrapper * {
-    box-sizing: border-box !important;
+/* 1. 기본 설정 및 폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+
+.login-page-wrapper {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; width: 100%;
+    background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
 }
 
-/* 2. 중앙 정렬 배치 컨테이너 */
-.login-centered-container {
-    flex: 1 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 40px 20px !important;
+/* 2. 메인 컨테이너 */
+.container {
+    background-color: #ffffff; border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    position: relative; overflow: hidden;
+    width: 950px; max-width: 90%; height: 580px;
+    border: 1px solid rgba(229, 231, 235, 0.5);
 }
 
-/* 3. 로그인 메인 카드 카드 내부 규격 제한 */
-.login-card {
-    width: 100% !important;
-    max-width: 460px !important; /* 탈출을 막기 위해 안정적인 너비로 조정 */
-    background: #ffffff !important;
-    border-radius: 28px !important;
-    padding: 50px 35px !important; /* 좌우 여백을 소폭 축소하여 내부 공간 확보 */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.06) !important;
-    text-align: center !important;
+/* 3. 로그인/회원가입 폼 공통 스타일 */
+.form-container {
+    position: absolute; top: 0; height: 100%; width: 50%;
+    transition: all 0.6s ease-in-out;
 }
 
-.login-header h2 {
-    font-size: 32px !important;
-    color: #1e293b !important;
-    margin: 0 0 10px 0 !important;
-    font-weight: bold !important;
+.form-container form {
+    background-color: #fff; display: flex; align-items: center; justify-content: center;
+    flex-direction: column; padding: 0 60px; height: 100%;
 }
 
-.login-header p {
-    color: #94a3b8 !important;
-    margin: 0 0 40px 0 !important;
-    font-size: 15px !important;
+.container h1 { font-size: 28px; font-weight: 700; color: #111827; margin-bottom: 20px; }
+
+/* 4. 입력창 디자인 (포커스 효과 포함) */
+.form-container form input {
+    background-color: #f9fafb; border: 1.5px solid #e5e7eb;
+    margin: 10px 0; padding: 14px 20px; font-size: 14px;
+    border-radius: 12px; width: 100%; outline: none;
+    transition: all 0.3s ease;
 }
 
-.login-form-body {
-    width: 100% !important;
+.form-container form input:focus {
+    border-color: #10B981; background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
 }
 
-/* 4. 인풋 박스 라인 (너비가 밖으로 튀어나가지 않도록 100% 락) */
-.login-input-box {
-    position: relative !important;
-    width: 100% !important;
-    margin-bottom: 16px !important;
+/* 5. 버튼 디자인 (민트 그린 포인트) */
+.container button {
+    background-color: #10B981; color: #fff; padding: 12px 45px;
+    border: none; border-radius: 50px; font-weight: 600;
+    cursor: pointer; transition: 0.3s; margin-top: 15px;
 }
 
-.login-input-box i {
-    position: absolute !important;
-    left: 20px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    color: #94a3b8 !important;
+.container button:hover { background-color: #059669; transform: translateY(-2px); }
+
+.container button.hidden {
+    background-color: transparent; border: 2px solid #fff;
 }
 
-.login-input-box input {
-    width: 100% !important; /* 카드 내부에서 무조건 100% 꽉 채우기 */
-    padding: 15px 45px 15px 52px !important; /* 우측 시아 버튼 여백 확보 */
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 14px !important;
-    font-size: 15px !important;
-    outline: none !important;
-    transition: all 0.2s ease !important;
+/* 6. 토글 애니메이션 패널 (우측 이미지 오버레이) */
+.toggle-container {
+    position: absolute; top: 0; left: 50%; width: 50%; height: 100%;
+    overflow: hidden; transition: all 0.6s ease-in-out;
+    border-radius: 150px 0 0 100px; z-index: 1000;
 }
 
-.login-input-box input:focus {
-    border-color: #16A34A !important;
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1) !important;
+.container.active .toggle-container { transform: translateX(-100%); border-radius: 0 150px 100px 0; }
+
+.toggle {
+    background: linear-gradient(135deg, rgba(6, 78, 59, 0.8), rgba(16, 185, 129, 0.85)), 
+                url('https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=1920') no-repeat center/cover;
+    color: #fff; position: relative; left: -100%; height: 100%; width: 200%;
+    transition: all 0.6s ease-in-out;
 }
 
-/* 비밀번호 시아 버튼 정위치 고정 */
-.login-pw-eye {
-    position: absolute !important;
-    right: 18px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    background: none !important;
-    border: none !important;
-    cursor: pointer !important;
-    color: #94a3b8 !important;
-    font-size: 18px !important;
-    padding: 0 !important;
-    z-index: 2;
+.container.active .toggle { transform: translateX(50%); }
+
+.toggle-panel {
+    position: absolute; width: 50%; height: 100%; display: flex;
+    align-items: center; justify-content: center; flex-direction: column;
+    padding: 0 40px; text-align: center; transition: all 0.6s ease-in-out;
 }
 
-/* 5. 추가 옵션 행 정렬 (로그인 상태 유지 / 찾기 링크) */
-.login-options {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin: 20px 0 30px !important;
-    font-size: 13px !important;
-    color: #64748b !important;
-}
+.toggle-left { transform: translateX(-200%); }
+.container.active .toggle-left { transform: translateX(0); }
+.toggle-right { right: 0; transform: translateX(0); }
+.container.active .toggle-right { transform: translateX(200%); }
 
-.remember-me {
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    cursor: pointer !important;
-}
+/* 7. 반응형 및 상태 클래스 */
+.sign-in { left: 0; z-index: 2; }
+.container.active .sign-in { transform: translateX(100%); }
 
-.find-links {
-    color: #94a3b8 !important;
-}
-
-.find-links span {
-    cursor: pointer !important;
-    color: #64748b !important;
-    transition: color 0.2s !important;
-}
-
-.find-links span:hover {
-    color: #16A34A !important;
-}
-
-/* 6. 로그인 실행 버튼 */
-.btn-login-submit {
-    width: 100% !important;
-    background: #16A34A !important;
-    color: white !important;
-    border: none !important;
-    padding: 16px !important;
-    border-radius: 14px !important;
-    font-weight: bold !important;
-    font-size: 17px !important;
-    cursor: pointer !important;
-    transition: background 0.2s !important;
-}
-
-.btn-login-submit:hover {
-    background: #15803d !important;
-}
-
-/* 7. 하단 네비게이션 풋터 */
-.login-footer {
-    width: 100% !important;
-    margin-top: 35px !important;
-    font-size: 14px !important;
-    color: #94a3b8 !important;
-}
-
-.login-footer button {
-    background: none !important;
-    border: none !important;
-    color: #16A34A !important;
-    font-weight: bold !important;
-    margin-left: 8px !important;
-    cursor: pointer !important;
-    text-decoration: underline !important;
-    padding: 0 !important;
-}
-
-/* 8. 소셜 로그인 구분 분할 선 */
-.social-divider {
-    width: 100% !important;
-    margin: 40px 0 25px !important;
-    position: relative !important;
-    border-top: 1px solid #e2e8f0 !important;
-}
-
-.social-divider span {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    background: #ffffff !important;
-    padding: 0 15px !important;
-    font-size: 12px !important;
-    color: #cbd5e1 !important;
-}
-
-/* 소셜 버튼 정렬 체계 */
-.social-login-group {
-    display: flex !important;
-    justify-content: center !important;
-    gap: 15px !important;
-    width: 100% !important;
-}
-
-.social-btn {
-    width: 45px !important;
-    height: 45px !important;
-    border-radius: 50% !important;
-    border: 1px solid #e2e8f0 !important;
-    background: white !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 18px !important;
-    transition: all 0.2s !important;
-    padding: 0 !important;
-}
-
-.social-btn.kakao { color: #3c1e1e; background: #fee500; border: none !important; }
-.social-btn.naver { color: white; background: #03c75a; border: none !important; font-weight: bold; }
-.social-btn.google { color: #ea4335; }
-
-.social-btn:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
-}
+.sign-up { left: 0; opacity: 0; z-index: 1; }
+.container.active .sign-up { transform: translateX(100%); opacity: 1; z-index: 5; }

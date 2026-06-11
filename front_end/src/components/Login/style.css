@@ -1,0 +1,454 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. 전체 초기화 및 배경 테마 (예상 디자인의 화사하고 트렌디한 무드)
+   -------------------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: #f3f4f6;
+    background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   2. 메인 컨테이너 구조
+   -------------------------------------------------------------------------- */
+.container {
+    background-color: #ffffff;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    width: 950px; 
+    max-width: 100%;
+    min-height: 580px; 
+    border: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+.container p {
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0.3px;
+    margin: 15px 0 20px;
+    color: #6b7280;
+}
+
+.container span {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 12px;
+}
+
+.container a {
+    color: #6b7280;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 15px 0 10px;
+    transition: color 0.2s ease;
+}
+
+.container a:hover {
+    color: #10B981; /* 민트 그린 포인트 */
+}
+
+/* --------------------------------------------------------------------------
+   3. 버튼 디자인 (예상 디자인의 에메랄드/민트 그린 테마 완벽 반영)
+   -------------------------------------------------------------------------- */
+.container button {
+    background-color: #10B981;
+    color: #fff;
+    font-size: 14px;
+    padding: 12px 45px;
+    border: 1px solid transparent;
+    border-radius: 50px; /* 더 둥글고 세련된 버튼 스타일 */
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    transition: all 0.3s ease;
+}
+
+.container button:hover {
+    background-color: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(5, 150, 105, 0.3);
+}
+
+/* 슬라이드 토글 내 반전 투명 버튼 */
+.container button.hidden {
+    background-color: transparent;
+    border: 2px solid #fff;
+    box-shadow: none;
+}
+
+.container button.hidden:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.container form {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 45px;
+    height: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   4. 복원 및 강화: 아이디/이메일 입력창 및 소셜 버튼 디자인
+   -------------------------------------------------------------------------- */
+/* 일반 로그인 / 회원가입용 인풋 박스 */
+.container form input {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    margin: 8px 0;
+    padding: 12px 18px;
+    font-size: 13px;
+    border-radius: 12px;
+    width: 100%;
+    outline: none;
+    color: #1f2937;
+    transition: all 0.2s ease;
+}
+
+.container form input:focus {
+    background-color: #fff;
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* 소셜 로그인 컴포넌트 */
+.social-icons {
+    margin: 15px 0;
+    display: flex;
+    gap: 12px;
+}
+
+.social-icons a.icon {
+    border: 1px solid #e5e7eb;
+    border-radius: 50%; /* 완전 원형으로 변경하여 깔끔함 강조 */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 42px;
+    height: 42px;
+    color: #4b5563;
+    font-size: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    transition: all 0.2s ease;
+}
+
+.social-icons a.icon:hover {
+    background-color: #f9fafb;
+    color: #10B981;
+    border-color: #10B981;
+    transform: scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   5. 애니메이션 및 슬라이딩 레이아웃 틀 구조
+   -------------------------------------------------------------------------- */
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.container.active .sign-in {
+    transform: translateX(100%);
+}
+
+.sign-up {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.container.active .sign-up {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: move 0.6s;
+}
+
+@keyframes move {
+    0%, 49.9% {
+        opacity: 0;
+        z-index: 1;
+    }
+    50%, 100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   6. 중앙 우측 히어로 이미지 오버레이 토글러
+   -------------------------------------------------------------------------- */
+.toggle-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    border-radius: 150px 0 0 100px;
+    z-index: 1000;
+}
+
+.container.active .toggle-container {
+    transform: translateX(-100%);
+    border-radius: 0 150px 100px 0;
+}
+
+/* 예상 디자인에 맞는 민트 스포티 오버레이 그라데이션 */
+.toggle {
+    background: linear-gradient(135deg, rgba(6, 78, 59, 0.8), rgba(16, 185, 129, 0.85)), 
+                url('https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=1920') no-repeat center/cover !important;
+    color: #fff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.container.active .toggle {
+    transform: translateX(50%);
+}
+
+.toggle-panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 35px;
+    text-align: center;
+    top: 0;
+    transition: all 0.6s ease-in-out;
+}
+
+.toggle-left {
+    transform: translateX(-200%);
+}
+
+.container.active .toggle-left {
+    transform: translateX(0);
+}
+
+.toggle-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.container.active .toggle-right {
+    transform: translateX(200%);
+}
+
+.toggle-panel h1 {
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    margin-bottom: 15px !important;
+    color: #ffffff !important;
+    line-height: 1.3;
+}
+
+.toggle-panel p {
+    font-size: 14px !important;
+    color: #e6f4ea !important;
+    margin-bottom: 25px !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. Running Crew 내부 컴포넌트 대시보드 인터페이스 디자인 정의
+   -------------------------------------------------------------------------- */
+.container form h1 {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-bottom: 8px !important;
+}
+
+/* 대시보드 전용 미니 검색 바 */
+.main-page-search-bar {
+    display: inline-flex !important;
+    width: 100% !important;
+    background: #f3f4f6 !important;
+    padding: 4px !important;
+    border-radius: 30px !important;
+    margin-bottom: 18px !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.main-page-search-bar input {
+    flex: 1 !important;
+    border: none !important;
+    padding: 10px 18px !important;
+    font-size: 13px !important;
+    background: transparent !important;
+    outline: none !important;
+    color: #1f2937 !important;
+    margin: 0 !important; /* 위쪽 기본 인풋 마진 덮어쓰기 */
+    border-radius: 30px 0 0 30px !important;
+}
+
+.main-page-search-bar input:focus {
+    box-shadow: none !important; /* 검색바 포커스 시 박스 셰도우 튐 방지 */
+}
+
+.main-page-search-bar button {
+    background: #10B981 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 0 22px !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+    border-radius: 30px !important;
+    margin-top: 0 !important;
+    width: auto !important;
+    box-shadow: none !important;
+}
+
+.main-page-search-bar button:hover {
+    background-color: #059669 !important;
+}
+
+/* 미니 카드 위젯 */
+.dashboard-card-widget {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    border: 1px solid #f3f4f6 !important;
+    width: 100% !important;
+    margin-bottom: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02) !important;
+}
+
+.card-widget-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 12px !important;
+    border-bottom: 1.5px solid #f3f4f6 !important;
+    padding-bottom: 8px !important;
+}
+
+.card-widget-header h3 {
+    font-size: 14px !important;
+    color: #1f2937 !important;
+    margin: 0 !important;
+    font-weight: 600 !important;
+}
+
+.card-more-link {
+    background: none !important;
+    border: none !important;
+    color: #10B981 !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    font-size: 12px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+.card-more-link:hover {
+    color: #059669 !important;
+    text-decoration: underline !important;
+}
+
+/* 크루 리스트 컴포넌트 디자인 */
+.main-crew-card-item {
+    width: 100% !important;
+    background: #f9fafb !important;
+    border-radius: 10px !important;
+    padding: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    border-left: 4px solid #10B981 !important;
+}
+
+.crew-level-tag {
+    background: #e6f4ea !important;
+    color: #059669 !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+}
+
+.crew-text-summary h4 {
+    margin: 0 0 3px 0 !important;
+    font-size: 13px !important;
+    color: #374151 !important;
+    text-align: left !important;
+    font-weight: 600 !important;
+}
+
+.crew-text-summary p {
+    margin: 0 !important;
+    font-size: 11px !important;
+    color: #6b7280 !important;
+    text-align: left !important;
+}
+
+/* 날씨 컴포넌트 */
+.main-weather-box {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    width: 100% !important;
+    justify-content: flex-start !important;
+}
+
+.weather-large-icon {
+    font-size: 34px !important;
+}
+
+.weather-info-text {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.temp-number {
+    font-size: 22px !important;
+    font-weight: bold !important;
+    color: #111827 !important;
+    text-align: left !important;
+}
+
+.temp-status-desc {
+    font-size: 12px !important;
+    color: #6b7280 !important;
+}
