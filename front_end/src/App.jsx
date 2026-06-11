@@ -6,6 +6,7 @@ import SearchPage from "./components/SearchPage"; // 2. 독립된 검색 페이�
 import CrewRecruitment from "./components/CrewRecruitment";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
+import MyPage from "./components/MyPage/Mypage";
 
 function App() {
   return (

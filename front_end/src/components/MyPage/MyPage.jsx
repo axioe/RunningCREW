@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-react - router - dom;
-import { useNavigate } from "";
-import "../css/MyPage.css";
+import { useNavigate } from "react-router-dom";
+import "../../css/MyPage.css";
+import Header from "../common/Header";
+import MyPost from "./MyPost";
+import TabContent from "./TabContent";
 
 const MyPage = () => {
   const navigate = useNavigate();
 
-  // 현재 활성화된 서브 메뉴 탭 상태 관리 ('profile', 'crew', 'bookmark')
+  // 현재 활성화된 서브 메뉴 탭 상태 관리 ('profile', 'crew', 'bookmark', 'post')
   const [activeTab, setActiveTab] = useState("profile");
 
   // 임시 데이터 (기존 페이지 톤앤매너 매칭용)
@@ -79,6 +81,12 @@ const MyPage = () => {
               onClick={() => setActiveTab("bookmark")}
             >
               북마크한 러닝 코스
+            </button>
+            <button
+              className={`sidebar-menu-item ${activeTab === "post" ? "active" : ""}`}
+              onClick={() => setActiveTab("post")}
+            >
+              내가 작성한 글
             </button>
           </nav>
         </aside>
@@ -216,6 +224,9 @@ const MyPage = () => {
               </div>
             </div>
           )}
+
+          {/* 탭 4: 내가 작성한 글 */}
+          {activeTab === "post" && <MyPost />}
         </main>
       </div>
     </div>
