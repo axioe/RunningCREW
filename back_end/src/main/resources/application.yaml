@@ -34,3 +34,8 @@ spring:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
+
+data:
+  rest:
+    api:
+      key: ${DATA_REST_API_KEY}

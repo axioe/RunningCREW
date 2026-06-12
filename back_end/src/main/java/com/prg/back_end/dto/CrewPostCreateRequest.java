@@ -11,10 +11,5 @@ public class CrewPostCreateRequest {
     private String title;
     private String content;
     private Integer maxPeople;
-    private String spotName;
-    private double latitude;
-    private double longitude;
-    private String address;
-    private String facilityInfo;
-    private RunningLevel runningLevel;
+    private Long courseId;
 }

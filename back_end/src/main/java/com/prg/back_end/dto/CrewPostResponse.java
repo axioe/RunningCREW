@@ -20,4 +20,12 @@ public class CrewPostResponse {
                 .updatedAt(data.getUpdatedAt())
                 .build();
     }
+
+    public static CrewPostResponse from(Long id, LocalDateTime createAt, LocalDateTime updatedAt){
+        return CrewPostResponse.builder()
+                .id(id)
+                .createdAt(createAt)
+                .updatedAt(updatedAt)
+                .build();
+    }
 }
