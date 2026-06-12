@@ -1,61 +1,158 @@
-/* 기본 컨테이너 스타일 */
-.form-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 30px;
+/* ==========================================
+   Post.css - 크루 모집글 작성 페이지 (2단 분할 그리드)
+   ========================================== */
+
+.nature-runner-main-wrapper {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+/* 상단 GNB 헤더 */
+.main-gnb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  font-family: "Noto Sans KR", sans-serif;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.form-container h2 {
-  margin-bottom: 15px;
-  color: #333;
+.logo-area {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1f2937;
+  cursor: pointer;
 }
 
-.form-container hr {
-  border: 0;
-  height: 1px;
-  background: #eee;
-  margin-bottom: 25px;
+.logo-green-text {
+  color: #10B981;
 }
 
-/* 입력 폼 그룹 공통 */
-.form-group {
-  margin-bottom: 20px;
+.nav-menu-bar {
+  display: flex;
+  gap: 24px;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4b5563;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.menu-btn:hover,
+.menu-btn.active {
+  color: #10B981;
+}
+
+/* 📌 2단 분할 레이아웃 코어 매칭 */
+.post-form-container.split-layout {
+  max-width: 1040px; /* 양쪽 정렬을 보장하기 위해 전체 가로폭 확장 */
+  margin: 40px auto;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+/* [좌측 본문 입력 폼 상자] */
+.form-left-section {
+  flex: 1.4;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f3f4f6;
+}
+
+/* [우측 미리보기 사이드바 상자] */
+.form-right-sidebar {
+  flex: 1;
+  position: sticky;
+  top: 40px; /* 스크롤 내려도 상단에 붙어있도록 처리 */
+}
+
+/* 폼 헤더 */
+.form-header {
+  margin-bottom: 24px;
+  border-bottom: 2px solid #f3f4f6;
+  padding-bottom: 16px;
+}
+
+.form-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.form-header p {
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* 입력 행 */
+.form-row {
+  margin-bottom: 18px;
   display: flex;
   flex-direction: column;
 }
 
-.form-group label {
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #444;
-}
-
-.form-group input[type="text"],
-.form-group textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.form-row label {
+  display: block;
   font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+/* 공통 컨트롤 단가 */
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #1f2937;
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
   box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-.form-group textarea {
-  height: 150px;
-  resize: vertical;
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  background-color: #ffffff;
+  border-color: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
-/* 날짜 & 시간 인풋 */
+.form-textarea {
+  resize: none; /* 한 눈에 보게 하기 위해 크기조절 비활성화 및 컴팩트화 */
+  height: 120px;
+}
+
+/* 날짜 & 시간 */
 .date-input-wrapper input[type="date"] {
   width: 100%;
-  padding: 11px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 11px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
   font-size: 14px;
+  background-color: #f9fafb;
+  box-sizing: border-box;
 }
 
 .time-picker-wrapper {
@@ -70,13 +167,13 @@
 .ampm-select {
   flex: 1;
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #f9fafb;
   cursor: pointer;
 }
 
-/* 장소 입력 및 버튼 */
+/* 장소 & 지도 */
 .location-input-wrapper {
   display: flex;
   gap: 10px;
@@ -84,21 +181,20 @@
 
 .map-btn {
   padding: 0 20px;
-  background-color: #4a90e2;
+  background-color: #10B981;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
   white-space: nowrap;
   font-weight: bold;
-  transition: background 0.2s;
 }
 
 .map-btn:hover {
-  background-color: #357abd;
+  background-color: #059669;
 }
 
-/* 난이도 버튼 그룹 */
+/* 난이도 버튼 */
 .difficulty-btn-group {
   display: flex;
   gap: 10px;
@@ -106,86 +202,98 @@
 
 .diff-btn {
   flex: 1;
-  padding: 12px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  border-radius: 6px;
+  padding: 11px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 500;
-  transition: all 0.2s;
+  color: #4b5563;
 }
 
 .diff-btn:hover {
-  background-color: #e9e9e9;
+  background-color: #e5e7eb;
 }
 
 .diff-btn.active {
-  background-color: #2ecc71;
+  background-color: #10B981;
   color: white;
-  border-color: #2ecc71;
+  border-color: #10B981;
   font-weight: bold;
 }
 
-/* 러닝 정보 요약 박스 */
+/* 📌 우측 미리보기 카드 스타일로 변모 */
 .summary-box {
-  background-color: #f8f9fa;
-  border-left: 4px solid #2ecc71;
-  padding: 15px 20px;
-  border-radius: 4px;
-  margin-top: 30px;
-  margin-bottom: 25px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-top: 4px solid #10B981; /* 상단 포인트 바 변경 */
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
 .summary-box h3 {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   font-size: 16px;
-  color: #333;
+  font-weight: 700;
+  color: #111827;
 }
 
 .summary-box ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 24px 0;
 }
 
 .summary-box li {
-  margin-bottom: 6px;
+  padding: 10px 0;
+  border-bottom: 1px dashed #f3f4f6;
   font-size: 14px;
-  color: #555;
+  color: #4b5563;
 }
 
-/* 취소 및 작성하기 버튼 */
-.form-actions {
+.summary-box li:last-child {
+  border-bottom: none;
+}
+
+.highlight-text {
+  color: #10B981;
+  font-weight: 700;
+}
+
+/* 📌 우측 사이드바 전용 버튼 구조 정의 */
+.sidebar-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+  gap: 10px;
 }
 
-.cancel-btn,
-.submit-btn {
-  padding: 12px 28px;
+.full-width {
+  flex: 1;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 600;
   border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: bold;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.cancel-btn {
-  background-color: #e0e0e0;
-  color: #333;
+.btn-cancel {
+  color: #4b5563;
+  background-color: #f3f4f6;
 }
 
-.cancel-btn:hover {
-  background-color: #d5d5d5;
+.btn-cancel:hover {
+  background-color: #e5e7eb;
 }
 
-.submit-btn {
-  background-color: #333;
-  color: white;
+.btn-submit {
+  color: #ffffff;
+  background-color: #10B981;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
 }
 
-.submit-btn:hover {
-  background-color: #111;
+.btn-submit:hover {
+  background-color: #059669;
 }
