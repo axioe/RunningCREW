@@ -44,7 +44,7 @@ const Main = () => {
         <article className="dashboard-card-widget">
           <div className="card-widget-header">
             <h3>추천 크루 모집</h3>
-            <button className="card-more-link" onClick={() => navigate("/crew-recruitment")}>더보기</button>
+            <button className="card-more-link" onClick={() => navigate("/crew")}>더보기</button>
           </div>
           <div className="card-widget-body" style={{ display: 'block' }}>
             <div className="main-crew-card-item">
