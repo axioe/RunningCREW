@@ -371,7 +371,10 @@ const Crew = () => {
               {["전체", "새싹", "나무", "숲"].map((lvl) => (
                 <button
                   key={lvl}
-                  className={`crw-filter-pill ${difficulty === lvl ? "active" : ""}`}
+                  /* 💡 클릭된 상태일 때 'active'와 'active-난이도명' 클래스를 함께 부여합니다 */
+                  className={`crw-filter-pill ${
+                    difficulty === lvl ? `active active-${lvl}` : ""
+                  }`}
                   onClick={() => setDifficulty(lvl)}
                 >
                   {lvl}

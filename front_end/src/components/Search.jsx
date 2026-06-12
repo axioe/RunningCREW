@@ -68,22 +68,22 @@ const Search = () => {
             <label>난이도</label>
             <div className="difficulty-btn-group">
               <button 
-                className={`diff-btn beginner-btn ${difficulty === "하" ? "active" : ""}`}
-                onClick={() => setDifficulty("하")}
+                className={`diff-btn beginner-btn ${difficulty === "새싹" ? "active" : ""}`}
+                onClick={() => setDifficulty("새싹")}
               >
-                하
+                새싹
               </button>
               <button 
-                className={`diff-btn intermediate-btn ${difficulty === "중" ? "active" : ""}`}
-                onClick={() => setDifficulty("중")}
+                className={`diff-btn intermediate-btn ${difficulty === "나무" ? "active" : ""}`}
+                onClick={() => setDifficulty("나무")}
               >
-                중
+                나무
               </button>
               <button 
-                className={`diff-btn advanced-btn ${difficulty === "상" ? "active" : ""}`}
-                onClick={() => setDifficulty("상")}
+                className={`diff-btn advanced-btn ${difficulty === "숲" ? "active" : ""}`}
+                onClick={() => setDifficulty("숲")}
               >
-                상
+                숲
               </button>
             </div>
           </div>
@@ -116,8 +116,8 @@ const Search = () => {
         <section className="results-container">
           <div className="tab-menu">
             <button className="active">전체</button>
-            <button onClick={() => navigate("/course-recommendation")}>러닝 코스</button>
-            <button>러닝 크루</button>
+            <button onClick={() => navigate("/course")}>러닝 코스</button>
+            <button onClick={() => navigate("/")}>러닝 크루</button>
             <button>공공체육시설</button>
           </div>
 

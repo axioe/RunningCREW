@@ -19,8 +19,8 @@ const Header = () => {
         <nav className="nav-menu-bar">
           <button className="menu-btn" onClick={() => navigate("/")}>홈</button>
           <button className="menu-btn" onClick={() => navigate("/search")}>검색</button>
-          <button className="menu-btn" onClick={() => navigate("/course-recommendation")}>러닝 코스</button>
-          <button className="menu-btn" onClick={() => navigate("/crew-recruitment")}>크루 모집</button>
+          <button className="menu-btn" onClick={() => navigate("/course")}>러닝 코스</button>
+          <button className="menu-btn" onClick={() => navigate("/crew")}>크루 모집</button>
           <button className="menu-btn" onClick={() => navigate("/mypage")}>마이페이지</button>
         </nav>
         

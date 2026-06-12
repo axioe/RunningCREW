@@ -74,7 +74,32 @@
 
 .crw-level-btn-row { display: flex; gap: 6px; }
 .crw-filter-pill { flex: 1; padding: 7px 0; border: 1px solid #e2e8f0; background: #fff; border-radius: 6px; font-size: 12px; cursor: pointer; color: #64748b; transition: all 0.2s; }
-.crw-filter-pill.active { background: #16A34A; color: #fff; border-color: #16A34A; font-weight: bold; }
+
+/* 📌 난이도 필터 활성화 상태별 고유 커스텀 컬러 고도화 맵핑 */
+.crw-filter-pill.active.active-전체 {
+  background: #16A34A;
+  color: #fff;
+  border-color: #16A34A;
+  font-weight: bold;
+}
+.crw-filter-pill.active.active-새싹 {
+  background: #2563EB; /* 파란색 매칭 (Search 디자인 통일) */
+  color: #fff;
+  border-color: #2563EB;
+  font-weight: bold;
+}
+.crw-filter-pill.active.active-나무 {
+  background: #F59E0B; /* 주황색 매칭 */
+  color: #fff;
+  border-color: #F59E0B;
+  font-weight: bold;
+}
+.crw-filter-pill.active.active-숲 {
+  background: #EF4444; /* 빨간색 매칭 */
+  color: #fff;
+  border-color: #EF4444;
+  font-weight: bold;
+}
 
 .crw-search-action-btn { width: 100%; padding: 12px; background: #16A34A; color: #fff; border: none; border-radius: 10px; font-weight: bold; font-size: 13px; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
