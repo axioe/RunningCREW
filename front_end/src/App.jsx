@@ -1,13 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./components/MainPage";
-import CourseRecommendation from "./components/CourseRecommendation"; // 1. 러닝 코스 페이지
-import SearchPage from "./components/SearchPage"; // 2. 독립된 검색 페이지
+import MainPage from "./components/MainPage"; 
+import CourseRecommendation from "./components/CourseRecommendation"; 
+import SearchPage from "./components/SearchPage"; 
 import CrewRecruitment from "./components/CrewRecruitment";
-import LoginPage from "./components/LoginPage";
-import SignUpPage from "./components/SignUpPage";
-import MyPage from "./components/MyPage";
+import LoginPage from "./components/LoginPage"; 
+import SignUpPage from "./components/SignUpPage"; 
+import MyPage from "./components/MyPage"; 
 import CrewPostForm from "./components/CrewPostForm";
+import AdminPage from "./admin/AdminPage";
+
 
 function App() {
   return (
@@ -39,6 +41,9 @@ function App() {
 
         {/* 회원가입 전용 경로 */}
         <Route path="/signup" element={<SignUpPage />} />
+
+        {/* 📌 관리자 페이지 전용 독립 경로 */}
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </Router>
   );
