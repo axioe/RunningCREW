@@ -1,5 +1,6 @@
 package com.prg.back_end.service;
 
+import com.prg.back_end.dto.PageResponse;
 import com.prg.back_end.dto.UserCreateRequest;
 import com.prg.back_end.dto.UserResponse;
 import com.prg.back_end.dto.UserUpdateRequest;
@@ -7,10 +8,16 @@ import com.prg.back_end.entity.RoleType;
 import com.prg.back_end.entity.UserEntity;
 import com.prg.back_end.entity.UserLevel;
 import com.prg.back_end.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class UserService {
@@ -73,5 +80,16 @@ public class UserService {
         UserEntity savedUser = userRepository.save(user);
 
         return UserResponse.from(savedUser);
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<UserResponse> findPage(int page, int size){
+        Pageable pageable = PageRequest.of(
+                page, size,
+                Sort.by("createdAt").descending()
+        );
+        Page<UserEntity> users = userRepository.findAll(pageable);
+        Page<UserResponse>  response = users.map(user -> UserResponse.from(user));
+        return new PageResponse<>(response);
     }
 }

@@ -6,11 +6,13 @@ import com.prg.back_end.repository.CrewMemberRepository;
 import com.prg.back_end.repository.CrewPostRepository;
 import com.prg.back_end.repository.RunningCourseRepository;
 import com.prg.back_end.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +32,7 @@ public class CrewPostService {
     }
 
     @Transactional
-    public CrewPostResponse create(CrewPostCreateRequest request){
+    public ResultResponse create(CrewPostCreateRequest request){
         //  1. userId -> id 조회
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
         if(ObjectUtils.isEmpty(user))
@@ -56,18 +58,18 @@ public class CrewPostService {
         memberEntity.setAppliedAt(LocalDateTime.now());
         crewMemberRepository.save(memberEntity);
 
-        return CrewPostResponse.from(savedPostEntity);
+        return ResultResponse.from(savedPostEntity);
     }
 
-    public CrewPostResponse findById(Long id) {
+    public ResultResponse findById(Long id) {
         CrewPostEntity postEntity = crewPostRepository.findById(id).orElse(null);
         if(ObjectUtils.isEmpty(postEntity))
             return null;
 
-        return CrewPostResponse.from(postEntity);
+        return ResultResponse.from(postEntity);
     }
 
-    public CrewPostResponse update(Long id, CrewPostUpdateRequest request) {
+    public ResultResponse update(Long id, CrewPostUpdateRequest request) {
         CrewPostEntity postEntity = crewPostRepository.findById(id).orElse(null);
         if(ObjectUtils.isEmpty(postEntity))
             return null;
@@ -76,7 +78,7 @@ public class CrewPostService {
         postEntity.setMaxPeople(request.getMaxPeople());
         crewPostRepository.save(postEntity);
 
-        return CrewPostResponse.from(postEntity);
+        return ResultResponse.from(postEntity);
     }
 
     public void delete(Long id) {
@@ -100,5 +102,18 @@ public class CrewPostService {
         memberEntity.setStatus(CrewStatus.PENDING);
         memberEntity.setAppliedAt(LocalDateTime.now());
         crewMemberRepository.save(memberEntity);
+    }
+
+    public PageResponse<CrewPostResponse> findAllCrewPosts(int page, int size){
+        Pageable pageable = PageRequest.of(
+                page, size,
+                Sort.by("created_at").descending()
+        );
+        Page<Object[]> posts = crewPostRepository.findAllCrewPosts(pageable);
+
+        Page<CrewPostResponse> response = posts.map(
+                post -> CrewPostResponse.toDto(post));
+
+        return new PageResponse<>(response);
     }
 }
