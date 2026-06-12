@@ -1,14 +1,13 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../css/LoginPage.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "../css/Login.css";
 
-const LoginPage = () => {
+const Login = () => {
   const navigate = useNavigate();
 
   return (
     <div className="login-page-wrapper">
       <div className="container" id="container">
-        
         {/* 로그인 폼 영역 */}
         <div className="form-container sign-in">
           <form onSubmit={(e) => e.preventDefault()}>
@@ -27,15 +26,18 @@ const LoginPage = () => {
               <h1>처음이신가요?</h1>
               <p>회원가입하고 러닝 크루와 함께하세요.</p>
               {/* 기존에 작성해 두신 독립된 회원가입 페이지(/signup)로 이동 */}
-              <button className="hidden" onClick={() => navigate("/signup")}>회원가입</button>
-              <button className="hidden" onClick={() => navigate("/")}>홈으로 돌아가기</button>
+              <button className="hidden" onClick={() => navigate("/signup")}>
+                회원가입
+              </button>
+              <button className="hidden" onClick={() => navigate("/")}>
+                홈으로 돌아가기
+              </button>
             </div>
           </div>
         </div>
-        
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default Login;

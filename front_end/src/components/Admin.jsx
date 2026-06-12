@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/LoginPage.css"; // 디자인 통일감을 위해 메인 CSS 활용
-import "../css/AdminPage.css"; // 관리자 전용 테이블/레이아웃 스타일
+import "../css/Login.css"; // 디자인 통일감을 위해 메인 CSS 활용
+import "../css/Admin.css"; // 관리자 전용 테이블/레이아웃 스타일
 
 const AdminPage = () => {
   const navigate = useNavigate();

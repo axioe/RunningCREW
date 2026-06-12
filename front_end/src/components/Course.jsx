@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/CourseRecommendation.css";
+import "../css/Course.css";
 import Header from "./common/Header";
 
-const CourseRecommendation = () => {
+const Course = () => {
   const navigate = useNavigate();
 
   // 상세 필터 조작용 컴포넌트 상태 정의
@@ -300,4 +300,4 @@ const CourseRecommendation = () => {
   );
 };
 
-export default CourseRecommendation;
+export default Course;

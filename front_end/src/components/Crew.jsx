@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import "../css/CrewRecruitment.css";
+import "../css/Crew.css";
 import Header from "./common/Header";
-import CrewPostForm from "./CrewPostForm";
+import CrewPostForm from "./Post";
 
-const CrewRecruitment = () => {
+const Crew = () => {
   const navigate = useNavigate();
 
   // 1. 상태 관리 정의 (탭, 페이지네이션 및 필터)
@@ -452,4 +452,4 @@ const CrewRecruitment = () => {
   );
 };
 
-export default CrewRecruitment;
+export default Crew;

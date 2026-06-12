@@ -5,7 +5,7 @@ import Header from "./common/Header";
 import MyPost from "./MyPage/MyPost";
 import TabContent from "./MyPage/TabContent";
 
-const MyPage = () => {
+const Page = () => {
   const navigate = useNavigate();
 
   // 현재 활성화된 서브 메뉴 탭 상태 관리 ('profile', 'crew', 'bookmark', 'post')
@@ -257,4 +257,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default Page;

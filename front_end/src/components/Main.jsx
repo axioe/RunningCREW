@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/MainPage.css";
+import "../css/Main.css";
 import Header from "./common/Header";
 
-const MainPage = () => {
+const Main = () => {
   const navigate = useNavigate();
 
   return (
@@ -76,4 +76,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Main;

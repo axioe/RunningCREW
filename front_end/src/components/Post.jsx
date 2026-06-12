@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/CrewPostForm.css"
+import "../css/Post.css"
 import Header from "./common/Header";
 
-const CrewPostForm = () => {
+const Post = () => {
   // 상태 관리
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -168,4 +168,4 @@ const CrewPostForm = () => {
   );
 };
 
-export default CrewPostForm;
+export default Post;

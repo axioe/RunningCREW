@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/SignUpPage.css";
+import "../css/SignUp.css";
 import Header from "./common/Header";
 
-const SignUpPage = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null); // 파일 인풋 창을 제어하기 위한 Ref
 
@@ -196,4 +196,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignUp;

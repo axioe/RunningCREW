@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/SearchPage.css";
+import "../css/Search.css";
 import Header from "./common/Header";
 
-const SearchPage = () => {
+const Search = () => {
   const navigate = useNavigate();
 
   // 상세 필터 조작용 컴포넌트 상태 정의
@@ -172,4 +172,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default Search;
