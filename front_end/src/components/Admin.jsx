@@ -34,8 +34,8 @@ const AdminPage = () => {
   ]);
 
   const [admins, setAdmins] = useState([
-    { id: 1, adminId: "admin_master", name: "최고관리자", role: "총괄" },
-    { id: 2, adminId: "admin_crew", name: "크루매니저", role: "콘텐츠관리" },
+    { id: 1, adminId: "admin_master", name: "최고 관리자", role: "총괄" },
+    { id: 2, adminId: "admin_crew", name: "크루 매니저", role: "콘텐츠 관리" },
   ]);
 
   // 간단한 삭제 기능 (CRUD 중 Delete 예시)
@@ -82,22 +82,22 @@ const AdminPage = () => {
               <i className="fa-solid fa-user-shield"></i> 관리자 계정 관리
             </button>
           </div>
-          
+
           {/* 하단 뒤로가기 버튼 정돈 */}
           <div className="sidebar-footer">
-            <button 
-              className="mypage-submit-btn" 
-              style={{ 
-                width: "100%", 
-                padding: "10px", 
-                fontSize: "13px", 
-                backgroundColor: "#fff", 
-                color: "#10B981", 
+            <button
+              className="mypage-submit-btn"
+              style={{
+                width: "100%",
+                padding: "10px",
+                fontSize: "13px",
+                backgroundColor: "#fff",
+                color: "#10B981",
                 border: "1px solid #10B981",
                 borderRadius: "10px",
                 fontWeight: "600",
-                cursor: "pointer"
-              }} 
+                cursor: "pointer",
+              }}
               onClick={() => navigate("/mypage")}
             >
               <i className="fa-solid fa-arrow-left me-1"></i> 마이페이지로 복귀
