@@ -18,18 +18,18 @@ public class CrewPostController {
     }
 
     @PostMapping("/")
-    public CrewPostResponse create(@RequestBody CrewPostCreateRequest request){
+    public ResultResponse create(@RequestBody CrewPostCreateRequest request){
         return crewPostService.create(request);
     }
 
     @GetMapping("/{id}")
-    public CrewPostResponse findById(@PathVariable Long id){
+    public ResultResponse findById(@PathVariable Long id){
         return crewPostService.findById(id);
     }
 
     @PutMapping("/{id}")
-    public CrewPostResponse update(@PathVariable Long id,
-                               @RequestBody CrewPostUpdateRequest request){
+    public ResultResponse update(@PathVariable Long id,
+                                 @RequestBody CrewPostUpdateRequest request){
         return crewPostService.update(id, request);
     }
 
