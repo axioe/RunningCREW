@@ -7,14 +7,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CrewPostUpdateRequest {
-    private Long userId;
     private String title;
     private String content;
     private Integer maxPeople;
-    private String spotName;
-    private double latitude;
-    private double longitude;
-    private String address;
-    private String facilityInfo;
-    private RunningLevel runningLevel;
+    private Long courseId;
 }

@@ -25,4 +25,5 @@ public class RunningCourseEntity extends BaseEntity{
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RunningLevel runningLevel;
+    private double distance;
 }

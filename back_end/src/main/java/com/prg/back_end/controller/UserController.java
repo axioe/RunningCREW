@@ -1,5 +1,6 @@
 package com.prg.back_end.controller;
 
+import com.prg.back_end.dto.CrewPostResponse;
 import com.prg.back_end.dto.UserCreateRequest;
 import com.prg.back_end.dto.UserResponse;
 import com.prg.back_end.dto.UserUpdateRequest;

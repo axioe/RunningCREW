@@ -20,7 +20,9 @@ import java.util.Iterator;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     //  토큰 만료 시간을 상수로 지정 -> 30분
-    public static final long ACCESS_TOKEN_EXPIRE = 1000L * 60 * 30;
+//    public static final long ACCESS_TOKEN_EXPIRE = 1000L * 60 * 30;
+    //  1일
+    public static final long ACCESS_TOKEN_EXPIRE = 1000L * 60 * 60 * 24;
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
