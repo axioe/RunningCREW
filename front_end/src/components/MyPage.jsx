@@ -31,13 +31,13 @@ const Page = () => {
           </button>
           <button
             className="menu-btn"
-            onClick={() => navigate("/course-recommendation")}
+            onClick={() => navigate("/course")}
           >
             러닝 코스
           </button>
           <button
             className="menu-btn"
-            onClick={() => navigate("/crew-recruitment")}
+            onClick={() => navigate("/crew")}
           >
             크루 모집
           </button>
