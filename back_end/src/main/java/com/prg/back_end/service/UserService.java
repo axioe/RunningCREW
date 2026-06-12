@@ -1,9 +1,6 @@
 package com.prg.back_end.service;
 
-import com.prg.back_end.dto.PageResponse;
-import com.prg.back_end.dto.UserCreateRequest;
-import com.prg.back_end.dto.UserResponse;
-import com.prg.back_end.dto.UserUpdateRequest;
+import com.prg.back_end.dto.*;
 import com.prg.back_end.entity.RoleType;
 import com.prg.back_end.entity.UserEntity;
 import com.prg.back_end.entity.UserLevel;
@@ -91,5 +88,26 @@ public class UserService {
         Page<UserEntity> users = userRepository.findAll(pageable);
         Page<UserResponse>  response = users.map(user -> UserResponse.from(user));
         return new PageResponse<>(response);
+    }
+
+    public UserResponse findByUserIdAndEmail(String userId, String email){
+        UserEntity user = userRepository.findByUserIdAndEmail(userId, email);
+        if(ObjectUtils.isEmpty(user))
+            return null;
+        return UserResponse.from(user);
+    }
+
+    public ResultResponse updatePassword(UserPasswordRequest request) {
+        UserEntity user = userRepository.findById(request.getId()).orElse(null);
+        if(ObjectUtils.isEmpty(user))
+            return null;
+
+        user.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
+        UserEntity savedEntity = userRepository.save(user);
+
+        return ResultResponse.from(
+                savedEntity.getId(),
+                savedEntity.getCreatedAt(),
+                savedEntity.getUpdatedAt());
     }
 }

@@ -22,9 +22,9 @@ public class CrewPostResponse {
     private LocalDateTime createdAt;
     //  작성자 사용자 정보
     //  user -> id
-    private Long userKey;
+    private Long userId;
     //  user -> user_id
-    private String userId;
+    private String loginId;
     private String nickName;
     private CrewStatus crewStatus;
     //  신청자수
