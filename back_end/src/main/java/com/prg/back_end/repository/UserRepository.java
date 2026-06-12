@@ -9,4 +9,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByUserId(String userId);
     UserEntity findByUserId(String userId);
+    UserEntity findByUserIdAndEmail(String userId, String email);
 }
