@@ -1,0 +1,184 @@
+/* src/css/LoginSearch.css */
+
+/* 1. 화면 전체 레이아웃 (로그인 페이지와 완전히 동일한 공간 확보) */
+.login-container-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;          /* 화면 전체 가로폭 고정 */
+  background-color: #f3f4f6;
+  font-family: 'Noto Sans KR', sans-serif;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* 2. 메인 카드 전체 크기 (로그인 카드의 가로/세로/모서리 값을 완벽하게 강제 고정) */
+.login-main-card {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 900px !important;  /* 로그인 창과 1px의 오차도 없이 일치 */
+  height: 480px !important; /* 로그인 창과 1px의 오차도 없이 일치 */
+  background: #fff !important;
+  border-radius: 30px !important; /* 모서리 라운딩 크기 일치 */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* 3. [좌측 배치] 안내 패널 (로그인 우측 패널의 전반적인 부피감 복제) */
+.login-side-panel.left-side {
+  width: 45% !important; /* 로그인 패널이 차지하던 전반적인 너비 비율 고정 */
+  height: 100% !important;
+  background: linear-gradient(rgba(5, 150, 105, 0.85), rgba(4, 120, 87, 0.9)), 
+              url('https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=600') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  padding: 40px;
+  text-align: center;
+  border-radius: 0 100px 100px 0; /* NatureRunner 특유의 내부 곡률 */
+  box-sizing: border-box;
+}
+
+.panel-overlay-content h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.panel-overlay-content p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  opacity: 0.9;
+}
+
+.panel-outline-btn {
+  display: block;
+  width: 170px;
+  padding: 10px 0;
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid #fff;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 10px auto;
+  transition: all 0.2s;
+}
+
+.panel-outline-btn:hover {
+  background: #fff;
+  color: #059669;
+}
+
+.panel-outline-btn.secondary {
+  border-color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+}
+
+/* 4. [우측 배치] 비밀번호 찾기 폼 영역 (로그인 폼과 전반적인 부피감 고정) */
+.login-form-area.right-side {
+  width: 55% !important; /* 로그인 폼 영역이 차지하던 너비 비율과 정확히 매칭 */
+  height: 100% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.login-core-form {
+  width: 100%;
+  max-width: 340px; /* 로그인 인풋 전체 박스 덩어리 크기 고정 */
+  text-align: center;
+}
+
+.form-main-title {
+  font-size: 28px;
+  color: #1e293b;
+  margin-bottom: 35px;
+  font-weight: bold;
+}
+
+.input-field-group {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.login-text-input {
+  width: 100%;
+  padding: 15px 20px;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #334155;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+
+.login-text-input:focus {
+  border-color: #10b981;
+  background-color: #fff;
+}
+
+/* 서브밋 버튼 */
+.form-action-rowsearch {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.login-submit-btn {
+  width: 140px;
+  padding: 12px 0;
+  background: #10b981;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login-submit-btn:hover {
+  background: #059669;
+}
+
+/* 5. 상단 알림 토글 팝업 */
+.custom-alert-toggle {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #065f46;
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 10px 25px rgba(4, 120, 87, 0.3);
+  z-index: 999;
+}
+
+.animate-fade-in {
+  animation: fadeInDown 0.4s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

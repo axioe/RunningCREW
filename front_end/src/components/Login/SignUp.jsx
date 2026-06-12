@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/SignUp.css";
-import Header from "./common/Header";
+import "../../css/SignUp.css";
+import Header from "../common/Header";
 
 const SignUp = () => {
   const navigate = useNavigate();

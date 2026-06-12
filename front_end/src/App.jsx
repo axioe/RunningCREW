@@ -4,11 +4,12 @@ import Main from "./components/Main.jsx";
 import Course from "./components/Course.jsx";
 import Search from "./components/Search.jsx";
 import Crew from "./components/Crew.jsx";
-import Login from "./components/Login.jsx";
-import SignUp from "./components/SignUp.jsx";
+import Login from "./components/login/Login.jsx";
+import SignUp from "./components/login/SignUp.jsx";
 import MyPage from "./components/MyPage.jsx";
 import Post from "./components/Post.jsx";
 import Admin from "./components/Admin.jsx";
+import LoginSearch from "./components/Login/LoginSearch.jsx";
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
 
         {/* 로그인 버튼 전용 독립 경로 */}
         <Route path="/login" element={<Login />} />
+
+        <Route path="/LoginSearch" element={<LoginSearch/>}></Route>
 
         {/* 회원가입 전용 경로 */}
         <Route path="/signup" element={<SignUp />} />
