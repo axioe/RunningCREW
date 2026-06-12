@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-react - router - dom;
-import { useNavigate } from "";
+import { useNavigate } from "react-router-dom";
 import "../css/MyPage.css";
+import Header from "./common/Header";
+import MyPost from "./MyPage/MyPost";
+import TabContent from "./MyPage/TabContent";
 
 const MyPage = () => {
   const navigate = useNavigate();
 
-  // 현재 활성화된 서브 메뉴 탭 상태 관리 ('profile', 'crew', 'bookmark')
+  // 현재 활성화된 서브 메뉴 탭 상태 관리 ('profile', 'crew', 'bookmark', 'post')
   const [activeTab, setActiveTab] = useState("profile");
 
   // 임시 데이터 (기존 페이지 톤앤매너 매칭용)
@@ -80,6 +82,36 @@ const MyPage = () => {
             >
               북마크한 러닝 코스
             </button>
+            <button
+              className={`sidebar-menu-item ${activeTab === "post" ? "active" : ""}`}
+              onClick={() => setActiveTab("post")}
+            >
+              내가 작성한 글
+            </button>
+
+            {/* --- [추가 코드] 내가 작성한 글 아래 관리자 이동 버튼 영역 --- */}
+            <div
+              className="admin-redirect-divider"
+              style={{ margin: "15px 0", borderTop: "1px dashed #e5e7eb" }}
+            ></div>
+            <button
+              className="sidebar-menu-item admin-move-btn"
+              style={{
+                backgroundColor: "rgba(16, 185, 129, 0.06)",
+                color: "#10B981",
+                fontWeight: "700",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                borderRadius: "10px",
+                border: "1px solid rgba(16, 185, 129, 0.2)",
+              }}
+              onClick={() => navigate("/admin")}
+            >
+              <i className="fa-solid fa-user-gear"></i> 관리자 페이지 이동
+            </button>
+            {/* -------------------------------------------------------- */}
           </nav>
         </aside>
 
@@ -216,6 +248,9 @@ const MyPage = () => {
               </div>
             </div>
           )}
+
+          {/* 탭 4: 내가 작성한 글 */}
+          {activeTab === "post" && <MyPost />}
         </main>
       </div>
     </div>

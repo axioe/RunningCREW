@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/SignUpPage.css";
 import Header from "./common/Header";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null); // 파일 인풋 창을 제어하기 위한 Ref
 
   // 1. 폼 데이터 상태 관리
   const [formData, setFormData] = useState({
@@ -13,6 +14,9 @@ const SignUpPage = () => {
     confirmPassword: "",
     nickname: "",
   });
+
+  // 프로필 이미지 프리뷰 상태 관리
+  const [imagePreview, setImagePreview] = useState(null);
 
   // 2. 비밀번호 가시성 상태 (눈 아이콘 토글)
   const [showPassword, setShowPassword] = useState(false);
@@ -23,16 +27,40 @@ const SignUpPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 이미지 등록 버튼 클릭 시
-  const handleImageUpload = () => {
-    alert("이미지 등록이 완료되었습니다.");
+  // 이미지 등록 버튼 클릭 시 숨겨진 file input 강제 클릭 트리거
+  const handleImageUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // 파일이 선택되었을 때 실행되는 핸들러 (실제 파일 객체 확보 및 프리뷰 생성)
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert("최대 5MB 이하의 파일만 업로드 가능합니다.");
+        return;
+      }
+      
+      // 이미지를 화면에 노출하기 위해 가상 URL 생성
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   // 회원가입 버튼 클릭 시
   const handleSignUp = (e) => {
     e.preventDefault();
-    alert("회원가입이 완료되었습니다.");
-    // 실제 환경에서는 여기서 navigate("/login") 처리를 합니다.
+    
+    if (formData.password !== formData.confirmPassword) {
+      alert("비밀번호가 서로 일치하지 않습니다.");
+      return;
+    }
+
+    alert("회원가입이 완료되었습니다!");
+    navigate("/login"); // 가입 완료 후 로그인 페이지로 리다이렉트
   };
 
   // 초기화 버튼 클릭 시
@@ -43,13 +71,13 @@ const SignUpPage = () => {
       confirmPassword: "",
       nickname: "",
     });
+    setImagePreview(null); // 이미지도 함께 초기화
     alert("초기화 되었습니다.");
   };
 
   return (
     <div className="nature-runner-signup-wrapper">
-
-      <Header/>
+      <Header />
 
       {/* --- 회원가입 본문 섹션 --- */}
       <main className="signup-container">
@@ -102,12 +130,26 @@ const SignUpPage = () => {
             <h2>회원가입</h2>
             <p className="form-intro">Running Crew와 함께 러닝을 시작해보세요.</p>
 
-            {/* 프로필 이미지 업로드부 */}
+            {/* 프로필 이미지 업로드부 (기능 구체화) */}
             <div className="profile-upload-area">
-              <div className="profile-circle">
-                <i className="fa-solid fa-user"></i>
+              <div className="profile-circle" style={{ overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {imagePreview ? (
+                  <img src={imagePreview} alt="프로필 미리보기" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <i className="fa-solid fa-user"></i>
+                )}
               </div>
-              <button type="button" className="img-upload-trigger" onClick={handleImageUpload}>
+              
+              {/* 실제 이미지 파일 선택 창 (숨김 처리) */}
+              <input 
+                type="file" 
+                accept="image/*" 
+                ref={fileInputRef} 
+                onChange={handleFileChange} 
+                style={{ display: "none" }} 
+              />
+              
+              <button type="button" className="img-upload-trigger" onClick={handleImageUploadClick}>
                 이미지 등록
               </button>
               <p className="upload-guide">JPG, PNG / 최대 5MB</p>
@@ -145,7 +187,7 @@ const SignUpPage = () => {
             </form>
 
             <div className="signup-footer-link">
-              이미 계정이 있으신가요? <button onClick={() => navigate("/login")}>로그인</button>
+              이미 계정이 있으신가요? <button type="button" onClick={() => navigate("/login")}>로그인</button>
             </div>
           </div>
         </section>
