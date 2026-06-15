@@ -248,7 +248,7 @@ const Course = () => {
                         {course.level}
                       </span>
                     </div>
-                    <button className="cr-view-detail-action-btn">
+                    <button className="cr-view-detail-action-btn" onClick={() => navigate('/course-detail/1')}>
                       코스 상세 보기
                     </button>
                   </div>

@@ -1,0 +1,112 @@
+/* 폼 컨테이너 제한 및 여백 */
+.admin-form-container {
+  max-width: 500px;
+  margin: 20px 0;
+}
+
+/* 폼 상단 안내 문구 스타일 추가 */
+.admin-form-desc {
+  font-size: 13px;
+  color: #6B7280;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  background-color: #F9FAFB;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border-left: 3px solid #10B981; /* 시그니처 초록색 포인트 바 */
+}
+
+/* 개별 입력 폼 그룹 단위 */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* 상태창 하단 전용 확장 여백 */
+.form-group.margin-bottom-lg {
+  margin-bottom: 35px;
+}
+
+/* 입력 폼 라벨 디자인 */
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+/* 인풋 박스 공통 스타일 */
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* 셀렉트 박스 공통 스타일 */
+.form-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  font-size: 14px;
+  background-color: #fff;
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.form-select:focus {
+  border-color: #10B981;
+}
+
+/* 하단 버튼 배치 정렬 크기 */
+.form-btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* 취소 버튼 스타일 */
+.btn-cancel {
+  flex: 1;
+  padding: 12px;
+  background-color: #fff;
+  color: #6B7280;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #F9FAFB;
+}
+
+/* 관리자 지정 버튼 스타일 */
+.btn-submit {
+  flex: 1;
+  padding: 12px;
+  background-color: #10B981;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #059669;
+}
