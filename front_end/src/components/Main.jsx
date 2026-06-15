@@ -4,7 +4,7 @@ import "../css/Main.css";
 import Header from "./common/Header";
 
 const Main = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
   return (
     <div className="nature-runner-main-wrapper">

@@ -1,10 +1,13 @@
 package com.prg.back_end.service;
 
 import com.prg.back_end.dto.*;
+import com.prg.back_end.entity.ImageEntity;
 import com.prg.back_end.entity.RoleType;
 import com.prg.back_end.entity.UserEntity;
 import com.prg.back_end.entity.UserLevel;
+import com.prg.back_end.repository.ImageRepository;
 import com.prg.back_end.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +20,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
+@Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserRepository userRepository, ImageRepository imageRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.imageRepository = imageRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -32,6 +38,7 @@ public class UserService {
         if(isExist){
             return null;
         }
+
         UserEntity user = new UserEntity();
         user.setUserId(request.getUserId());
         user.setEmail(request.getEmail());
@@ -55,7 +62,13 @@ public class UserService {
         UserEntity user = userRepository.findByUserId(userId);
         if(ObjectUtils.isEmpty(user))
             return null;
-        return UserResponse.from(user);
+
+        String imageUrl = "";
+        ImageEntity imageEntity = imageRepository.findByUserId(user.getId());
+        if(!ObjectUtils.isEmpty(imageEntity))
+            imageUrl = imageEntity.getImageUrl();
+
+        return UserResponse.from(user, imageUrl);
     }
 
     public void delete(Long id) {

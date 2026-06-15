@@ -29,7 +29,7 @@ function App() {
         <Route path="/search" element={<Search />} />
 
         {/* 마이페이지 버튼 전용 독립 경로 */}
-        <Route path="/mypage" element={<MyPage />} />   
+        <Route path="/mypage" element={<MyPage />} />
 
         {/* 러닝 코스 상세 페이지 */}
         <Route path="/course-detail/:id" element={<CourseDetail/>}/>
@@ -40,8 +40,12 @@ function App() {
         {/* 로그인 버튼 전용 독립 경로 */}
         <Route path="/login" element={<Login />} />
 
+<<<<<<< HEAD
+        <Route path="/LoginSearch" element={<LoginSearch />}></Route>
+=======
         {/* 비밀번호 찾기 페이지 */}
         <Route path="/LoginSearch" element={<LoginSearch />} />
+>>>>>>> 9535feae3f7c584bc3cee14f0e583ce206fe11ab
 
         {/* 회원가입 전용 경로 */}
         <Route path="/signup" element={<SignUp />} />
