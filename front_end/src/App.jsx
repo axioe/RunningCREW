@@ -8,8 +8,9 @@ import Login from "./components/login/Login.jsx";
 import SignUp from "./components/login/SignUp.jsx";
 import MyPage from "./components/MyPage.jsx";
 import Post from "./components/Post.jsx";
-import Admin from "./components/Admin.jsx";
-import LoginSearch from "./components/Login/LoginSearch.jsx";
+import LoginSearch from "./components/login/LoginSearch.jsx";
+import CourseDetail from "./components/CourseDetail.jsx";
+import AdminPage from "./components/admin/AdminPage.jsx"; 
 
 function App() {
   return (
@@ -30,19 +31,23 @@ function App() {
         {/* 마이페이지 버튼 전용 독립 경로 */}
         <Route path="/mypage" element={<MyPage />} />   
 
-        {/* 글쓰기 페이지 (우측 레이아웃 적용된 Post 컴포넌트) */}
+        {/* 러닝 코스 상세 페이지 */}
+        <Route path="/course-detail/:id" element={<CourseDetail/>}/>
+
+        {/* 글쓰기 페이지 */}
         <Route path="/write" element={<Post />} />
 
         {/* 로그인 버튼 전용 독립 경로 */}
         <Route path="/login" element={<Login />} />
 
-        <Route path="/LoginSearch" element={<LoginSearch/>}></Route>
+        {/* 비밀번호 찾기 페이지 */}
+        <Route path="/LoginSearch" element={<LoginSearch />} />
 
         {/* 회원가입 전용 경로 */}
         <Route path="/signup" element={<SignUp />} />
 
         {/* 관리자 페이지 전용 독립 경로 */}
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/adminMain" element={<AdminPage />} />
       </Routes>
     </Router>
   );

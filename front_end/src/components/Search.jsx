@@ -143,7 +143,7 @@ const Search = () => {
                   <h5>서울숲 러닝코스</h5>
                   <p>📍 서울 성동구 서울숲길</p>
                   <p>5.2km • 약 32분 <span className="badge amber">중</span></p>
-                  <button className="detail-btn" onClick={() => navigate("/course")}>상세보기</button>
+                  <button className="detail-btn" onClick={() => navigate('/course-detail/1')}>상세보기</button>
                 </div>
               </div>
               <div className="course-card">
@@ -152,7 +152,7 @@ const Search = () => {
                   <h5>한강 뚝섬 코스</h5>
                   <p>📍 서울 성동구 뚝섬한강공원</p>
                   <p>7.8km • 약 48분 <span className="badge green">하</span></p>
-                  <button className="detail-btn" onClick={() => navigate("/course")}>상세보기</button>
+                  <button className="detail-btn" onClick={() => navigate('/course-detail/1')}>상세보기</button>
                 </div>
               </div>
             </div>
