@@ -43,9 +43,6 @@ const AdminCrews = () => {
         <h3>
           크루 모집글 관리 <span className="count-tag">{crews.length}</span>
         </h3>
-        <button className="btn-admin-add" onClick={() => alert("새 모집글 등록 폼 오픈")}>
-          모집글 강제 등록
-        </button>
       </div>
       <table className="admin-table">
         <thead>
