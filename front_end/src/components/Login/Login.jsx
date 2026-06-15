@@ -1,19 +1,47 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/Login.css";
+import api from "../../js/api";
+import useAuthStore from "../common/useAuthStore";
 
 const Login = () => {
   const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
+
+  const loginProc = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData(e.target);
+      const userId = formData.get("userId");
+      const password = formData.get("password");
+
+      const res = await api.post("/login", {
+        userId: userId,
+        password: password,
+      });
+
+      const token = res.headers.authorization;
+      console.log(token);
+
+      login({ id: userId }, token);
+
+     // localStorage.setItem("token", token);
+
+      navigate("/");
+    } catch (e) {
+      alert("로그인 실패했습니다.");
+    }
+  };
 
   return (
     <div className="login-page-wrapper">
       <div className="container" id="container">
         {/* 로그인 폼 영역 */}
         <div className="form-container sign-in">
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={loginProc}>
             <h1>로그인</h1>
-            <input type="email" placeholder="아이디" />
-            <input type="password" placeholder="비밀번호" />
+            <input type="text" name="userId" placeholder="아이디" />
+            <input type="password" name="password" placeholder="비밀번호" />
             <a href="/LoginSearch">비밀번호를 잊으셨나요?</a>
             <button type="submit">로그인</button>
           </form>

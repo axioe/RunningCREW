@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { use, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/MyPage.css";
 import Header from "./common/Header";
 import MyPost from "./MyPage/MyPost";
 import TabContent from "./MyPage/TabContent";
+import useAuthStore from "./common/useAuthStore";
+import api from "../js/api";
 
 const Page = () => {
   const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
 
+  console.log(user?.id);
   // 현재 활성화된 서브 메뉴 탭 상태 관리 ('profile', 'crew', 'bookmark', 'post')
   const [activeTab, setActiveTab] = useState("profile");
 
@@ -16,7 +20,27 @@ const Page = () => {
     nickname: "러닝이",
     email: "runner@naturerunner.com",
     role: "소프트웨어 개발자",
+    imageUrl: "",
   });
+
+  const getUser = async () => {
+    try {
+      const response = await api.get(`/user/getUser?user_id=${user.id}`);
+      console.log(response.data);
+      setUserProfile({
+        nickname: response.data.nickName,
+        email: response.data.email,
+        role: response.data.userLevel,
+        imageUrl: response.data.imageUrl,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <div className="nature-runner-main-wrapper nature-runner-mypage-wrapper">
@@ -29,16 +53,10 @@ const Page = () => {
           <button className="menu-btn" onClick={() => navigate("/")}>
             홈
           </button>
-          <button
-            className="menu-btn"
-            onClick={() => navigate("/course")}
-          >
+          <button className="menu-btn" onClick={() => navigate("/course")}>
             러닝 코스
           </button>
-          <button
-            className="menu-btn"
-            onClick={() => navigate("/crew")}
-          >
+          <button className="menu-btn" onClick={() => navigate("/crew")}>
             크루 모집
           </button>
           <button

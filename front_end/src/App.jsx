@@ -28,7 +28,7 @@ function App() {
         <Route path="/search" element={<Search />} />
 
         {/* 마이페이지 버튼 전용 독립 경로 */}
-        <Route path="/mypage" element={<MyPage />} />   
+        <Route path="/mypage" element={<MyPage />} />
 
         {/* 글쓰기 페이지 (우측 레이아웃 적용된 Post 컴포넌트) */}
         <Route path="/write" element={<Post />} />
@@ -36,7 +36,7 @@ function App() {
         {/* 로그인 버튼 전용 독립 경로 */}
         <Route path="/login" element={<Login />} />
 
-        <Route path="/LoginSearch" element={<LoginSearch/>}></Route>
+        <Route path="/LoginSearch" element={<LoginSearch />}></Route>
 
         {/* 회원가입 전용 경로 */}
         <Route path="/signup" element={<SignUp />} />

@@ -34,6 +34,4 @@ public class AdminController {
             @RequestParam(defaultValue = "10") int size){
          return crewPostService.findAllCrewPosts(page,  size);
     }
-
-
 }
