@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@meteocons/svg": "^0.1.0",
-    "@meteocons/svg-static": "^0.1.0",
     "axios": "^1.18.0",
     "bootstrap": "^5.3.8",
     "immer": "^11.1.8",
