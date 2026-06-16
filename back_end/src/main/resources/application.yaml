@@ -45,6 +45,11 @@ data:
     api:
       key: ${DATA_REST_API_KEY}
 
+safety:
+  rest:
+    api:
+      key: ${SAFETY_REST_API_KEY}
+
 file:
   upload-path: uploads
 
