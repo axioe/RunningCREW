@@ -22,8 +22,6 @@ public class CrewMemberEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CrewStatus status;
     @Column(nullable = false)
-    private LocalDateTime appliedAt;
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private CrewRole crewRole;
 }

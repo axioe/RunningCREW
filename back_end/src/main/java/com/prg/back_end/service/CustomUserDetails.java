@@ -1,6 +1,8 @@
 package com.prg.back_end.service;
 
+import com.prg.back_end.entity.RoleType;
 import com.prg.back_end.entity.UserEntity;
+import com.prg.back_end.entity.UserLevel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,6 +39,13 @@ public class CustomUserDetails implements UserDetails {
         return userEntity.getUserId();
     }
 
+    public Long getUserId(){
+        return userEntity.getId();
+    }
+
+    public RoleType getUserRole(){
+        return userEntity.getUserRole();
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;

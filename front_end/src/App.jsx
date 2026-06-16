@@ -10,7 +10,7 @@ import MyPage from "./components/MyPage.jsx";
 import Post from "./components/Post.jsx";
 import LoginSearch from "./components/login/LoginSearch.jsx";
 import CourseDetail from "./components/CourseDetail.jsx";
-import AdminPage from "./components/admin/AdminPage.jsx"; 
+import AdminPage from "./components/admin/AdminPage.jsx";
 import useAuthStore from "./components/common/useAuthStore.jsx";
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
 
         {/* 러닝 코스 상세 페이지 */}
-        <Route path="/course-detail/:id" element={<CourseDetail/>}/>
+        <Route path="/course-detail/:id" element={<CourseDetail />} />
 
         {/* 글쓰기 페이지 */}
         <Route path="/write" element={<Post />} />
@@ -52,14 +52,14 @@ function App() {
 
         {/* 관리자 페이지 전용 독립 경로 */}
         <Route
-        path="/adminMain"
-        element={
-          userRole === "ROLE_ADMIN" ?(
-            <AdminPage/>
-          ) : (
-            <Navigation to="/Login" replace/>
-          )
-        }
+          path="/adminMain"
+          element={
+            userRole === "ROLE_ADMIN" ? (
+              <AdminPage />
+            ) : (
+              <Navigation to="/Login" replace />
+            )
+          }
         />
       </Routes>
     </Router>

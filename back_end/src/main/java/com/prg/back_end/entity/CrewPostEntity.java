@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -20,4 +22,6 @@ public class CrewPostEntity extends BaseEntity{
     private Integer maxPeople;
     @Column(nullable = false)
     private Long courseId;
+    @Column(nullable = false)
+    private LocalDateTime appliedAt;
 }

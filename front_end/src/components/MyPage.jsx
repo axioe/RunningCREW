@@ -25,7 +25,7 @@ const Page = () => {
 
   const getUser = async () => {
     try {
-      const response = await api.get(`/user/getUser?user_id=${user.id}`);
+      const response = await api.get(`/user/${user.id}`);
       console.log(response.data);
       setUserProfile({
         nickname: response.data.nickName,
