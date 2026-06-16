@@ -106,30 +106,6 @@ const Page = () => {
             >
               내가 작성한 글
             </button>
-
-            {/* --- [추가 코드] 내가 작성한 글 아래 관리자 이동 버튼 영역 --- */}
-            <div
-              className="admin-redirect-divider"
-              style={{ margin: "15px 0", borderTop: "1px dashed #e5e7eb" }}
-            ></div>
-            <button
-              className="sidebar-menu-item admin-move-btn"
-              style={{
-                backgroundColor: "rgba(16, 185, 129, 0.06)",
-                color: "#10B981",
-                fontWeight: "700",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px",
-                borderRadius: "10px",
-                border: "1px solid rgba(16, 185, 129, 0.2)",
-              }}
-              onClick={() => navigate("/admin")}
-            >
-              <i className="fa-solid fa-user-gear"></i> 관리자 페이지 이동
-            </button>
-            {/* -------------------------------------------------------- */}
           </nav>
         </aside>
 

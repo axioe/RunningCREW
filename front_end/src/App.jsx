@@ -11,8 +11,12 @@ import Post from "./components/Post.jsx";
 import LoginSearch from "./components/login/LoginSearch.jsx";
 import CourseDetail from "./components/CourseDetail.jsx";
 import AdminPage from "./components/admin/AdminPage.jsx"; 
+import useAuthStore from "./components/common/useAuthStore.jsx";
 
 function App() {
+  const user = useAuthStore((state) => state.user);
+  const userRole = user?.role;
+
   return (
     <Router>
       <Routes>
@@ -40,13 +44,23 @@ function App() {
         {/* 로그인 버튼 전용 독립 경로 */}
         <Route path="/login" element={<Login />} />
 
-        <Route path="/LoginSearch" element={<LoginSearch />}></Route>
+        {/* 비밀번호 찾기 페이지 */}
+        <Route path="/LoginSearch" element={<LoginSearch />} />
 
         {/* 회원가입 전용 경로 */}
         <Route path="/signup" element={<SignUp />} />
 
         {/* 관리자 페이지 전용 독립 경로 */}
-        <Route path="/adminMain" element={<AdminPage />} />
+        <Route
+        path="/adminMain"
+        element={
+          userRole === "ROLE_ADMIN" ?(
+            <AdminPage/>
+          ) : (
+            <Navigation to="/Login" replace/>
+          )
+        }
+        />
       </Routes>
     </Router>
   );
