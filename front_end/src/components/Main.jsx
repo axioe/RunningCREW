@@ -1,24 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Main.css";
 import Header from "./common/Header";
 
 const Main = () => {
   const navigate = useNavigate();  
+  
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [keyword, setKeyword] = useState("");
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    
+    // 디버깅용: 함수가 실행되는지 브라우저 콘솔(F12)에서 먼저 확인
+    console.log("1. handleSearchSubmit 실행됨, 현재 입력값:", keyword);
+    
+    if (!keyword.trim()) {
+      alert("검색어를 입력해주세요!"); // 동작 여부 확인용 알림
+      return;
+    }
+    
+    // 상태 변경 트리거
+    setIsExpanded(true);
+    console.log("2. isExpanded 상태를 true로 변경했습니다.");
+  };
 
   function WeatherIcon({ icon }) {
-  return (
-    <img
-      src={`/weather-icons/${icon}.svg`}
-      alt={icon}
-      width={120}
-      height={120}
-    />
-  );
-}
+    return (
+      <img
+        src={`/weather-icons/${icon}.svg`}
+        alt={icon}
+        width={120}
+        height={120}
+      />
+    );
+  }
+
+  // 💡 안전한 클래스 결합 방식 적용 (공백 누락으로 인한 인식 불가 오류 원천 차단)
+  const containerClasses = [
+    "nature-runner-main-wrapper",
+    isExpanded ? "expanded-mode" : ""
+  ].filter(Boolean).join(" ");
 
   return (
-    <div className="nature-runner-main-wrapper">
+    <div className={containerClasses}>
       
       <Header/>
 
@@ -29,14 +54,18 @@ const Main = () => {
           <p>내 주변의 안전하고 쾌적한 러닝 코스와 크루를 탐색해 보세요.</p>
           
           {/* 메인 검색창 구조 */}
-          <div className="main-page-search-bar">
-            <input type="text" placeholder="코스명이나 지역명을 입력해 보세요" />
+          <form className="main-page-search-bar" onSubmit={handleSearchSubmit}>
+            <input 
+              type="text" 
+              placeholder="코스명이나 지역명을 입력해 보세요" 
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
             
-            {/* 🌟 연동 2: 중앙 초록색 [검색] 버튼 클릭 -> '독립된 SearchPage'로 이동 */}
-            <button onClick={() => navigate("/search")}>
+            <button type="submit">
               검색
             </button>
-          </div>
+          </form>
         </div>
       </section>
 
@@ -75,7 +104,6 @@ const Main = () => {
           <div className="card-widget-body">
             <div className="main-weather-box">
               <WeatherIcon icon="clear-day" />
-              {/* {<span className="weather-large-icon">🌞</span>} */}
               <div className="weather-info-text">
                 <span className="temp-number">24°C</span>
                 <span className="temp-status-desc">러닝하기 좋은 맑은 날씨</span>
@@ -84,6 +112,19 @@ const Main = () => {
           </div>
         </article>
       </main>
+
+      {isExpanded && (
+        <button 
+          className="back-to-main-btn"
+          onClick={() => { 
+            setIsExpanded(false); 
+            setKeyword(""); 
+          }}
+        >
+          {/* 왼쪽 화살표 곡선 아이콘 혹은 이모지 결합 */}
+          <span>↩</span> 메인 화면으로 돌아가기
+        </button>
+      )}
     </div>
   );
 };

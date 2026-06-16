@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------
-   중앙 히어로 섹션 및 메인 검색창 (기존 스타일 전면 유지)
+   중앙 히어로 섹션 및 메인 검색창 (기존 스타일 전면 유지 + transition 추가)
    -------------------------------------------------------------------------- */
 .main-hero-banner {
     background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
@@ -7,6 +7,9 @@
     padding: 100px 20px !important;
     text-align: center !important;
     color: #ffffff !important;
+    
+    /* 💡 부드러운 압축 효과를 위한 변환 애니메이션 시간 설정 */
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
 .hero-center-content h2 {
@@ -14,12 +17,14 @@
     margin-bottom: 10px !important;
     font-weight: bold !important;
     color: #ffffff !important;
+    transition: all 0.4s ease-in-out !important;
 }
 
 .hero-center-content p {
     font-size: 18px !important;
     margin-bottom: 30px !important;
     color: #cbd5e1 !important;
+    transition: all 0.4s ease-in-out !important;
 }
 
 .main-page-search-bar {
@@ -29,6 +34,7 @@
     padding: 5px !important;
     border-radius: 30px !important;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+    transition: all 0.5s ease-in-out !important;
 }
 
 .main-page-search-bar input {
@@ -55,7 +61,7 @@
 
 
 /* --------------------------------------------------------------------------
-   3단 대시보드 그리드 레이아웃 (기존 스타일 전면 유지)
+   3단 대시보드 그리드 레이아웃 (기존 스타일 전면 유지 + transition 추가)
    -------------------------------------------------------------------------- */
 .main-dashboard-grid {
     display: grid !important;
@@ -64,6 +70,10 @@
     padding: 50px !important;
     max-width: 1400px !important;
     margin: 0 auto !important;
+    
+    /* 💡 사라질 때 아래로 밀려나며 부드럽게 페이드아웃 되도록 추가 */
+    transition: opacity 0.4s ease-in-out, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), max-height 0.5s ease-in-out !important;
+    max-height: 1000px; 
 }
 
 .dashboard-card-widget {
@@ -172,4 +182,91 @@
     font-size: 14px !important;
     color: #64748b !important;
     margin-top: 2px !important;
+}
+
+
+/* ==========================================================================
+   🎯 [핵심] expanded-mode 클래스가 활성화 되었을 때 스타일 재정의
+   (하단에 배치하고 우선순위를 높여 기존 !important 스타일을 덮어씁니다)
+   ========================================================================== */
+
+/* 1. 상단 배경 배너 슬림화 (패딩과 마진 축소) */
+.nature-runner-main-wrapper.expanded-mode .main-hero-banner {
+    padding: 25px 20px !important; /* 상하 패딩을 줄여서 위로 밀착시킴 */
+}
+
+/* 2. 글씨 타이틀은 투명하게 줄이며 숨기기 */
+.nature-runner-main-wrapper.expanded-mode .hero-center-content h2,
+.nature-runner-main-wrapper.expanded-mode .hero-center-content p {
+    opacity: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+/* 3. 하단 3단 대시보드 카드 세트는 아래로 내려앉으며 숨김 */
+.nature-runner-main-wrapper.expanded-mode .main-dashboard-grid {
+    opacity: 0 !important;
+    transform: translateY(60px) !important; /* 바닥 쪽으로 슬라이딩 모션 */
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+/* --------------------------------------------------------------------------
+   🔄 [원래대로 되돌리기] 디자인 버튼 스타일
+   -------------------------------------------------------------------------- */
+.back-to-main-btn {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%); /* 화면 가로 중앙 정렬 */
+    
+    /* 기존 초록색 포인트 컬러 및 폰트 스타일 반영 */
+    background: #16A34A !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 12px 28px !important;
+    font-size: 15px !important;
+    font-weight: bold !important;
+    border-radius: 30px !important;
+    cursor: pointer !important;
+    
+    /* 화면의 카드 컴포넌트와 어우러지는 부드러운 그림자 */
+    box-shadow: 0 10px 20px rgba(22, 163, 74, 0.25) !important;
+    
+    /* 등장 및 호버 시의 유기적인 전환 효과 */
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.3s ease-in-out !important;
+    z-index: 1000 !important;
+    
+    /* 처음에 아래에서 위로 살짝 떠오르는 애니메이션 */
+    animation: floatingUp 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* 마우스 호버(올렸을 때) 효과 - 살짝 위로 뜨며 색상 반전 */
+.back-to-main-btn:hover {
+    background: #15803d !important; /* 조금 더 깊은 초록색 */
+    transform: translateX(-50%) translateY(-3px) !important;
+    box-shadow: 0 12px 25px rgba(22, 163, 74, 0.35) !important;
+}
+
+/* 마우스 클릭(누르고 있을 때) 효과 */
+.back-to-main-btn:active {
+    transform: translateX(-50%) translateY(-1px) !important;
+}
+
+/* 되돌리기 버튼 등장 애니메이션 */
+@keyframes floatingUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
