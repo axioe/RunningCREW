@@ -6,6 +6,17 @@ import Header from "./common/Header";
 const Main = () => {
   const navigate = useNavigate();  
 
+  function WeatherIcon({ icon }) {
+  return (
+    <img
+      src={`/weather-icons/${icon}.svg`}
+      alt={icon}
+      width={120}
+      height={120}
+    />
+  );
+}
+
   return (
     <div className="nature-runner-main-wrapper">
       
@@ -63,7 +74,8 @@ const Main = () => {
           </div>
           <div className="card-widget-body">
             <div className="main-weather-box">
-              <span className="weather-large-icon">🌞</span>
+              <WeatherIcon icon="clear-day" />
+              {/* {<span className="weather-large-icon">🌞</span>} */}
               <div className="weather-info-text">
                 <span className="temp-number">24°C</span>
                 <span className="temp-status-desc">러닝하기 좋은 맑은 날씨</span>
