@@ -163,6 +163,14 @@ const Page = () => {
                     placeholder="새로운 비밀번호를 입력하세요"
                   />
                 </div>
+                <div className="form-group">
+                  <label>비밀번호 확인</label>
+                  <input
+                    type="password"
+                    className="mypage-input"
+                    placeholder="다시 입력하세요."
+                  />
+                </div>
                 <button className="mypage-submit-btn">정보 수정 완료</button>
               </div>
             </div>
