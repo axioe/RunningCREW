@@ -21,7 +21,7 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
                 p.maxPeople,
                 m.crewRole,
                 m.status,
-                m.appliedAt,
+                p.appliedAt,
                 r.spotName,
                 r.latitude,
                 r.longitude,

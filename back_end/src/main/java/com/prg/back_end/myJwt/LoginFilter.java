@@ -1,7 +1,10 @@
 package com.prg.back_end.myJwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.prg.back_end.dto.LoginRequest;
+import com.prg.back_end.dto.LoginResponse;
+import com.prg.back_end.dto.ResultResponse;
 import com.prg.back_end.service.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,6 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -23,13 +27,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 //    public static final long ACCESS_TOKEN_EXPIRE = 1000L * 60 * 30;
     //  1일
     public static final long ACCESS_TOKEN_EXPIRE = 1000L * 60 * 60 * 24;
-
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
 
     public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Override
@@ -62,6 +67,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         String userId = customUserDetails.getUsername();
+        Long id = customUserDetails.getUserId();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -75,6 +81,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         System.out.println("===============");
 
         response.addHeader("Authorization", "Bearer " + token);
+        response.setContentType("application/json;charset=UTF-8");
+        String json = objectMapper.writeValueAsString(LoginResponse.from(id, role));
+        response.getWriter().write(json);
     }
 
     //  로그인 실패 시 처리

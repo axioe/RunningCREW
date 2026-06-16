@@ -47,6 +47,7 @@ public class CrewPostService {
         postEntity.setContent(request.getContent());
         postEntity.setTitle(request.getTitle());
         postEntity.setMaxPeople(request.getMaxPeople());
+        postEntity.setAppliedAt(request.getAppliedAt());
         CrewPostEntity savedPostEntity = crewPostRepository.save(postEntity);
 
         //  4. crew_member insert
@@ -55,7 +56,6 @@ public class CrewPostService {
         memberEntity.setUserId(user.getId());
         memberEntity.setCrewRole(CrewRole.Owner);
         memberEntity.setStatus(CrewStatus.APPROVED);
-        memberEntity.setAppliedAt(LocalDateTime.now());
         crewMemberRepository.save(memberEntity);
 
         return ResultResponse.from(savedPostEntity);
@@ -76,6 +76,7 @@ public class CrewPostService {
         postEntity.setTitle(request.getTitle());
         postEntity.setContent(request.getContent());
         postEntity.setMaxPeople(request.getMaxPeople());
+        postEntity.setAppliedAt(request.getAppliedAt());
         crewPostRepository.save(postEntity);
 
         return ResultResponse.from(postEntity);
@@ -100,7 +101,6 @@ public class CrewPostService {
         memberEntity.setUserId(request.getUserId());
         memberEntity.setCrewRole(CrewRole.Member);
         memberEntity.setStatus(CrewStatus.PENDING);
-        memberEntity.setAppliedAt(LocalDateTime.now());
         crewMemberRepository.save(memberEntity);
     }
 

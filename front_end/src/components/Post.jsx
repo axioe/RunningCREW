@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Post.css"; // Post.css 경로 매칭
 import Header from "./common/Header"; // 프로젝트 공통 상단 GNB 헤더
+import useAuthStore from "./common/useAuthStore";
+import api from "../js/api";
 
 const Post = () => {
   const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
 
   // 상태 관리
   const [title, setTitle] = useState("");
@@ -22,16 +25,71 @@ const Post = () => {
 
   // 취소 버튼 클릭 핸들러
   const handleCancel = () => {
-    if (window.confirm("작성 중인 내용이 저장되지 않습니다. 취소하시겠습니까?")) {
-      navigate("/write"); 
+    if (
+      window.confirm("작성 중인 내용이 저장되지 않습니다. 취소하시겠습니까?")
+    ) {
+      navigate("/write");
     }
   };
 
+  function toLocalDateTime(date, time, ampm) {
+    let [hour, minute] = time.split(":").map(Number);
+  
+    if (ampm === "PM" && hour !== 12) hour += 12;
+    if (ampm === "AM" && hour === 12) hour = 0;
+
+    const hh = String(hour).padStart(2, "0");
+    const mm = String(minute).padStart(2, "0");
+
+    return `${date}T${hh}:${mm}:00`;
+  }
+
   // 작성하기 버튼 클릭 핸들러
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("DB 준비 중입니다.");
-    console.log({ title, content, date, time: `${ampm} ${timeNum}`, location, difficulty });
+    console.log({
+      title,
+      content,
+      date,
+      time: `${ampm} ${timeNum}`,
+      location,
+      difficulty,
+    });
+
+    let runningLevel = "LOW";
+    if (difficulty === "나무") runningLevel = "MEDIUM";
+    else if (difficulty === "숲") runningLevel = "HIGH";
+    try {
+      //  러닝코스 추가
+      const res = await api.post("/running/", {
+        spotName: location,
+        latitude: 0.0,
+        longitude: 0.0,
+        address: location,
+        facilityInfo: "",
+        runningLevel: runningLevel,
+        distance: 0.0,
+      });
+      const course_id = res.data.id;
+      const localDateTime = toLocalDateTime(date, timeNum, ampm);
+      console.log("course_id = " + course_id);
+      console.log("날짜시간 = " + localDateTime);
+      //  크루 추가
+      const crew_res = await api.post("/post/", {
+        userId: user.id,
+        title: title,
+        content: content,
+        maxPeople: 5,
+        courseId: course_id,
+        appliedAt: localDateTime,
+      });
+      const crew_id = crew_res.data.id;
+      console.log("crew_id = " + crew_id);
+      alert("작성하기 성공했습니다.");
+    } catch (e) {
+      console.error(e);
+      alert("작성하기 실패했습니다.");
+    }
   };
 
   return (
@@ -41,7 +99,6 @@ const Post = () => {
 
       {/* 메인 폼 컨테이너 (2단 분할 레이아웃 적용) */}
       <div className="post-form-container split-layout">
-        
         {/* [좌측 구역] 입력 폼 서브미션 */}
         <form onSubmit={handleSubmit} className="form-left-section">
           <div className="form-header">
@@ -126,7 +183,11 @@ const Post = () => {
                 onChange={(e) => setLocation(e.target.value)}
                 required
               />
-              <button type="button" onClick={handleMapClick} className="map-btn">
+              <button
+                type="button"
+                onClick={handleMapClick}
+                className="map-btn"
+              >
                 지도 보기
               </button>
             </div>
@@ -148,9 +209,13 @@ const Post = () => {
               ))}
             </div>
           </div>
-          
+
           {/* HTML5 유효성 검사를 작동시키기 위해 실제 form 내부에 숨겨둔 전송 트리거 */}
-          <button type="submit" id="hidden-submit-trigger" style={{ display: "none" }}></button>
+          <button
+            type="submit"
+            id="hidden-submit-trigger"
+            style={{ display: "none" }}
+          ></button>
         </form>
 
         {/* [우측 구역] 실시간 미리보기 & 액션 제어 사이드바 */}
@@ -168,26 +233,32 @@ const Post = () => {
                 <strong>장소 :</strong> {location || "미정"}
               </li>
               <li>
-                <strong>난이도 :</strong> <span className="highlight-text">{difficulty}</span>
+                <strong>난이도 :</strong>{" "}
+                <span className="highlight-text">{difficulty}</span>
               </li>
             </ul>
 
             {/* 버튼 그룹을 미리보기 카드 하단으로 일체화 디자인 */}
             <div className="sidebar-actions">
-              <button type="button" onClick={handleCancel} className="btn-cancel full-width">
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="btn-cancel full-width"
+              >
                 취소
               </button>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn-submit full-width"
-                onClick={() => document.getElementById("hidden-submit-trigger").click()}
+                onClick={() =>
+                  document.getElementById("hidden-submit-trigger").click()
+                }
               >
                 작성하기
               </button>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -16,11 +16,11 @@ const Login = () => {
       const password = formData.get("password");
 
       // 임시 admin 테스트 계정 생성
-      if(userId === "admin" && password === "1234"){
-        const fakeToken="Bearer fake-jwt-token-for-admin";
-        const fakeUserRole = "ROLE_ADMIN";
+      if (userId === "admin" && password === "1234") {
+        const fakeToken = "Bearer fake-jwt-token-for-admin";
+        const fakeUserRole = "ADMIN";
 
-        login({id:userId, role:fakeUserRole},fakeToken);
+        login({ id: userId, role: fakeUserRole }, fakeToken);
         alert("[테스트]관리자 계정 로그인.");
         navigate("/adminMain");
         return;
@@ -31,21 +31,23 @@ const Login = () => {
         password: password,
       });
       const token = res.headers.authorization;
-      const userRole = res.data.userRole;
+      const userRole = res.data.roleType;
+      const id = res.data.id;
 
-      console.log("토큰: ",token);
-      console.log("유저 권한: ",userRole);
+      console.log("토큰: ", token);
+      console.log("유저 권한: ", userRole);
+      console.log("id: ", id);
 
-      login({id:userId, role: userRole},token);
+      login({ userId: userId, role: userRole, id:id }, token);
 
-      if(userRole === "ROLE_ADMIN"){
+      if (userRole === "ADMIN") {
         alert("관리자 계정으로 로그인 성공.");
         navigate("/adminMain");
-      }else{
+      } else {
         alert("로그인이 완료되었습니다.");
         navigate("/");
       }
-    }catch(e){
+    } catch (e) {
       console.error(e);
       alert("로그인에 실패했습니다.");
     }
