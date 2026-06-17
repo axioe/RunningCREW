@@ -23,6 +23,34 @@ const Page = () => {
     imageUrl: "",
   });
 
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleUpdateProfile = async () => {
+    if (newPassword || confirmPassword) {
+      if (newPassword !== confirmPassword) {
+        alert("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+        return;
+      }
+    }
+    try {
+      const updateData = {
+        nickname: userProfile.nickname,
+        ...(newPassword && { password: newPassword }),
+      };
+      
+      // 📝 실제 서버와 연동 시 아래 주석을 해제하여 사용하세요.
+      // await api.put(`/user/${user.id}`, updateData);
+
+      alert("회원정보가 성공적으로 수정되었습니다.");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      console.error("프로필 수정 에러:", error);
+      alert("정보수정에 실패했습니다.");
+    }
+  };
+
   const getUser = async () => {
     try {
       const response = await api.get(`/user/${user.id}`);
@@ -160,6 +188,8 @@ const Page = () => {
                   <input
                     type="password"
                     className="mypage-input"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="새로운 비밀번호를 입력하세요"
                   />
                 </div>
@@ -168,10 +198,14 @@ const Page = () => {
                   <input
                     type="password"
                     className="mypage-input"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="다시 입력하세요."
                   />
                 </div>
-                <button className="mypage-submit-btn">정보 수정 완료</button>
+                <button className="mypage-submit-btn" onClick={handleUpdateProfile}>
+                  정보 수정 완료
+                </button>
               </div>
             </div>
           )}

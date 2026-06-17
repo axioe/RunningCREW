@@ -5,7 +5,8 @@ import useAuthStore from "./useAuthStore";
 
 const Header = () => {
   const navigate = useNavigate();
-  const token = useAuthStore.getState().accessToken;
+  
+  const token = useAuthStore((state) => state.accessToken);
   const logout = useAuthStore((state) => state.logout);
 
   console.log("token : " + token);
