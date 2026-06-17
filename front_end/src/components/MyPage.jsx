@@ -6,6 +6,43 @@ import MyPost from "./MyPage/MyPost";
 import TabContent from "./MyPage/TabContent";
 import useAuthStore from "./common/useAuthStore";
 import api from "../js/api";
+import axios from "axios";
+
+const fetchUser = async () => {
+  const userId = localStorage.getItem("userId");
+
+  const res = await axios.get(
+    `http://localhost:8080/user/getUser?user_id=${userId}`,
+  );
+
+  setUser(res.data);
+};
+
+const updateUser = async () => {
+  await axios.put(`http://localhost:8080/user/${user.id}`, {
+    userId: user.userId,
+    email: user.email,
+    nickName: user.nickName,
+    userLevel: user.userLevel,
+  });
+
+  alert("회원 정보 수정 완료");
+};
+
+const changePassword = async () => {
+  if (!newPassword) {
+    alert("비밀번호 입력 필요");
+    return;
+  }
+
+  await axios.post("http://localhost:8080/user/updatePassword", {
+    id: user.id,
+    password: newPassword,
+  });
+
+  alert("비밀번호 변경 완료");
+  setNewPassword("");
+};
 
 const Page = () => {
   const navigate = useNavigate();
@@ -29,7 +66,7 @@ const Page = () => {
   const handleUpdateProfile = async () => {
     if (newPassword || confirmPassword) {
       if (newPassword !== confirmPassword) {
-        alert("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+        alert("비밀번호가 일치하지 않습니다. 다시 확인해 주세요.");
         return;
       }
     }
@@ -38,16 +75,16 @@ const Page = () => {
         nickname: userProfile.nickname,
         ...(newPassword && { password: newPassword }),
       };
-      
+
       // 📝 실제 서버와 연동 시 아래 주석을 해제하여 사용하세요.
       // await api.put(`/user/${user.id}`, updateData);
 
-      alert("회원정보가 성공적으로 수정되었습니다.");
+      alert("회원 정보가 성공적으로 수정되었습니다.");
       setNewPassword("");
       setConfirmPassword("");
     } catch (error) {
       console.error("프로필 수정 에러:", error);
-      alert("정보수정에 실패했습니다.");
+      alert("정보 수정에 실패했습니다.");
     }
   };
 
@@ -203,7 +240,10 @@ const Page = () => {
                     placeholder="다시 입력하세요."
                   />
                 </div>
-                <button className="mypage-submit-btn" onClick={handleUpdateProfile}>
+                <button
+                  className="mypage-submit-btn"
+                  onClick={handleUpdateProfile}
+                >
                   정보 수정 완료
                 </button>
               </div>
