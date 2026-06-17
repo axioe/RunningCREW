@@ -28,7 +28,6 @@ const Crew = () => {
   const fetchCrewPostList = async () => {
     setLoading(true);
     try {
-      // CrewPostController 쪽에 요청할 엔드포인트 주소 설정
       const response = await axios.get("/post/list", {
         params: {
           tab: activeTab,
@@ -41,11 +40,18 @@ const Crew = () => {
       });
 
       if (response.data) {
-        // 백엔드에서 List<CrewPostMemberResponse> 형태로 내려온다고 가정하여 데이터 바인딩
-        const fetchedData = response.data || [];
-        setCrewList(fetchedData);
+        // 🎯 백엔드가 어떤 규격(순수 List, Page 객체, ResultResponse 등)으로 응답해도 배열을 뽑아내는 방어 로직
+        let fetchedData = [];
         
-        // 프론트엔드 단에서 가볍게 페이징 페이지 수 계산 (클라이언트 사이드 페이징 보완)
+        if (Array.isArray(response.data)) {
+          fetchedData = response.data;
+        } else if (response.data.content && Array.isArray(response.data.content)) {
+          fetchedData = response.data.content;
+        } else if (typeof response.data === "object") {
+          fetchedData = response.data.data || [];
+        }
+
+        setCrewList(Array.isArray(fetchedData) ? fetchedData : []);
         setTotalPages(Math.ceil((fetchedData.length || 1) / pageSize) || 1);
       } else {
         setCrewList([]);
@@ -60,7 +66,7 @@ const Crew = () => {
     }
   };
 
-  // 💡 탭이 바뀌거나 페이지가 바뀔 때, 혹은 필터 검색 시 실시간 연동
+  // 💡 탭이 바뀌거나 페이지가 바뀔 때 실시간 자동 연동
   useEffect(() => {
     fetchCrewPostList();
   }, [currentPage, activeTab]);
@@ -81,17 +87,19 @@ const Crew = () => {
     fetchCrewPostList();
   };
 
-  // 날짜 포맷팅 헬퍼 함수 (LocalDateTime 변환용)
+  // 날짜 포맷팅 헬퍼 함수 (LocalDateTime -> YYYY.MM.DD)
   const formatDate = (dateString) => {
     if (!dateString) return "날짜 정보 없음";
     const date = new Date(dateString);
     return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
   };
 
-  // 현재 페이지에 해당하는 데이터 조각 추출 (Client Pagination 슬라이싱)
+  // 현재 페이지에 해당하는 데이터 조각 추출 (배열 여부 확인 후 안전하게 슬라이싱)
   const indexOfLastItem = currentPage * pageSize;
   const indexOfFirstItem = indexOfLastItem - pageSize;
-  const currentItems = crewList.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = Array.isArray(crewList) 
+    ? crewList.slice(indexOfFirstItem, indexOfLastItem) 
+    : [];
 
   return (
     <div className="crw-global-container">
@@ -135,14 +143,14 @@ const Crew = () => {
               <div style={{ textAlign: "center", padding: "80px 0", color: "#16A34A", fontWeight: "bold" }}>
                 <i className="fa-solid fa-spinner fa-spin"></i> 크루 데이터를 실시간으로 조회 중입니다...
               </div>
-            ) : crewList.length === 0 ? (
-              // 🎯 [예외 처리] DB 데이터가 아예 없거나 검색 결과가 없을 때 표시할 화면
+            ) : (!currentItems || !Array.isArray(currentItems) || currentItems.length === 0) ? (
+              // 🎯 [예외 및 안전장치] currentItems가 없거나 빈 배열일 때 표출될 예외 처리 레이아웃
               <div style={{ textAlign: "center", padding: "100px 0", color: "#94a3b8", fontSize: "16px", fontWeight: "500" }}>
                 <i className="fa-solid fa-database" style={{ display: "block", fontSize: "32px", marginBottom: "12px", color: "#cbd5e1" }}></i>
                 DB 데이터가 없습니다.
               </div>
             ) : (
-              // 실시간 실제 데이터 루프 구역
+              // 🎯 [실시간 루프 구역] 오직 데이터가 확실한 '배열' 상태일 때만 안전하게 돌리는 맵
               currentItems.map((crew) => (
                 <div 
                   key={crew.id} 
@@ -161,11 +169,9 @@ const Crew = () => {
                       <span>📍 코스 ID: {crew.courseId}</span>
                       <span>📅 일정: {formatDate(crew.appliedAt)}</span>
                     </div>
-                    {/* 💡 CrewPostEntity 컬럼명 반영: content */}
                     <p className="row-item-sub-caption">{crew.content}</p>
                   </div>
                   <div className="crw-list-row-right-status">
-                    {/* 💡 CrewPostEntity 컬럼명 반영: maxPeople */}
                     <div className="ratio-number">
                       정원 <strong>{crew.maxPeople}</strong>명 제한
                     </div>
@@ -278,7 +284,7 @@ const Crew = () => {
         </aside>
       </main>
 
-      {/* 하단 브랜드 가치 바 */}
+      {/* 하단 디자인 바 */}
       <footer className="crw-footer-core-value-bar">
         <div className="value-item">
           <div className="value-icon">👥</div>
