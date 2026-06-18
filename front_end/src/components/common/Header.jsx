@@ -9,7 +9,7 @@ const Header = () => {
   const token = useAuthStore((state) => state.accessToken);
   const logout = useAuthStore((state) => state.logout);
 
-  console.log("token : " + token);
+ // console.log("token : " + token);
   const logoutProc = () => {
     logout();
     navigate("/");

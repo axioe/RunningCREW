@@ -45,4 +45,11 @@ public class RunningController {
 
         return runningService.findSpotName(page, size, spotName);
     }
+
+    @GetMapping("/getCourses")
+    public PageResponse<RunningResponse> findByAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+        return runningService.findByAll(page, size);
+    }
 }
