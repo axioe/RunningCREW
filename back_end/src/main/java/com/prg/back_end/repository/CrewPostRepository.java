@@ -39,6 +39,33 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
             """)
     List<CrewPostMemberResponse> searchByUserId(@Param("userId") Long userId);
 
+    @Query("""
+           select  new com.prg.back_end.dto.CrewPostMemberResponse(
+                p.id,
+                p.title,
+                p.content,
+                p.maxPeople,
+                m.crewRole,
+                m.status,
+                p.appliedAt,
+                r.spotName,
+                r.latitude,
+                r.longitude,
+                r.address,
+                r.facilityInfo,
+                r.runningLevel
+                )
+           from CrewPostEntity p
+              join CrewMemberEntity m
+              on p.id = m.postId
+              join RunningCourseEntity r
+              on r.id = p.courseId
+           where m.userId = :userId
+              and  m.crewRole = 'OWNER'
+              order by p.createdAt desc
+            """)
+    List<CrewPostMemberResponse> searchByUserIdOwner(@Param("userId") Long userId);
+
     @Query(value = """
            select p.id,
                 p.title,
@@ -61,7 +88,8 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
                 r.longitude,
                 r.address,
                 r.facility_info,
-                r.running_level
+                r.running_level,
+                p.applied_at
            from crew_post p
               join crew_member m
               on p.id = m.post_id
@@ -72,5 +100,6 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
              where m.crew_role = 'OWNER'
             """,
             nativeQuery = true)
+
     Page<Object[]> findAllCrewPosts(Pageable pageable);
 }

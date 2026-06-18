@@ -11,4 +11,5 @@ public class UserUpdateRequest {
     private String email;
     private String nickName;
     private UserLevel userLevel;
+    private String password;
 }
