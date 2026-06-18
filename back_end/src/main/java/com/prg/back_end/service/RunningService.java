@@ -88,4 +88,18 @@ public class RunningService {
         Page<RunningResponse>  response = runningCourse.map(running -> RunningResponse.from(running));
         return new PageResponse<>(response);
     }
+
+    public PageResponse<RunningResponse> findByAll( int page, int size){
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(
+                        Sort.Order.desc("createdAt"),
+                        Sort.Order.asc("spotName")
+                )
+        );
+        Page<RunningCourseEntity> runningCourse = runningCourseRepository.findAll(pageable);
+        Page<RunningResponse>  response = runningCourse.map(running -> RunningResponse.from(running));
+        return new PageResponse<>(response);
+    }
 }
