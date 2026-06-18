@@ -83,10 +83,16 @@ public class UserService {
         if(ObjectUtils.isEmpty(user))
             return null;
 
-        user.setUserId(request.getUserId());
-        user.setEmail(request.getEmail());
-        user.setNickName(request.getNickName());
-        user.setUserLevel(request.getUserLevel());
+        if(!ObjectUtils.isEmpty(request.getUserId()))
+            user.setUserId(request.getUserId());
+        if(!ObjectUtils.isEmpty(request.getEmail()))
+            user.setEmail(request.getEmail());
+        if(!ObjectUtils.isEmpty(request.getNickName()))
+            user.setNickName(request.getNickName());
+        if(!ObjectUtils.isEmpty(request.getUserLevel()))
+            user.setUserLevel(request.getUserLevel());
+        if(!ObjectUtils.isEmpty(request.getPassword()))
+            user.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
         UserEntity savedUser = userRepository.save(user);
 
         return UserResponse.from(savedUser);

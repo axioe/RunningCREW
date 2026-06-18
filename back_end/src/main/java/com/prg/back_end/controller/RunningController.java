@@ -5,9 +5,6 @@ import com.prg.back_end.dto.PageResponse;
 import com.prg.back_end.dto.RunningRequest;
 import com.prg.back_end.dto.RunningResponse;
 import com.prg.back_end.service.RunningService;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

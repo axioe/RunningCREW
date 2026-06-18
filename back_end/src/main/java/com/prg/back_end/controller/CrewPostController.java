@@ -39,8 +39,8 @@ public class CrewPostController {
         return "OK";
     }
 
-    @GetMapping("/user/{userId}")
-    public List<CrewPostMemberResponse> getOrdersSearchUserId(@PathVariable Long userId){
+    @GetMapping("/getAllByUserId")
+    public List<CrewPostMemberResponse> getOrdersSearchUserId(@RequestParam Long userId){
         return crewPostService.getOrdersByUserId(userId);
     }
 
@@ -48,5 +48,10 @@ public class CrewPostController {
     public String applied(@RequestBody CrewPostAppliedRequest request){
         crewPostService.insertPost(request);
         return "OK";
+    }
+
+    @GetMapping("/getByUserId")
+    public List<CrewPostMemberResponse> getOrdersSearchUserIdOwner(@RequestParam Long userId){
+        return crewPostService.getOrdersByUserIdOwner(userId);
     }
 }

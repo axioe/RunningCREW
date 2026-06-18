@@ -11,7 +11,6 @@ const Page = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
 
-  console.log(user?.id);
   // 현재 활성화된 서브 메뉴 탭 상태 관리 ('profile', 'crew', 'bookmark', 'post')
   const [activeTab, setActiveTab] = useState("profile");
 
@@ -35,12 +34,12 @@ const Page = () => {
     }
     try {
       const updateData = {
-        nickname: userProfile.nickname,
+        nickName: userProfile.nickname,
         ...(newPassword && { password: newPassword }),
       };
-      
+
       // 📝 실제 서버와 연동 시 아래 주석을 해제하여 사용하세요.
-      // await api.put(`/user/${user.id}`, updateData);
+      await api.put(`/user/${user.id}`, updateData);
 
       alert("회원정보가 성공적으로 수정되었습니다.");
       setNewPassword("");
@@ -66,8 +65,21 @@ const Page = () => {
     }
   };
 
+  let [crewPosts, setCrewPosts] = useState([]);
+  //  내 러닝 크루 현황
+  const getCrewPosts = async () => {
+    try {
+      const response = await api.get(`/post/getAllByUserId?userId=${user.id}`);
+      //console.log(response.data);
+      setCrewPosts(response.data);
+    } catch (error) {
+      console.log("Error : ", error);
+    }
+  };
+
   useEffect(() => {
     getUser();
+    getCrewPosts();
   }, []);
 
   return (
@@ -122,12 +134,12 @@ const Page = () => {
             >
               내 러닝 크루 현황
             </button>
-            <button
+            {/* <button
               className={`sidebar-menu-item ${activeTab === "bookmark" ? "active" : ""}`}
               onClick={() => setActiveTab("bookmark")}
             >
               북마크한 러닝 코스
-            </button>
+            </button> */}
             <button
               className={`sidebar-menu-item ${activeTab === "post" ? "active" : ""}`}
               onClick={() => setActiveTab("post")}
@@ -203,7 +215,10 @@ const Page = () => {
                     placeholder="다시 입력하세요."
                   />
                 </div>
-                <button className="mypage-submit-btn" onClick={handleUpdateProfile}>
+                <button
+                  className="mypage-submit-btn"
+                  onClick={handleUpdateProfile}
+                >
                   정보 수정 완료
                 </button>
               </div>
@@ -226,34 +241,36 @@ const Page = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="crew-name-cell">한강 여명 크루</td>
-                      <td>서울 여의도</td>
-                      <td>
-                        <span className="crew-level-tag level-beginner">
-                          새싹
-                        </span>
-                      </td>
-                      <td>
-                        <span className="status-badge badge-success">
-                          참여 중
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="crew-name-cell">남산 서밋 크루</td>
-                      <td>서울 용산</td>
-                      <td>
-                        <span className="crew-level-tag level-advanced">
-                          나무
-                        </span>
-                      </td>
-                      <td>
-                        <span className="status-badge badge-waiting">
-                          수락 대기 중
-                        </span>
-                      </td>
-                    </tr>
+                    {crewPosts.map((post, index) => {
+                      return (
+                        <tr key={index}>
+                          <td className="crew-name-cell">{post.title}</td>
+                          <td>{post.spotName}</td>
+                          <td>
+                            <span className="crew-level-tag level-beginner">
+                              {post.runningLevel === "HIGH"
+                                ? "숲"
+                                : post.runningLevel === "MEDIUM"
+                                  ? "나무"
+                                  : post.runningLevel === "LOW"
+                                    ? "새싹"
+                                    : ""}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="status-badge badge-success">
+                              {post.crewStatus === "PENDING"
+                                ? "수락 대기 중"
+                                : post.crewStatus === "APPROVED"
+                                  ? "승인"
+                                  : post.crewStatus === "CANCELLED"
+                                    ? "취소"
+                                    : ""}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

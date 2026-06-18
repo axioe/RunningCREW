@@ -1,50 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, Button } from "react-bootstrap";
+import useAuthStore from "../common/useAuthStore";
+import api from "../../js/api";
 
 export default function MyPost() {
   const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
 
   // 📌 실제 DB에서 가져온 데이터를 담을 상태 관리
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 📌 컴포넌트 마운트 시 백엔드 API로부터 내가 작성한 글 목록 로드
+  //  내가 작성한 글
+  const getCrewPostsOwner = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get(`/post/getByUserId?userId=${user.id}`);
+      //console.log(response.data);
+      setPosts(response.data);
+    } catch (error) {
+      console.log("Error : ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchMyPosts = async () => {
-      try {
-        setLoading(true);
-        // TODO: 실제 백엔드 엔드포인트 URI로 변경하세요. (예: "/api/posts/my")
-        // const response = await axios.get("/api/posts/my");
-        // setPosts(response.data);
-
-        // [테스트용 임시 더미 데이터 세팅] - DB 연동 시 이 선언부는 지우시면 됩니다.
-        const dummyData = [
-          {
-            id: 1,
-            title: "이번 주말 광교호수공원 야간 러닝 크루 모집합니다!",
-            date: "2026-06-14",
-            difficulty: "나무",
-          },
-          {
-            id: 2,
-            title: "초보자를 위한 탄천 5km 가볍게 뛰기",
-            date: "2026-06-18",
-            difficulty: "새싹",
-          },
-        ];
-        setPosts(dummyData);
-
-        // 만약 데이터가 없는 상태를 테스트하고 싶다면 아래 주석을 해제하세요.
-        // setPosts([]);
-      } catch (error) {
-        console.error("내가 작성한 글을 불러오는 중 오류 발생:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMyPosts();
+    getCrewPostsOwner();
   }, []);
 
   return (
@@ -107,20 +90,26 @@ export default function MyPost() {
                   {po.title}
                 </td>
                 <td className="text-muted" style={{ fontSize: "13px" }}>
-                  {po.date}
+                  {new Date(po.appliedAt).toLocaleDateString("ko-KR")}
                 </td>
                 <td>
                   <span
                     className={`badge ${
-                      po.difficulty === "새싹"
+                      po.runningLevel === "LOW"
                         ? "bg-success"
-                        : po.difficulty === "나무"
+                        : po.runningLevel === "MEDIUM"
                           ? "bg-primary"
                           : "bg-danger"
                     }`}
                     style={{ padding: "6px 10px", fontSize: "11px" }}
                   >
-                    {po.difficulty}
+                    {po.runningLevel === "HIGH"
+                      ? "숲"
+                      : po.runningLevel === "MEDIUM"
+                        ? "나무"
+                        : po.runningLevel === "LOW"
+                          ? "새싹"
+                          : ""}
                   </span>
                 </td>
               </tr>

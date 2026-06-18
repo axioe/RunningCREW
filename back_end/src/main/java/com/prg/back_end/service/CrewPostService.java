@@ -32,14 +32,14 @@ public class CrewPostService {
     }
 
     @Transactional
-    public ResultResponse create(CrewPostCreateRequest request){
+    public ResultResponse create(CrewPostCreateRequest request) {
         //  1. userId -> id 조회
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
-        if(ObjectUtils.isEmpty(user))
+        if (ObjectUtils.isEmpty(user))
             return null;
         //  2. running_course id 조회
         RunningCourseEntity courseEntity = runningCourseRepository.findById(request.getCourseId()).orElse(null);
-        if(ObjectUtils.isEmpty(courseEntity))
+        if (ObjectUtils.isEmpty(courseEntity))
             return null;
         //  3. crew_post insert
         CrewPostEntity postEntity = new CrewPostEntity();
@@ -63,7 +63,7 @@ public class CrewPostService {
 
     public ResultResponse findById(Long id) {
         CrewPostEntity postEntity = crewPostRepository.findById(id).orElse(null);
-        if(ObjectUtils.isEmpty(postEntity))
+        if (ObjectUtils.isEmpty(postEntity))
             return null;
 
         return ResultResponse.from(postEntity);
@@ -71,7 +71,7 @@ public class CrewPostService {
 
     public ResultResponse update(Long id, CrewPostUpdateRequest request) {
         CrewPostEntity postEntity = crewPostRepository.findById(id).orElse(null);
-        if(ObjectUtils.isEmpty(postEntity))
+        if (ObjectUtils.isEmpty(postEntity))
             return null;
         postEntity.setTitle(request.getTitle());
         postEntity.setContent(request.getContent());
@@ -84,7 +84,7 @@ public class CrewPostService {
 
     public void delete(Long id) {
         CrewPostEntity postEntity = crewPostRepository.findById(id).orElse(null);
-        if(ObjectUtils.isEmpty(postEntity))
+        if (ObjectUtils.isEmpty(postEntity))
             return;
 
         crewPostRepository.delete(postEntity);
@@ -104,7 +104,7 @@ public class CrewPostService {
         crewMemberRepository.save(memberEntity);
     }
 
-    public PageResponse<CrewPostResponse> findAllCrewPosts(int page, int size){
+    public PageResponse<CrewPostResponse> findAllCrewPosts(int page, int size) {
         Pageable pageable = PageRequest.of(
                 page, size,
                 Sort.by("created_at").descending()
@@ -115,5 +115,9 @@ public class CrewPostService {
                 post -> CrewPostResponse.toDto(post));
 
         return new PageResponse<>(response);
+    }
+
+    public List<CrewPostMemberResponse> getOrdersByUserIdOwner(Long userId) {
+        return crewPostRepository.searchByUserIdOwner(userId);
     }
 }
