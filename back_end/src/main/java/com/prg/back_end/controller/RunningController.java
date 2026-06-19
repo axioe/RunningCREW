@@ -4,6 +4,7 @@ import com.prg.back_end.dto.ResultResponse;
 import com.prg.back_end.dto.PageResponse;
 import com.prg.back_end.dto.RunningRequest;
 import com.prg.back_end.dto.RunningResponse;
+import com.prg.back_end.entity.RunningLevel;
 import com.prg.back_end.service.RunningService;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,11 @@ public class RunningController {
     @GetMapping("/getCourses")
     public PageResponse<RunningResponse> findByAll(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
-        return runningService.findByAll(page, size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam String address,
+            @RequestParam(defaultValue = "10") int distance,
+            @RequestParam String difficulty,
+            @RequestParam String sortType){
+        return runningService.findByAllFilter(page, size, address, distance, difficulty, sortType);
     }
 }

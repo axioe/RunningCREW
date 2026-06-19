@@ -1,11 +1,10 @@
 package com.prg.back_end.service;
 
-import com.prg.back_end.dto.ResultResponse;
-import com.prg.back_end.dto.PageResponse;
-import com.prg.back_end.dto.RunningRequest;
-import com.prg.back_end.dto.RunningResponse;
+import com.prg.back_end.dto.*;
 import com.prg.back_end.entity.RunningCourseEntity;
+import com.prg.back_end.entity.RunningLevel;
 import com.prg.back_end.repository.RunningCourseRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 @Service
+@Slf4j
 public class RunningService {
     private final RunningCourseRepository runningCourseRepository;
 
@@ -100,6 +100,49 @@ public class RunningService {
         );
         Page<RunningCourseEntity> runningCourse = runningCourseRepository.findAll(pageable);
         Page<RunningResponse>  response = runningCourse.map(running -> RunningResponse.from(running));
+        return new PageResponse<>(response);
+    }
+
+    public PageResponse<RunningResponse> findByAllFilter(
+            int page,
+            int size,
+            String address,
+            int distance,
+            String difficulty,
+            String sortType) {
+
+        Sort.Order order;
+        switch (sortType) {
+            case "latest":
+                order = Sort.Order.desc("created_at");
+                break;
+            case "name":
+                order = Sort.Order.asc("spot_name");
+                break;
+            default:
+                order = Sort.Order.desc("created_at");
+        }
+        Sort sort = Sort.by(order);
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                sort
+        );
+        if(ObjectUtils.isEmpty(address))
+            address = null;
+        if(difficulty.equals("새싹"))
+            difficulty = "LOW";
+        else if(difficulty.equals("나무"))
+            difficulty = "MEDIUM";
+        else if(difficulty.equals("숲"))
+            difficulty = "HIGH";
+        else
+            difficulty = null;
+
+        Page<Object[]> runningCourse = runningCourseRepository.findAllRunningCourses(address, distance, difficulty, pageable);
+
+        Page<RunningResponse> response = runningCourse.map(
+                post -> RunningResponse.toDto(post));
         return new PageResponse<>(response);
     }
 }

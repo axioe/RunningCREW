@@ -36,7 +36,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
 
         {/* 러닝 코스 상세 페이지 */}
-        <Route path="/course-detail/:id" element={<CourseDetail />} />
+        <Route path="/course-detail" element={<CourseDetail />} />
 
         {/* 글쓰기 페이지 */}
         <Route path="/write" element={<Post />} />

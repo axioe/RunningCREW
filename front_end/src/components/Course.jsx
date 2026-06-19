@@ -20,13 +20,25 @@ const Course = () => {
   // 필터 및 지역 검색 상태 정의
   const [city, setCity] = useState("");
   const [district, setDistrict] = useState("");
-  const [sortType, setSortType] = useState("최신순");
+  const [sortType, setSortType] = useState("latest");
+
+  //  거리, 난이도, 코스유형 상태 정의
+  const [distance, setDistance] = useState(10);
+  const [difficulty, setDifficulty] = useState("전체");
+  const [courseType, setCourseType] = useState("running");
+  const difficulties = ["전체", "새싹", "나무", "숲"];
+
+  const resetFilters = () => {
+    setDistance(10);
+    setDifficulty("전체");
+    setCourseType("running");
+  };
 
   // 백엔드 PublicSearchController 호출 함수
   const fetchPublicParks = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/public_park", {
+      const response = await api.get("/api/public_park", {
         params: {
           pageNo: currentPage,
           numOfRows: numOfRows,
@@ -41,7 +53,7 @@ const Course = () => {
         // 순수 DB/API 데이터만 UI 구조에 맞게 매핑 (가상 데이터 완전 제거)
         const mappedData = responseData.items.map((item, index) => ({
           id: index + 1 + currentPage * numOfRows,
-          type: "public_park",
+          type: courseType,
           title: item.parkNm, // 공원명
           address: item.lnmadr || "주소 정보 없음", // 소재지지번주소
           // 보유 시설 정보들을 조합하여 설명란에 바인딩
@@ -53,6 +65,18 @@ const Course = () => {
           latitude: item.latitude,
           longitude: item.longitude,
           distance: 0.0,
+          tagDetail: [
+            item.parkSe,
+            item.mvmFclty ? "운동시설 있음" : null,
+            item.cnvnncFclty ? "편익시설 있음" : null,
+          ].filter(Boolean),
+          descDetail:
+            `[보유 시설 세부 안내]\n` +
+            `- 운동시설: ${item.mvmFclty || "없음"}\n` +
+            `- 편익시설: ${item.cnvnncFclty || "없음"}\n` +
+            `- 교양/문화시설: ${item.cltrFclty || "없음"}\n\n` +
+            `관리기관 연락처: ${item.phoneNumber || "정보 없음"}`,
+          imageUrl: "",
         }));
 
         setCourses(mappedData);
@@ -70,12 +94,21 @@ const Course = () => {
     }
   };
 
+  //  기존 러닝 장소 API 호출
   const getRunningCourses = async () => {
     setLoading(true);
     try {
-      const response = await api.get(
-        `/running/getCourses?page=${currentPage}&size=${numOfRows}`,
-      );
+      const response = await api.get("/running/getCourses", {
+        params: {
+          page: currentPage,
+          size: numOfRows,
+          address: `${city} ${district}`.trim(), // 예: "서울특별시 성동구"
+          distance: distance,
+          difficulty: difficulty,
+          sortType: sortType,
+        },
+      });
+
       const responseData = response.data;
       console.log(response.data);
 
@@ -86,7 +119,7 @@ const Course = () => {
       ) {
         const mappedData = responseData.content.map((item, index) => ({
           id: item.id,
-          type: "private_park",
+          type: courseType,
           title: item.spotName, // 장소
           address: item.address || "주소 정보 없음", // 주소
           desc: item.facilityInfo,
@@ -94,6 +127,9 @@ const Course = () => {
           latitude: item.latitude,
           longitude: item.longitude,
           distance: item.distance,
+          tagDetail: [item.facility_info || "시설 정보 없음"],
+          descDetail: "",
+          imageUrl: "",
         }));
 
         setCourses(mappedData);
@@ -113,9 +149,12 @@ const Course = () => {
 
   // 페이지 번호나 자치구 변경 시 백엔드 API 재호출
   useEffect(() => {
-    // fetchPublicParks();
-    getRunningCourses();
-  }, [currentPage, district]);
+    if (courseType === "running") {
+      getRunningCourses();
+    } else {
+      fetchPublicParks();
+    }
+  }, [currentPage, district, courseType]);
 
   return (
     <div className="cr-page-global-container">
@@ -150,7 +189,6 @@ const Course = () => {
                 setDistrict("");
               }}
             >
-              {/* <option value="서울특별시">서울특별시</option> */}
               <option value="">시·도 선택</option>
               {Object.keys(regionData).map((sidoName) => (
                 <option key={sidoName} value={sidoName}>
@@ -176,13 +214,80 @@ const Course = () => {
                     {sigunguName}
                   </option>
                 ))}
-              {/* <option value="성동구">성동구</option>
-              <option value="영등포구">영등포구</option>
-              <option value="서초구">서초구</option>
-              <option value="송파구">송파구</option>
-              <option value="강남구">강남구</option> */}
             </select>
           </div>
+
+          {/* 거리 */}
+          <div className="section">
+            <label className="section-title">
+              거리 (선택: {distance}km 이내)
+            </label>
+
+            <input
+              type="range"
+              min="1"
+              max="20"
+              value={distance}
+              onChange={(e) => setDistance(Number(e.target.value))}
+              className="slider"
+            />
+
+            <div className="range-labels">
+              <span>1km</span>
+              <span>20km+</span>
+            </div>
+          </div>
+
+          {/* 난이도 */}
+          <div className="section">
+            <div className="section-title">난이도</div>
+
+            <div className="difficulty-buttons">
+              {difficulties.map((item) => (
+                <button
+                  key={item}
+                  className={`difficulty-btn ${
+                    difficulty === item ? "active" : ""
+                  }`}
+                  onClick={() => setDifficulty(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 코스 유형 */}
+          <div className="section">
+            <div className="section-title">코스 유형</div>
+
+            <label className="checkbox-item">
+              <input
+                type="radio"
+                name="courseType"
+                value="public"
+                checked={courseType === "public"}
+                onChange={(e) => setCourseType(e.target.value)}
+              />
+              공공체육시설
+            </label>
+
+            <label className="checkbox-item">
+              <input
+                type="radio"
+                name="courseType"
+                value="running"
+                checked={courseType === "running"}
+                onChange={(e) => setCourseType(e.target.value)}
+              />
+              기존 러닝 장소
+            </label>
+          </div>
+
+          {/* 초기화 */}
+          <button className="cr-filter-reset-action-btn" onClick={resetFilters}>
+            필터 초기화
+          </button>
         </aside>
 
         {/* [중앙 구역] 코스 추천 리스트 */}
@@ -198,7 +303,8 @@ const Course = () => {
               value={sortType}
               onChange={(e) => setSortType(e.target.value)}
             >
-              <option value="최신순">최신순</option>
+              <option value="latest">최신순</option>
+              <option value="name">장소명</option>
             </select>
           </div>
 
@@ -266,9 +372,11 @@ const Course = () => {
                       <button
                         className="cr-view-detail-action-btn"
                         onClick={() =>
-                          navigate(
-                            `/course-detail/${course.id}?district=${district}`,
-                          )
+                          navigate("/course-detail", {
+                            state: {
+                              course,
+                            },
+                          })
                         }
                       >
                         코스 상세 보기
@@ -318,8 +426,7 @@ const Course = () => {
           <div className="cr-map-api-frame-holder">
             <div className="cr-map-api-placeholder-box-v2">
               {<KakaoMap points={courses} />}
-              {/* <i className="fa-solid fa-map-location-dot map-placeholder-icon-v2">
-                {<KakaoMap />}
+              {/* <i className="fa-solid fa-map-location-dot map-placeholder-icon-v2">         
               </i> */}
               {/* <p>Kakao Map 연동 공간</p> */}
             </div>
