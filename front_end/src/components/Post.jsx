@@ -4,6 +4,7 @@ import "../css/Post.css"; // Post.css 경로 매칭
 import Header from "./common/Header"; // 프로젝트 공통 상단 GNB 헤더
 import useAuthStore from "./common/useAuthStore";
 import api from "../js/api";
+import CourseModal from "./CourseModal";
 
 const Post = () => {
   const navigate = useNavigate();
@@ -17,12 +18,31 @@ const Post = () => {
   const [ampm, setAmpm] = useState("AM");
   const [location, setLocation] = useState("");
   const [difficulty, setDifficulty] = useState("새싹");
+  const [address, setAddress] = useState("");
+  const [latitude, setLatitude] = useState(0.0);
+  const [longitude, setLongitude] = useState(0.0);
+  const [facilityInfo, setFacilityInfo] = useState("");
+  const [distance, setDistance] = useState(0.0);
+  const [mvmFclty, setMvmFclty] = useState(false);
+  const [cnvnncFclty, setCnvnncFclty] = useState(false);
+  const [cltrFclty, setCltrFclty] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  // 지도 API 버튼 클릭 핸들러
-  const handleMapClick = () => {
-    alert("API 연동 준비 중입니다.");
+  // 주소 검색 열기
+  const openPostcode = () => {
+    if (!window.daum || !window.daum.Postcode) {
+      alert("카카오 주소 API가 로드되지 않았습니다.");
+      return;
+    }
+
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        setAddress(data.address);
+      },
+    }).open();
   };
 
+  const handleMapClick = () => {};
   // 취소 버튼 클릭 핸들러
   const handleCancel = () => {
     if (
@@ -34,7 +54,7 @@ const Post = () => {
 
   function toLocalDateTime(date, time, ampm) {
     let [hour, minute] = time.split(":").map(Number);
-  
+
     if (ampm === "PM" && hour !== 12) hour += 12;
     if (ampm === "AM" && hour === 12) hour = 0;
 
@@ -63,12 +83,12 @@ const Post = () => {
       //  러닝코스 추가
       const res = await api.post("/running/", {
         spotName: location,
-        latitude: 0.0,
-        longitude: 0.0,
-        address: location,
-        facilityInfo: "",
+        latitude: latitude,
+        longitude: longitude,
+        address: address,
+        facilityInfo: facilityInfo,
         runningLevel: runningLevel,
-        distance: 0.0,
+        distance: distance,
       });
       const course_id = res.data.id;
       const localDateTime = toLocalDateTime(date, timeNum, ampm);
@@ -185,11 +205,100 @@ const Post = () => {
               />
               <button
                 type="button"
-                onClick={handleMapClick}
+                onClick={() => setOpen(true)}
                 className="map-btn"
               >
-                지도 보기
+                러닝 코스 검색
               </button>
+              {open && <CourseModal open={open} setOpen={setOpen} />}
+            </div>
+          </div>
+          {/* 주소 */}
+          <div className="form-row">
+            <label htmlFor="location">주소</label>
+            <div className="location-input-wrapper">
+              <input
+                type="text"
+                id="address"
+                className="form-input"
+                placeholder="주소를 클릭해서 선택하세요."
+                value={address}
+                onChange={openPostcode}
+                required
+              />
+              <button type="button" onClick={openPostcode} className="map-btn">
+                주소 검색
+              </button>
+            </div>
+          </div>
+
+          {/* 경도/위도 */}
+          <div className="form-row">
+            <label>경도</label>
+            <div className="time-picker-wrapper">
+              <input
+                type="text"
+                placeholder="경도"
+                value={longitude}
+                onChange={(e) => setLongitude(e.target.value)}
+                className="form-input time-input"
+                required
+              />
+              <input
+                type="text"
+                placeholder="위도"
+                value={latitude}
+                onChange={(e) => setLatitude(e.target.value)}
+                className="form-input time-input"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="filter-group">
+            <label>보유 시설</label>
+            <div className="checkbox-grid-layout">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={mvmFclty}
+                  onChange={(e) => setMvmFclty(e.target.checked)}
+                />{" "}
+                운동시설
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={cnvnncFclty}
+                  onChange={(e) => setCnvnncFclty(e.target.checked)}
+                />{" "}
+                편익시설
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={cltrFclty}
+                  onChange={(e) => setCltrFclty(e.target.checked)}
+                />{" "}
+                교양/문화시설
+              </label>
+            </div>
+          </div>
+
+          <div className="filter-group">
+            <label>거리 (최대: {distance}km)</label>
+            <input
+              type="range"
+              min="1"
+              max="20"
+              step="1"
+              value={distance}
+              onChange={(e) => setDistance(Number(e.target.value))}
+              className="distance-slider"
+            />
+            <div className="slider-labels">
+              <span>1km</span>
+              <span>20km+</span>
             </div>
           </div>
 
