@@ -1,0 +1,176 @@
+/* 전체 레이아웃 래퍼 */
+.main-wrapper {
+  min-height: 100vh;
+  background-color: #f8f9fa; /* 기존 러닝크루 앱의 기본 배경색 톤에 맞춤 */
+}
+
+/* 중앙 정렬용 내부 콘텐츠 박스 */
+.safety-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px; /* 기존 상하 여백과 정렬 규격 일치 */
+  box-sizing: border-box;
+}
+
+/* 헤더 소개 영역 */
+.safety-header {
+  margin-bottom: 28px;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 20px;
+}
+
+.safety-header h2 {
+  font-size: 22px;
+  color: #212529;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 6px 0;
+  font-weight: 700;
+}
+
+.safety-header h2 i {
+  color: #e63946; /* 포인트 경고 색상 */
+}
+
+.safety-header p {
+  color: #6c757d;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* 상단 카드 대시보드 */
+.safety-summary {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  width: 110px;
+  padding: 12px 0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.summary-card.critical { background: #ffe3e3; color: #dc3545; }
+.summary-card.warn { background: #fff3bf; color: #f08c00; }
+.summary-card.info { background: #e3fafc; color: #0c8599; }
+
+.summary-title { font-size: 12px; margin-bottom: 4px; font-weight: 500; }
+.summary-count { font-size: 16px; font-weight: 700; }
+
+/* 세션 컴포넌트 헤더 바 */
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.section-title h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #495057;
+  font-weight: 600;
+}
+
+/* 새로고침 버튼 스타일 (기존 모집글 서브버튼 톤에 매칭) */
+.refresh-btn {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #495057;
+  transition: all 0.15s ease-in-out;
+}
+
+.refresh-btn:hover {
+  background: #f1f3f5;
+  border-color: #ced4da;
+}
+
+/* 알림 아이템 카드 컴포넌트 */
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.alert-item {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  align-items: flex-start;
+  transition: transform 0.2s;
+}
+
+.alert-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* 등급별 좌측 인디케이터 컬러 포인트 */
+.alert-item.critical { border-left: 4px solid #dc3545; }
+.alert-item.warn { border-left: 4px solid #f08c00; }
+.alert-item.info { border-left: 4px solid #0c8599; }
+
+.alert-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.alert-item.critical .alert-badge { background: #dc3545; color: #ffffff; }
+.alert-item.warn .alert-badge { background: #f08c00; color: #ffffff; }
+.alert-item.info .alert-badge { background: #0c8599; color: #ffffff; }
+
+.alert-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.alert-title {
+  margin: 0;
+  font-size: 16px;
+  color: #212529;
+  font-weight: 600;
+}
+
+.alert-text {
+  margin: 0;
+  font-size: 14px;
+  color: #495057;
+  line-height: 1.6;
+}
+
+.alert-time {
+  font-size: 12px;
+  color: #868e96;
+  margin-top: 2px;
+}
+
+.safety-loading {
+  text-align: center;
+  padding: 60px;
+  color: #868e96;
+  font-size: 14px;
+}
