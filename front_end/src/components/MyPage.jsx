@@ -121,29 +121,8 @@ const Page = () => {
 
   return (
     <div className="nature-runner-main-wrapper nature-runner-mypage-wrapper">
-      {/* 1. 상단 GNB 영역 */}
-      <header className="main-gnb-header">
-        <div className="logo-area" onClick={() => navigate("/")}>
-          <span className="logo-green-text">Running </span> Crew
-        </div>
-        <nav className="nav-menu-bar">
-          <button className="menu-btn" onClick={() => navigate("/")}>
-            홈
-          </button>
-          <button className="menu-btn" onClick={() => navigate("/course")}>
-            러닝 코스
-          </button>
-          <button className="menu-btn" onClick={() => navigate("/crew")}>
-            크루 모집
-          </button>
-          <button
-            className="menu-btn active"
-            onClick={() => navigate("/mypage")}
-          >
-            마이페이지
-          </button>
-        </nav>
-      </header>
+
+      <Header />
 
       {/* 2. 메인 바디 (2단 분할 레이아웃) */}
       <div className="mypage-container">
