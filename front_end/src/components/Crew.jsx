@@ -35,17 +35,20 @@ const Crew = () => {
           distance: distance,
           difficulty: difficulty,
           status: recruitmentStatus,
-          sort: sortOrder
-        }
+          sort: sortOrder,
+        },
       });
 
       if (response.data) {
         // 🎯 백엔드가 어떤 규격(순수 List, Page 객체, ResultResponse 등)으로 응답해도 배열을 뽑아내는 방어 로직
         let fetchedData = [];
-        
+
         if (Array.isArray(response.data)) {
           fetchedData = response.data;
-        } else if (response.data.content && Array.isArray(response.data.content)) {
+        } else if (
+          response.data.content &&
+          Array.isArray(response.data.content)
+        ) {
           fetchedData = response.data.content;
         } else if (typeof response.data === "object") {
           fetchedData = response.data.data || [];
@@ -97,8 +100,8 @@ const Crew = () => {
   // 현재 페이지에 해당하는 데이터 조각 추출 (배열 여부 확인 후 안전하게 슬라이싱)
   const indexOfLastItem = currentPage * pageSize;
   const indexOfFirstItem = indexOfLastItem - pageSize;
-  const currentItems = Array.isArray(crewList) 
-    ? crewList.slice(indexOfFirstItem, indexOfLastItem) 
+  const currentItems = Array.isArray(crewList)
+    ? crewList.slice(indexOfFirstItem, indexOfLastItem)
     : [];
 
   return (
@@ -109,7 +112,8 @@ const Crew = () => {
       <section className="crw-hero-banner">
         <div className="crw-banner-inner">
           <h1>
-            함께 달릴 <span className="highlight-green">크루</span>를 찾아보세요!
+            함께 달릴 <span className="highlight-green">크루</span>를
+            찾아보세요!
           </h1>
           <p>
             다양한 러닝 크루가 여러분을 기다리고 있어요.
@@ -128,38 +132,74 @@ const Crew = () => {
               <button
                 key={tab}
                 className={activeTab === tab ? "active" : ""}
-                onClick={() => { setActiveTab(tab); setCurrentPage(1); }}
+                onClick={() => {
+                  setActiveTab(tab);
+                  setCurrentPage(1);
+                }}
               >
                 {tab} 모집글
               </button>
             ))}
-            <button className="crw-write-post-btn" style={{ marginLeft: "auto" }} onClick={() => navigate("/write")}>
+            <button
+              className="crw-write-post-btn"
+              style={{ marginLeft: "auto" }}
+              onClick={() => navigate("/write")}
+            >
               <i className="fa-solid fa-plus"></i> 모집글 작성하기
             </button>
           </div>
 
           <div className="crw-list-items-stack">
             {loading ? (
-              <div style={{ textAlign: "center", padding: "80px 0", color: "#16A34A", fontWeight: "bold" }}>
-                <i className="fa-solid fa-spinner fa-spin"></i> 크루 데이터를 실시간으로 조회 중입니다...
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "80px 0",
+                  color: "#16A34A",
+                  fontWeight: "bold",
+                }}
+              >
+                <i className="fa-solid fa-spinner fa-spin"></i> 크루 데이터를
+                실시간으로 조회 중입니다...
               </div>
-            ) : (!currentItems || !Array.isArray(currentItems) || currentItems.length === 0) ? (
+            ) : !currentItems ||
+              !Array.isArray(currentItems) ||
+              currentItems.length === 0 ? (
               // 🎯 [예외 및 안전장치] currentItems가 없거나 빈 배열일 때 표출될 예외 처리 레이아웃
-              <div style={{ textAlign: "center", padding: "100px 0", color: "#94a3b8", fontSize: "16px", fontWeight: "500" }}>
-                <i className="fa-solid fa-database" style={{ display: "block", fontSize: "32px", marginBottom: "12px", color: "#cbd5e1" }}></i>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "100px 0",
+                  color: "#94a3b8",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                }}
+              >
+                <i
+                  className="fa-solid fa-database"
+                  style={{
+                    display: "block",
+                    fontSize: "32px",
+                    marginBottom: "12px",
+                    color: "#cbd5e1",
+                  }}
+                ></i>
                 DB 데이터가 없습니다.
               </div>
             ) : (
               // 🎯 [실시간 루프 구역] 오직 데이터가 확실한 '배열' 상태일 때만 안전하게 돌리는 맵
               currentItems.map((crew) => (
-                <div 
-                  key={crew.id} 
-                  className="crw-list-row-item" 
-                  onClick={() => navigate(`/post/${crew.id}`)} 
+                <div
+                  key={crew.id}
+                  className="crw-list-row-item"
+                  onClick={() => navigate(`/post/${crew.id}`)}
                   style={{ cursor: "pointer" }}
                 >
                   <div className="crw-list-row-img-placeholder">
-                    <i className="fa-solid fa-users" style={{ fontSize: "24px", color: "#94a3b8" }}></i>
+                    <i
+                      className="fa-solid fa-users"
+                      style={{ fontSize: "24px", color: "#94a3b8" }}
+                    ></i>
                   </div>
                   <div className="crw-list-row-details">
                     <div className="title-row-line">
@@ -192,19 +232,23 @@ const Crew = () => {
             >
               &lt;
             </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-              <button
-                key={pageNum}
-                className={`pg-num-btn ${currentPage === pageNum ? "active" : ""}`}
-                onClick={() => setCurrentPage(pageNum)}
-              >
-                {pageNum}
-              </button>
-            ))}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+              (pageNum) => (
+                <button
+                  key={pageNum}
+                  className={`pg-num-btn ${currentPage === pageNum ? "active" : ""}`}
+                  onClick={() => setCurrentPage(pageNum)}
+                >
+                  {pageNum}
+                </button>
+              ),
+            )}
             <button
               className="pg-arrow"
               disabled={currentPage >= totalPages}
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
             >
               &gt;
             </button>
@@ -222,7 +266,11 @@ const Crew = () => {
 
           <div className="crw-filter-widget">
             <label>지역</label>
-            <select className="crw-dropdown-box" value={region} onChange={(e) => setRegion(e.target.value)}>
+            <select
+              className="crw-dropdown-box"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
+            >
               <option value="전체 지역">전체 지역</option>
               <option value="서울특별시">서울특별시</option>
               <option value="경기도">경기도</option>
@@ -263,7 +311,11 @@ const Crew = () => {
 
           <div className="crw-filter-widget">
             <label>모집 현황</label>
-            <select className="crw-dropdown-box" value={recruitmentStatus} onChange={(e) => setRecruitmentStatus(e.target.value)}>
+            <select
+              className="crw-dropdown-box"
+              value={recruitmentStatus}
+              onChange={(e) => setRecruitmentStatus(e.target.value)}
+            >
               <option value="전체">전체</option>
               <option value="모집중">모집중</option>
               <option value="만료">만료</option>
@@ -272,13 +324,20 @@ const Crew = () => {
 
           <div className="crw-filter-widget">
             <label>정렬</label>
-            <select className="crw-dropdown-box" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+            <select
+              className="crw-dropdown-box"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+            >
               <option value="최신순">최신순</option>
               <option value="인기순">인기순</option>
             </select>
           </div>
 
-          <button className="crw-search-action-btn" onClick={handleSearchSubmit}>
+          <button
+            className="crw-search-action-btn"
+            onClick={handleSearchSubmit}
+          >
             <i className="fa-solid fa-magnifying-glass"></i> 검색하기
           </button>
         </aside>
