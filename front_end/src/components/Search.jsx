@@ -226,7 +226,7 @@ const Search = () => {
           <div className="tab-menu">
             <button className="active">전체</button>
             <button onClick={() => navigate("/course")}>러닝 코스</button>
-            <button onClick={() => navigate("/")}>러닝 크루</button>
+            <button onClick={() => navigate("/crew")}>러닝 크루</button>
             <button>공공체육시설</button>
           </div>
 

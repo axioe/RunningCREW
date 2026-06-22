@@ -124,7 +124,7 @@ const Page = () => {
       {/* 1. 상단 GNB 영역 */}
       <header className="main-gnb-header">
         <div className="logo-area" onClick={() => navigate("/")}>
-          <span className="logo-green-text">Nature</span> Runner
+          <span className="logo-green-text">Running </span> Crew
         </div>
         <nav className="nav-menu-bar">
           <button className="menu-btn" onClick={() => navigate("/")}>

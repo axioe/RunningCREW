@@ -2,7 +2,6 @@
 .cr-hero-illustration-banner {
   background:
     linear-gradient(rgba(22, 163, 74, 0.08), rgba(22, 163, 74, 0.03)),
-    url("https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=1920")
       no-repeat center/40%;
   background-color: #e2f0e7;
   padding: 35px 50px;

@@ -39,6 +39,9 @@ const Header = () => {
           <button className="menu-btn" onClick={() => navigate("/crew")}>
             크루 모집
           </button>
+          <button className="menu-btn" onClick={() => navigate("/safety")}>
+            실시간 재난 속보
+          </button>
           <button className="menu-btn" onClick={() => navigate("/mypage")}>
             마이페이지
           </button>

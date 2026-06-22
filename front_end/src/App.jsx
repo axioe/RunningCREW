@@ -12,6 +12,7 @@ import LoginSearch from "./components/login/LoginSearch.jsx";
 import CourseDetail from "./components/CourseDetail.jsx";
 import AdminPage from "./components/admin/AdminPage.jsx";
 import useAuthStore from "./components/common/useAuthStore.jsx";
+import PublicSafety from "./components/PublicSafety.jsx";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -49,6 +50,9 @@ function App() {
 
         {/* 회원가입 전용 경로 */}
         <Route path="/signup" element={<SignUp />} />
+
+        {/* 재난안전 전용 경로 */}
+        <Route path="/safety" element={<PublicSafety/>} />
 
         {/* 관리자 페이지 전용 독립 경로 */}
         <Route
