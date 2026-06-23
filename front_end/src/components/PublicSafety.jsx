@@ -25,11 +25,12 @@ const PublicSafety = () => {
           responseData?.body ||
           [];
 
-        const normalizedAlerts = alertList.map((item, index) => {
-          // 공공 API 원본 필드명
-          // 프로젝트 DTO에서 변환한 이름이 있다면 그에 맞추어 아래 필드명을 수정
+        const filteredRawList = alertList.filter((item) => {
+          const typeName = item.dstSeNm || item.DST_SE_NM || "";
+          return typeName !== "기타"; 
+        });
+        const normalizedAlerts = filteredRawList.map((item, index) => {
           const msgContent = item.msgCn || item.MSG_CN || "";
-
           // 긴급도 판별 로직
           let level = "INFO";
           if (

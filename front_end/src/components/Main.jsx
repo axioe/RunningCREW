@@ -99,7 +99,8 @@ const Main = () => {
 
         <article className="dashboard-card-widget">
           <div className="card-widget-header">
-            <h3>오늘의 기상 정보</h3>
+            <h3>실시간 재난 속보</h3>
+            <button className="card-more-link" onClick={() => navigate("/safety")}>더보기</button>
           </div>
           <div className="card-widget-body">
             <div className="main-weather-box">
