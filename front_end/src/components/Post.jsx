@@ -27,6 +27,7 @@ const Post = () => {
   const [cnvnncFclty, setCnvnncFclty] = useState(false);
   const [cltrFclty, setCltrFclty] = useState(false);
   const [open, setOpen] = useState(false);
+  const [memberPeople, setMemberPeople] = useState(0);
 
   // 주소 검색 열기
   const openPostcode = () => {
@@ -67,18 +68,31 @@ const Post = () => {
   // 작성하기 버튼 클릭 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
+    /* console.log({
       title,
       content,
       date,
       time: `${ampm} ${timeNum}`,
       location,
       difficulty,
-    });
+    });*/
 
     let runningLevel = "LOW";
     if (difficulty === "나무") runningLevel = "MEDIUM";
     else if (difficulty === "숲") runningLevel = "HIGH";
+
+    let info = "";
+    if (mvmFclty) info = "운동시설";
+    if (cnvnncFclty && info.length > 0) {
+      info += "/";
+      info += "편익시설";
+    }
+    if (cltrFclty && info.length > 0) {
+      info += "/";
+      info += "문화시설";
+    }
+    setFacilityInfo(info);
+
     try {
       //  러닝코스 추가
       const res = await api.post("/running/", {
@@ -92,24 +106,37 @@ const Post = () => {
       });
       const course_id = res.data.id;
       const localDateTime = toLocalDateTime(date, timeNum, ampm);
-      console.log("course_id = " + course_id);
-      console.log("날짜시간 = " + localDateTime);
+      //console.log("course_id = " + course_id);
+      //console.log("날짜시간 = " + localDateTime);
       //  크루 추가
       const crew_res = await api.post("/post/", {
         userId: user.id,
         title: title,
         content: content,
-        maxPeople: 5,
+        maxPeople: memberPeople,
         courseId: course_id,
         appliedAt: localDateTime,
       });
       const crew_id = crew_res.data.id;
-      console.log("crew_id = " + crew_id);
+      //console.log("crew_id = " + crew_id);
       alert("작성하기 성공했습니다.");
     } catch (e) {
       console.error(e);
       alert("작성하기 실패했습니다.");
     }
+  };
+
+  const handleSelectCourse = (course) => {
+    setLocation(course.title);
+    setAddress(course.address);
+    let difficulty = "새싹";
+    if (course.runningLevel === "MEDIUM") difficulty = "나무";
+    else if (course.runningLevel === "HIGH") difficulty = "숲";
+    setDifficulty(difficulty);
+    setLatitude(course.latitude);
+    setLongitude(course.longitude);
+    setDistance(course.distance);
+    setOpen(false);
   };
 
   return (
@@ -210,7 +237,12 @@ const Post = () => {
               >
                 러닝 코스 검색
               </button>
-              {open && <CourseModal open={open} setOpen={setOpen} />}
+              {open && (
+                <CourseModal
+                  setOpen={setOpen}
+                  onSelectCourse={handleSelectCourse}
+                />
+              )}
             </div>
           </div>
           {/* 주소 */}
@@ -255,6 +287,19 @@ const Post = () => {
             </div>
           </div>
 
+          <div className="form-row">
+            <label className="form-label">인원수</label>
+            <input
+              type="number"
+              min="1"
+              max="100"
+              className="form-input"
+              value={memberPeople}
+              onChange={(e) => setMemberPeople(e.target.value)}
+              placeholder="인원수를 입력하세요"
+            />
+          </div>
+
           <div className="filter-group">
             <label>보유 시설</label>
             <div className="checkbox-grid-layout">
@@ -280,7 +325,7 @@ const Post = () => {
                   checked={cltrFclty}
                   onChange={(e) => setCltrFclty(e.target.checked)}
                 />{" "}
-                교양/문화시설
+                문화시설
               </label>
             </div>
           </div>
@@ -342,6 +387,13 @@ const Post = () => {
                 <strong>장소 :</strong> {location || "미정"}
               </li>
               <li>
+                <strong>거리 :</strong> {distance} km
+              </li>
+
+              <li>
+                <strong>인원수 :</strong> {memberPeople}
+              </li>
+              <li>
                 <strong>난이도 :</strong>{" "}
                 <span className="highlight-text">{difficulty}</span>
               </li>
@@ -359,9 +411,9 @@ const Post = () => {
               <button
                 type="button"
                 className="btn-submit full-width"
-                onClick={() =>
-                  document.getElementById("hidden-submit-trigger").click()
-                }
+                onClick={() => {
+                  document.getElementById("hidden-submit-trigger").click();
+                }}
               >
                 작성하기
               </button>

@@ -1,199 +1,202 @@
 import api from "../js/api";
-import { useState } from "react";
-import { Table, Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Table, Button, Pagination } from "react-bootstrap";
+import "../css/CourseModal.css";
+import { Search, X } from "lucide-react";
 
-function CourseModal({ open, setOpen }) {
+function CourseModal({ setOpen, onSelectCourse }) {
   const [spotName, setSpotName] = useState("");
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
-  const numOfRows = 4; // 한 페이지에 보여줄 코스 개수
+  const [selectedId, setSelectedId] = useState(null);
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [pageCount, setPageCount] = useState(4);
 
   const searchSpotName = async () => {
+    if (spotName.length <= 0) return;
     setLoading(true);
     try {
       const response = await api.get("/running/getSpots", {
         params: {
-          page: currentPage,
-          size: numOfRows,
+          page: page,
+          size: pageCount,
           spot_name: spotName,
         },
       });
 
       const responseData = response.data;
-      console.log(response.data);
+      //console.log(response.data);
 
       if (
         responseData &&
         responseData.content &&
         responseData.content.length > 0
       ) {
-        const mappedData = responseData.content.map((item, index) => ({
-          id: item.id,
-          type: courseType,
-          title: item.spotName, // 장소
-          address: item.address || "주소 정보 없음", // 주소
-          desc: item.facilityInfo,
-          tag: "기존 장소",
-          latitude: item.latitude,
-          longitude: item.longitude,
-          distance: item.distance,
-          tagDetail: [item.facility_info || "시설 정보 없음"],
-          descDetail: "",
-          imageUrl: "",
-        }));
-
-        setCourses(mappedData);
-        setTotalCount(responseData.totalElements || 0);
-      } else {
-        setCourses([]);
-        setTotalCount(0);
+        setCourses(responseData.content);
+        setTotalPage(responseData.totalPages || 0);
       }
     } catch (error) {
       console.error(error);
+      setPage(0);
+      setTotalPage(0);
       setCourses([]);
-      setTotalCount(0);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleConfirm = () => {
+    if (!selectedId) return;
+    const course = courses.find((item) => item.id === selectedId);
+    onSelectCourse(course);
+  };
+
+  useEffect(() => {
+    searchSpotName();
+  }, [page]);
+
+  const pageGroup = Math.floor(page / pageCount);
+  const startPage = pageGroup * pageCount;
+  const endPage = Math.min(startPage + pageCount, totalPage);
+
   return (
-    <div
-      className={`modal fade ${open ? "show d-block" : ""}`}
-      tabIndex="-1"
-      style={{
-        backgroundColor: open ? "rgba(0,0,0,0.5)" : "transparent",
-      }}
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        {/* header */}
-        <div className="modal-content bg-white border-0 shadow-lg rounded-4">
-          <div className="modal-header border-0">
-            <h5 className="modal-title fw-bold">러닝코스 검색</h5>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={() => setOpen(false)}
+    <div className="modal-overlay">
+      <div className="modal-container">
+        {/* Header */}
+        <div className="modal-header">
+          <h2>러닝코스 검색</h2>
+          <button className="icon-btn" onClick={() => setOpen(false)}>
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Search */}
+        <div className="search-section">
+          <div className="search-box">
+            <Search size={18} />
+            <input
+              type="text"
+              placeholder="장소명 또는 코스명을 입력하세요"
+              value={spotName}
+              onChange={(e) => {
+                setSpotName(e.target.value);
+              }}
             />
           </div>
 
-          {/* body */}
-          <div className="modal-body">
-            <div className="d-flex align-items-center gap-2">
-              <input className="form-control" placeholder="장소명 검색" />
-              <button
-                className="btn btn-success"
-                style={{
-                  whiteSpace: "nowrap",
-                }}
-                onClick={() => searchSpotName()}
-              >
-                검색
-              </button>
-            </div>
-            {/* 로딩 중 가이드 */}
-            {loading ? (
-              <div className="text-center py-5 text-muted">
-                데이터를 불러오는 중입니다...
-              </div>
-            ) : (
-              <Table
-                hover
-                responsive
-                style={{ borderTop: "2px solid #10B981" }}
-              >
-                <thead>
-                  <tr
-                    style={{ backgroundColor: "#f9fafb", textAlign: "center" }}
-                  >
-                    <th style={{ width: "8%" }}>번호</th>
-                    <th>제목</th>
-                    <th style={{ width: "15%" }}>장소명</th>
-                    <th style={{ width: "15%" }}>주소</th>
-                    <th style={{ width: "10%" }}>거리</th>
-                    <th style={{ width: "10%" }}>난이도</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {courses.map((po, index) => (
-                    <tr
-                      key={po.id || index}
-                      style={{ verticalAlign: "middle", textAlign: "center" }}
-                    >
-                      <td>{index + 1}</td>
-                      {/* 제목 부분만 좌측 정렬 및 링크 효과 */}
-                      <td
-                        style={{
-                          textAlign: "left",
-                          cursor: "pointer",
-                          fontWeight: "500",
-                        }}
-                        className="text-dark"
-                      >
-                        {po.spotName}
-                      </td>
-                      <td
-                        style={{
-                          textAlign: "left",
-                          cursor: "pointer",
-                          fontWeight: "500",
-                        }}
-                        className="text-dark"
-                      >
-                        {po.address}
-                      </td>
-                      <td
-                        style={{
-                          textAlign: "left",
-                          cursor: "pointer",
-                          fontWeight: "500",
-                        }}
-                        className="text-dark"
-                      >
-                        {po.distance}
-                      </td>
-                      <td className="text-muted" style={{ fontSize: "13px" }}>
-                        {new Date(po.createdAt).toLocaleDateString("ko-KR")}
-                      </td>
-                      <td>
-                        <span
-                          className={`badge ${
-                            po.runningLevel === "LOW"
-                              ? "bg-success"
-                              : po.runningLevel === "MEDIUM"
-                                ? "bg-primary"
-                                : "bg-danger"
-                          }`}
-                          style={{ padding: "6px 10px", fontSize: "11px" }}
-                        >
-                          {po.runningLevel === "HIGH"
-                            ? "숲"
-                            : po.runningLevel === "MEDIUM"
-                              ? "나무"
-                              : po.runningLevel === "LOW"
-                                ? "새싹"
-                                : ""}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            )}
-            {/* footer */}
-            <div className="modal-footer border-0">
-              <button
-                className="btn btn-outline-secondary"
-                onClick={() => setOpen(false)}
-              >
-                닫기
-              </button>
+          <button
+            className="search-btn"
+            onClick={(e) => {
+              e.preventDefault();
+              searchSpotName();
+            }}
+          >
+            검색
+          </button>
+        </div>
 
-              <button className="btn btn-success">선택</button>
-            </div>
-          </div>
+        {/* Table */}
+        <div className="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>장소명</th>
+                <th>주소</th>
+                <th>거리</th>
+                <th>난이도</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {courses.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="empty-row">
+                    검색 결과가 없습니다.
+                  </td>
+                </tr>
+              ) : (
+                courses.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className={selectedId === item.id ? "selected-row" : ""}
+                    onClick={() => setSelectedId(item.id)}
+                  >
+                    <td>{page * pageCount + (index + 1)}</td>
+                    <td>{item.spotName}</td>
+                    <td>{item.address}</td>
+                    <td>{item.distance} km</td>
+                    {/* <td>{item.runningLevel}</td> */}
+                    <td>
+                      <span className="highlight-text">
+                        {item.runningLevel === "HIGH"
+                          ? "숲"
+                          : item.runningLevel === "MEDIUM"
+                            ? "나무"
+                            : item.runningLevel === "LOW"
+                              ? "새싹"
+                              : ""}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* 페이지 네이션 시작 */}
+        <div className="d-flex justify-content-center mt-4">
+          <Pagination>
+            <Pagination.First
+              disabled={page < pageCount}
+              onClick={() => {
+                if (page > pageCount) setPage(page - pageCount);
+              }}
+            />
+            <Pagination.Prev
+              disabled={page == 0}
+              onClick={() => {
+                if (page > 0) setPage(page - 1);
+              }}
+            />
+            {[...Array(endPage - startPage)].map((_, index) => {
+              const pageNumber = startPage + index;
+              return (
+                <Pagination.Item
+                  key={pageNumber}
+                  active={page == pageNumber}
+                  onClick={() => setPage(pageNumber)}
+                >
+                  {pageNumber + 1}
+                </Pagination.Item>
+              );
+            })}
+            <Pagination.Next
+              disabled={page == totalPage - 1}
+              onClick={() => {
+                if (page < totalPage - 1) setPage(page + 1);
+              }}
+            />
+            <Pagination.Last
+              disabled={page >= totalPage - pageCount}
+              onClick={() => {
+                if (page < totalPage - pageCount) setPage(page + pageCount);
+              }}
+            />
+          </Pagination>
+        </div>
+        {/* 페이지 네이션 종료 */}
+
+        {/* Footer */}
+        <div className="modal-footer">
+          <button className="cancel-btn" onClick={() => setOpen(false)}>
+            닫기
+          </button>
+          <button className="select-btn" onClick={handleConfirm}>
+            선택하기
+          </button>
         </div>
       </div>
     </div>
