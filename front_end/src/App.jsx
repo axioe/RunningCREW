@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Main from "./components/Main.jsx";
 import Course from "./components/Course.jsx";
 import Search from "./components/Search.jsx";
@@ -58,10 +58,13 @@ function App() {
         <Route
           path="/adminMain"
           element={
-            userRole === "ROLE_ADMIN" ? (
-              <AdminPage />
+            user?.role &&(
+              user.role.toUpperCase() === "ROLE_ADMIN" ||
+              user.role.toUpperCase() === "ADMIN"
+            )?(
+              <AdminPage/>
             ) : (
-              <Navigation to="/Login" replace />
+              <Navigate to="/Login" replace />
             )
           }
         />
