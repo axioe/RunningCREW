@@ -50,6 +50,11 @@ safety:
     api:
       key: ${SAFETY_REST_API_KEY}
 
+emergency:
+  rest:
+    api:
+      key: ${EMERGENCY_REST_API_KEY}
+
 file:
   upload-path: uploads
 
