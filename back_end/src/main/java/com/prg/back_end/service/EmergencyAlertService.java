@@ -15,7 +15,7 @@ public class EmergencyAlertService {
 
     private final RestTemplate restTemplate;
 
-    private final static String DATA_LOCAL_URL = "https://apis.data.go.kr/1741000/DisasterMsg3/getDisasterMsg3List";
+    private final static String DATA_LOCAL_URL = "https://www.safetydata.go.kr/V2/api/DSSP-IF-00247";
 
     @Value("${emergency.rest.api.key}")
     private String emergencyrestapikey;
@@ -29,7 +29,7 @@ public class EmergencyAlertService {
                 .queryParam("serviceKey", emergencyrestapikey)
                 .queryParam("pageNo", pageNo)
                 .queryParam("numOfRows", numOfRows)
-                .queryParam("type", "json"); /
+                .queryParam("type", "json");
 
         URI uri = urlBuilder.build().encode().toUri();
 

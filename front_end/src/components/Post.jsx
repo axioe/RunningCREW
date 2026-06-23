@@ -266,7 +266,7 @@ const Post = () => {
 
           {/* 경도/위도 */}
           <div className="form-row">
-            <label>경도</label>
+            <label>경도 / 위도</label>
             <div className="time-picker-wrapper">
               <input
                 type="text"
@@ -399,7 +399,6 @@ const Post = () => {
               </li>
             </ul>
 
-            {/* 버튼 그룹을 미리보기 카드 하단으로 일체화 디자인 */}
             <div className="sidebar-actions">
               <button
                 type="button"
