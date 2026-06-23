@@ -58,3 +58,13 @@ emergency:
 file:
   upload-path: uploads
 
+cloud:
+  aws:
+    region: ap-northeast-2
+
+    s3:
+      bucket: ${AWS_BUCKET}
+
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}

@@ -66,7 +66,7 @@ public class UserService {
         String imageUrl = "";
         ImageEntity imageEntity = imageRepository.findByUserId(user.getId());
         if(!ObjectUtils.isEmpty(imageEntity))
-            imageUrl = imageEntity.getImageUrl();
+            imageUrl = imageEntity.getStoredFileName();
 
         return UserResponse.from(user, imageUrl);
     }
