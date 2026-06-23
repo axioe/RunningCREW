@@ -74,7 +74,7 @@ const Course = () => {
             `[보유 시설 세부 안내]\n` +
             `- 운동시설: ${item.mvmFclty || "없음"}\n` +
             `- 편익시설: ${item.cnvnncFclty || "없음"}\n` +
-            `- 교양/문화시설: ${item.cltrFclty || "없음"}\n\n` +
+            `- 문화시설: ${item.cltrFclty || "없음"}\n\n` +
             `관리기관 연락처: ${item.phoneNumber || "정보 없음"}`,
           imageUrl: "",
         }));
