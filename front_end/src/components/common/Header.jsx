@@ -42,10 +42,13 @@ const Header = () => {
           <button className="menu-btn" onClick={() => navigate("/safety")}>
             실시간 재난 속보
           </button>
+        {token &&(
           <button className="menu-btn" onClick={() => navigate("/mypage")}>
             마이페이지
           </button>
+        )}
         </nav>
+
 
         {/* 로그인/회원가입 버튼 영역 */}
         <div className="gnb-user-actions">
