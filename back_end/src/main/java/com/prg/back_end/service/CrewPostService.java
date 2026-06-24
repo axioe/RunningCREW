@@ -120,4 +120,18 @@ public class CrewPostService {
     public List<CrewPostMemberResponse> getOrdersByUserIdOwner(Long userId) {
         return crewPostRepository.searchByUserIdOwner(userId);
     }
+
+    public PageResponse<CrewPostResponse> findBestCrewPosts(int page, int size) {
+        Pageable pageable = PageRequest.of(
+                page, size,
+                Sort.by("created_at").descending()
+        );
+        Page<Object[]> posts = crewPostRepository.findBestCrewPosts(pageable);
+
+        Page<CrewPostResponse> response = posts.map(
+                post -> CrewPostResponse.toDto(post));
+
+        return new PageResponse<>(response);
+    }
+
 }

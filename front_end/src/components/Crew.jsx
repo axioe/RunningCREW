@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/Crew.css";
 import Header from "./common/Header";
+import api from "../js/api";
 
 const Crew = () => {
   const navigate = useNavigate();
@@ -28,16 +29,34 @@ const Crew = () => {
   const fetchCrewPostList = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("/post/list", {
-        params: {
-          tab: activeTab,
-          region: region,
-          distance: distance,
-          difficulty: difficulty,
-          status: recruitmentStatus,
-          sort: sortOrder,
-        },
-      });
+      let response;
+      if (activeTab === "인기") {
+        response = await api.get("/post/best_list", {
+          params: {
+            // tab: activeTab,
+            // region: region,
+            // distance: distance,
+            // difficulty: difficulty,
+            // status: recruitmentStatus,
+            // sort: sortOrder,
+            page: currentPage - 1,
+            size: pageSize,
+          },
+        });
+      } else {
+        response = await api.get("/post/list", {
+          params: {
+            // tab: activeTab,
+            // region: region,
+            // distance: distance,
+            // difficulty: difficulty,
+            // status: recruitmentStatus,
+            // sort: sortOrder,
+            page: currentPage - 1,
+            size: pageSize,
+          },
+        });
+      }
 
       if (response.data) {
         // 🎯 백엔드가 어떤 규격(순수 List, Page 객체, ResultResponse 등)으로 응답해도 배열을 뽑아내는 방어 로직
@@ -206,8 +225,8 @@ const Crew = () => {
                       <h5>{crew.title}</h5>
                     </div>
                     <div className="horizontal-spec-infos">
-                      <span>📍 코스 ID: {crew.courseId}</span>
-                      <span>📅 일정: {formatDate(crew.appliedAt)}</span>
+                      {/* <span>📍 코스 ID: {crew.courseId}</span> */}
+                      <span>📅 일정: {formatDate(crew.createdAt)}</span>
                     </div>
                     <p className="row-item-sub-caption">{crew.content}</p>
                   </div>
