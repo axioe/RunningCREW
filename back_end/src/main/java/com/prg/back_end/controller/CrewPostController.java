@@ -61,4 +61,11 @@ public class CrewPostController {
             @RequestParam(defaultValue = "10") int size){
         return crewPostService.findAllCrewPosts(page,  size);
     }
+
+    @GetMapping("/best_list")
+    public PageResponse<CrewPostResponse> findBestCrewPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+        return crewPostService.findBestCrewPosts(page,  size);
+    }
 }

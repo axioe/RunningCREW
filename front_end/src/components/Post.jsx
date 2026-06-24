@@ -121,7 +121,7 @@ const Post = () => {
       });
       const crew_id = crew_res.data.id;
       //console.log("crew_id = " + crew_id);
-      uploadImage(crew_id);
+      uploadImage(course_id);
       alert("작성하기 성공했습니다.");
     } catch (e) {
       console.error(e);
@@ -129,21 +129,21 @@ const Post = () => {
     }
   };
 
-  const uploadImage = async (crew_id) => {
+  const uploadImage = async (course_id) => {
     try {
       const formData = new FormData();
 
-      formData.append("post_id", crew_id);
+      formData.append("course_id", course_id);
       if (image) {
         formData.append("file", image);
       }
 
-      const response = await api.post("/images_post", formData, {
+      const response = await api.post("/images_course", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response.data);
+      //console.log(response.data);
     } catch (error) {
       console.error(error);
       alert("이미지 등록 실패했습니다.");

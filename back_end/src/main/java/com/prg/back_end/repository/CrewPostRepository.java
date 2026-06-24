@@ -66,40 +66,138 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
             """)
     List<CrewPostMemberResponse> searchByUserIdOwner(@Param("userId") Long userId);
 
-    @Query(value = """
-           select p.id,
-                p.title,
-                p.content,
-                p.max_people,
-                p.created_at,
-                u.id,
-                u.user_id,
-                u.nick_name,
-                m.status,
-                (
-                    select count(m1.id)
-                     from crew_post p1
-                     join crew_member m1
-                     on p1.id = m1.post_id
-                     where p.id = p1.id
-                ),
-                r.spot_name,
-                r.latitude,
-                r.longitude,
-                r.address,
-                r.facility_info,
-                r.running_level,
-                p.applied_at
-           from crew_post p
-              join crew_member m
-              on p.id = m.post_id
-              join running_course r
-              on r.id = p.course_id
-              join user u
-              on m.user_id = u.id
-             where m.crew_role = 'OWNER'
+//    @Query(value = """
+//           select p.id,
+//                p.title,
+//                p.content,
+//                p.max_people,
+//                p.created_at,
+//                u.id,
+//                u.user_id,
+//                u.nick_name,
+//                m.status,
+//                (
+//                    select count(*)
+//                    from crew_member m1
+//                        where m1.post_id = p.id
+//                ) as member_count,
+//                r.spot_name,
+//                r.latitude,
+//                r.longitude,
+//                r.address,
+//                r.facility_info,
+//                r.running_level,
+//                p.applied_at
+//           from crew_post p
+//              join crew_member m
+//              on p.id = m.post_id
+//              join running_course r
+//              on r.id = p.course_id
+//              join user u
+//              on m.user_id = u.id
+//             where m.crew_role = 'OWNER'
+//            """,
+//            nativeQuery = true)
+                @Query(value = """
+                   select
+                        p.id,
+                        p.title,
+                        p.content,
+                        p.max_people,
+                        p.created_at,
+                        u.id as user_pk,
+                        u.user_id,
+                        u.nick_name,
+                        m.status,
+                        count(cm.id) as member_count,
+                        r.spot_name,
+                        r.latitude,
+                        r.longitude,
+                        r.address,
+                        r.facility_info,
+                        r.running_level,
+                        p.applied_at
+                    from crew_post p
+                    join crew_member m
+                        on p.id = m.post_id
+                    join running_course r
+                        on r.id = p.course_id
+                    join `user` u
+                        on m.user_id = u.id
+                    left join crew_member cm
+                        on cm.post_id = p.id
+                    where m.crew_role = 'OWNER'
+                    group by
+                        p.id,
+                        p.title,
+                        p.content,
+                        p.max_people,
+                        p.created_at,
+                        u.id,
+                        u.user_id,
+                        u.nick_name,
+                        m.status,
+                        r.spot_name,
+                        r.latitude,
+                        r.longitude,
+                        r.address,
+                        r.facility_info,
+                        r.running_level,
+                        p.applied_at
             """,
             nativeQuery = true)
 
     Page<Object[]> findAllCrewPosts(Pageable pageable);
+
+    @Query(value = """
+            select
+                                                   p.id,
+                                                   p.title,
+                                                   p.content,
+                                                   p.max_people,
+                                                   p.created_at,
+                                                   u.id as user_pk,
+                                                   u.user_id,
+                                                   u.nick_name,
+                                                   m.status,
+                                                   count(cm.id) as member_count,
+                                                   r.spot_name,
+                                                   r.latitude,
+                                                   r.longitude,
+                                                   r.address,
+                                                   r.facility_info,
+                                                   r.running_level,
+                                                   p.applied_at
+                                               from crew_post p
+                                               join crew_member m
+                                                   on p.id = m.post_id
+                                               join running_course r
+                                                   on r.id = p.course_id
+                                               join `user` u
+                                                   on m.user_id = u.id
+                                               left join crew_member cm
+                                                   on cm.post_id = p.id
+                                               where m.crew_role = 'OWNER'
+                                               group by
+                                                   p.id,
+                                                   p.title,
+                                                   p.content,
+                                                   p.max_people,
+                                                   p.created_at,
+                                                   u.id,
+                                                   u.user_id,
+                                                   u.nick_name,
+                                                   m.status,
+                                                   r.spot_name,
+                                                   r.latitude,
+                                                   r.longitude,
+                                                   r.address,
+                                                   r.facility_info,
+                                                   r.running_level,
+                                                   p.applied_at
+                                               order by member_count desc
+            """,
+            nativeQuery = true)
+
+    Page<Object[]> findBestCrewPosts(Pageable pageable);
 }
