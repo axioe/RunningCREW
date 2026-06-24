@@ -3,6 +3,7 @@ package com.prg.back_end.controller;
 import com.prg.back_end.service.ImageService;
 import com.prg.back_end.service.S3Service;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,9 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class ImageController {
-    private final ImageService imageService;
+   // private final ImageService imageService;
     private final S3Service s3Service;
 /*
     @PostMapping("/images")
@@ -36,9 +38,19 @@ public class ImageController {
         return ResponseEntity.ok(imageId);
     }
 
-    @GetMapping("/images/{fileName}")
+    @PostMapping("/images_course")
+    public ResponseEntity<Long> uploadS3Course(
+            @RequestParam("course_id") Long courseId,
+            @RequestParam MultipartFile file
+    ) throws IOException {
+
+        Long imageId = s3Service.uploadCourse(courseId, file);
+        return ResponseEntity.ok(imageId);
+    }
+
+    @GetMapping("/images/download")
     public ResponseEntity<byte[]> download(
-            @PathVariable String fileName) {
+            @RequestParam("file_name") String fileName) {
 
         byte[] imageBytes = s3Service.downloadImage(fileName);
         return ResponseEntity.ok()

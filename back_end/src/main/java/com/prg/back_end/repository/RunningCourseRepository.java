@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 public interface RunningCourseRepository extends JpaRepository<RunningCourseEntity, Long> {
     Page<RunningCourseEntity> findBySpotNameContaining(String keyword, Pageable pageable);
     @Query(value = """
-           select id,
+           select c.id,
                 spot_name,
                 latitude,
                 longitude,
@@ -19,8 +19,11 @@ public interface RunningCourseRepository extends JpaRepository<RunningCourseEnti
                 running_level,
                 distance,
                 created_at,
-                updated_at
-           from running_course
+                updated_at,
+                i.stored_file_name
+            from running_course c
+            left join image_course i
+              on c.id = i.course_id
               where (:distance IS NULL OR distance <= :distance)
               AND (:difficulty IS NULL OR running_level = :difficulty)
               AND (:address IS NULL OR address LIKE CONCAT('%', :address, '%'))

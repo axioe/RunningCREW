@@ -2,7 +2,7 @@
 .cr-hero-illustration-banner {
   background:
     linear-gradient(rgba(22, 163, 74, 0.08), rgba(22, 163, 74, 0.03)),
-      no-repeat center/40%;
+    no-repeat center/40%;
   background-color: #e2f0e7;
   padding: 35px 50px;
   border-bottom: 1px solid #d1ebd9;
@@ -630,3 +630,17 @@
   height: 16px;
 }
 
+.course-image {
+  position: relative;
+  width: 200px;
+  min-width: 200px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.course-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}

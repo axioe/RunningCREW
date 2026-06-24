@@ -12,6 +12,7 @@ const Course = () => {
 
   // API 데이터 및 페이징 상태 정의
   const [courses, setCourses] = useState([]);
+  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -129,18 +130,20 @@ const Course = () => {
           distance: item.distance,
           tagDetail: [item.facility_info || "시설 정보 없음"],
           descDetail: "",
-          imageUrl: "",
+          imageUrl: item.imageUrl,
         }));
 
         setCourses(mappedData);
         setTotalCount(responseData.totalElements || 0);
       } else {
         setCourses([]);
+        setImages([]);
         setTotalCount(0);
       }
     } catch (error) {
       console.error(error);
       setCourses([]);
+      setImages([]);
       setTotalCount(0);
     } finally {
       setLoading(false);
@@ -155,6 +158,39 @@ const Course = () => {
       fetchPublicParks();
     }
   }, [currentPage, district, courseType]);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        const results = await Promise.all(
+          courses.map(async (course) => {
+            if (!course.imageUrl) {
+              return null;
+            }
+            const response = await api.get("/images/download", {
+              params: {
+                file_name: course.imageUrl,
+              },
+              responseType: "blob",
+            });
+
+            const blobUrl = URL.createObjectURL(response.data);
+            //console.log("blobUrl : " + blobUrl);
+            return [course.id, blobUrl];
+          }),
+        );
+
+        const imageMap = Object.fromEntries(
+          results.filter((item) => item !== null),
+        );
+
+        setImages(imageMap);
+      } catch (error) {
+        console.error("이미지 다운로드 실패", error);
+      }
+    };
+    loadImages();
+  }, [courses]);
 
   return (
     <div className="cr-page-global-container">
@@ -347,14 +383,23 @@ const Course = () => {
             <div className="cr-cards-vertical-stack">
               {courses.map((course) => (
                 <div key={course.id} className="cr-item-row-card">
-                  <div
-                    className="cr-card-thumbnail-area"
-                    style={{ backgroundColor: "#f1f5f9" }}
-                  >
-                    <span className="cr-card-inline-tag tag-facility">
-                      {course.tag}
-                    </span>
-                  </div>
+                  {images[course.id] ? (
+                    <div className="course-image">
+                      <img src={images[course.id]} alt={course.title} />
+                      <span className="cr-card-inline-tag tag-facility">
+                        {course.tag}
+                      </span>
+                    </div>
+                  ) : (
+                    <div
+                      className="cr-card-thumbnail-area"
+                      style={{ backgroundColor: "#f1f5f9" }}
+                    >
+                      <span className="cr-card-inline-tag tag-facility">
+                        {course.tag}
+                      </span>
+                    </div>
+                  )}
                   <div className="cr-card-main-details">
                     <div className="cr-card-title-line">
                       <h5>{course.title}</h5>

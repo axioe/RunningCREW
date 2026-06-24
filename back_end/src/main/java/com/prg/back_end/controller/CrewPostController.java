@@ -54,4 +54,11 @@ public class CrewPostController {
     public List<CrewPostMemberResponse> getOrdersSearchUserIdOwner(@RequestParam Long userId){
         return crewPostService.getOrdersByUserIdOwner(userId);
     }
+
+    @GetMapping("/list")
+    public PageResponse<CrewPostResponse> findAllCrewPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+        return crewPostService.findAllCrewPosts(page,  size);
+    }
 }

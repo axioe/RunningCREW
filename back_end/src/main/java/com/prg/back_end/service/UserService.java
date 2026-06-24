@@ -55,7 +55,12 @@ public class UserService {
         UserEntity user = userRepository.findById(id).orElse(null);
         if(ObjectUtils.isEmpty(user))
             return null;
-        return UserResponse.from(user);
+        String imageUrl = "";
+        ImageEntity imageEntity = imageRepository.findByUserId(user.getId());
+        if(!ObjectUtils.isEmpty(imageEntity))
+            imageUrl = imageEntity.getStoredFileName();
+
+        return UserResponse.from(user, imageUrl);
     }
 
     public UserResponse findByUserId(String userId) {

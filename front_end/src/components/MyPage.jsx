@@ -61,6 +61,7 @@ const Page = () => {
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [image, setImage] = useState(null);
 
   const handleUpdateProfile = async () => {
     if (newPassword || confirmPassword) {
@@ -119,9 +120,30 @@ const Page = () => {
     getCrewPosts();
   }, []);
 
+  useEffect(() => {
+    const loadImage = async () => {
+      try {
+        if (!userProfile.imageUrl) return;
+        const response = await api.get("/images/download", {
+          params: {
+            file_name: userProfile.imageUrl,
+          },
+          responseType: "blob",
+        });
+
+        const blobUrl = URL.createObjectURL(response.data);
+        //console.log("blobUrl : " + blobUrl);
+
+        setImage(blobUrl);
+      } catch (error) {
+        console.error("이미지 다운로드 실패", error);
+      }
+    };
+    loadImage();
+  }, [userProfile]);
+
   return (
     <div className="nature-runner-main-wrapper nature-runner-mypage-wrapper">
-
       <Header />
 
       {/* 2. 메인 바디 (2단 분할 레이아웃) */}
@@ -129,10 +151,18 @@ const Page = () => {
         {/* [본문 좌측 섹션: 프로필 카드 & 서브 메뉴] */}
         <aside className="mypage-sidebar">
           <div className="sidebar-profile-card">
-            <div className="profile-avatar">
-              {/* 기본 아바타 아이콘 대체용 placeholder */}
-              <div className="avatar-placeholder">🏃‍♂️</div>
-            </div>
+            {image ? (
+              <div className="profile-area">
+                <div className="profile-image">
+                  <img src={image} alt="프로필" />
+                </div>
+              </div>
+            ) : (
+              <div className="profile-avatar">
+                {/* 기본 아바타 아이콘 대체용 placeholder */}
+                <div className="avatar-placeholder">🏃‍♂️</div>
+              </div>
+            )}
             <h3 className="profile-nickname">{userProfile.nickname}</h3>
             <span className="profile-role-tag">{userProfile.role}</span>
           </div>

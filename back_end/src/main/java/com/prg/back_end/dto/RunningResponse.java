@@ -25,6 +25,7 @@ public class RunningResponse {
     private double distance;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String imageUrl;
 
     public static RunningResponse from(RunningCourseEntity data){
         return RunningResponse.builder()
@@ -38,6 +39,7 @@ public class RunningResponse {
                 .distance(data.getDistance())
                 .createdAt(data.getCreatedAt())
                 .updatedAt(data.getUpdatedAt())
+                .imageUrl("")
                 .build();
     }
 
@@ -52,7 +54,8 @@ public class RunningResponse {
                 RunningLevel.valueOf((String) row[6]),
                 ((Number) row[7]).doubleValue(),
                 ((Timestamp) row[8]).toLocalDateTime(),
-                ((Timestamp) row[9]).toLocalDateTime()
+                ((Timestamp) row[9]).toLocalDateTime(),
+                (String) row[10]
                 );
     }
 }

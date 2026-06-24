@@ -28,6 +28,8 @@ const Post = () => {
   const [cltrFclty, setCltrFclty] = useState(false);
   const [open, setOpen] = useState(false);
   const [memberPeople, setMemberPeople] = useState(0);
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState("");
 
   // 주소 검색 열기
   const openPostcode = () => {
@@ -119,10 +121,32 @@ const Post = () => {
       });
       const crew_id = crew_res.data.id;
       //console.log("crew_id = " + crew_id);
+      uploadImage(crew_id);
       alert("작성하기 성공했습니다.");
     } catch (e) {
       console.error(e);
       alert("작성하기 실패했습니다.");
+    }
+  };
+
+  const uploadImage = async (crew_id) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("post_id", crew_id);
+      if (image) {
+        formData.append("file", image);
+      }
+
+      const response = await api.post("/images_post", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+      alert("이미지 등록 실패했습니다.");
     }
   };
 
@@ -137,6 +161,25 @@ const Post = () => {
     setLongitude(course.longitude);
     setDistance(course.distance);
     setOpen(false);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
+  };
+
+  const handleRemoveImage = () => {
+    setImage(null);
+    setPreview("");
+
+    const fileInput = document.getElementById("imageUpload");
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   return (
@@ -178,6 +221,47 @@ const Post = () => {
               onChange={(e) => setContent(e.target.value)}
               required
             />
+          </div>
+
+          {/* 이미지 등록 */}
+          <div className="form-row">
+            <label className="form-label fw-bold mb-2">러닝코스 이미지</label>
+
+            <input
+              id="imageUpload"
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={handleImageChange}
+            />
+
+            <label htmlFor="imageUpload" className="image-upload-box">
+              {preview ? (
+                <div className="preview-wrapper">
+                  <img src={preview} alt="preview" className="preview-image" />
+
+                  <button
+                    type="button"
+                    className="remove-image-btn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleRemoveImage();
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ) : (
+                <div className="upload-content">
+                  <div className="upload-plus">+</div>
+                  <div className="upload-title">이미지 등록</div>
+                  <div className="upload-desc">
+                    클릭하여 이미지를 선택하세요
+                  </div>
+                </div>
+              )}
+            </label>
           </div>
 
           {/* 날짜 */}
@@ -266,7 +350,10 @@ const Post = () => {
 
           {/* 경도/위도 */}
           <div className="form-row">
-            <label>경도 / 위도</label>
+            <div className="checkbox-grid-layout">
+              <label>경도</label>
+              <label>위도</label>
+            </div>
             <div className="time-picker-wrapper">
               <input
                 type="text"
