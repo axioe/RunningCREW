@@ -71,7 +71,6 @@ const Crew = () => {
     }
   };
 
-  // 🌟 [수정] 의존성 배열에서 currentPage를 제거합니다.
   // 페이지 이동 시 API를 다시 찌르는 것이 아니라 프론트엔드에서 계산된 배열 조각만 바꿔 띄우기 위함입니다.
   useEffect(() => {
     fetchCrewPostList();
@@ -108,8 +107,7 @@ const Crew = () => {
       <section className="crw-hero-banner">
         <div className="crw-banner-inner">
           <h1>
-            함께 달릴 <span className="highlight-green">크루</span>를
-            찾아보세요!
+            함께 달릴 <span className="highlight-green">크루</span>를 찾아보세요!
           </h1>
           <p>
             다양한 러닝 크루가 여러분을 기다리고 있어요.
@@ -121,6 +119,7 @@ const Crew = () => {
 
       {/* 대시보드 하단 레이아웃 콘텐츠 분할 구역 */}
       <main className="crw-split-main-dashboard" style={{ marginTop: "40px" }}>
+        
         {/* [좌측 배치] 게시판 영역 */}
         <section className="crw-board-left-container">
           <div className="crw-tab-header-menu">
@@ -272,10 +271,7 @@ const Crew = () => {
             </select>
           </div>
 
-          <button
-            className="crw-search-action-btn"
-            onClick={handleSearchSubmit}
-          >
+          <button className="crw-search-action-btn" onClick={handleSearchSubmit}>
             <i className="fa-solid fa-magnifying-glass"></i> 검색하기
           </button>
         </aside>
