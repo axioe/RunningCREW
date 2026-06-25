@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import useAuthStore from "./useAuthStore.jsx";
-import api from "../../js/api.js"
+import api from "../../js/api.js";
+
+// 날짜 포맷팅 헬퍼 함수 (LocalDateTime -> YYYY.MM.DD)
+const formatDate = (dateString) => {
+  if (!dateString) return "날짜 정보 없음";
+  const date = new Date(dateString);
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
+};
 
 const MainMyCrewCard = () => {
   const user = useAuthStore((state) => state.user); // 로그인한 유저 정보 가져오기
@@ -18,8 +25,8 @@ const MainMyCrewCard = () => {
       try {
         // 백엔드의 '내 가입 크루 조회' API 엔드포인트를 호출합니다.
         // 예시: /api/user/crew?userId=유저ID (프로젝트 백엔드 스펙에 맞게 주소를 수정하세요)
-        const response = await api.get(`/api/user/crew`, {
-          params: { userId: user.id }
+        const response = await api.get(`/post/getAllByUserId`, {
+          params: { userId: user.id },
         });
         const myCrewList = response.data || [];
 
@@ -28,10 +35,12 @@ const MainMyCrewCard = () => {
           const latestMyCrew = myCrewList[0];
           setMyCrew({
             id: latestMyCrew.id,
-            level: latestMyCrew.level || "일반",
+            level: latestMyCrew.crewRole,
             title: latestMyCrew.title || "참여 중인 크루 정보가 없습니다.",
-            schedule: latestMyCrew.schedule || latestMyCrew.runningDate || "일정 미정",
-            distance: latestMyCrew.distance ? `${latestMyCrew.distance}km 이내` : ""
+            schedule: formatDate(latestMyCrew.appliedAt) || "일정 미정",
+            distance: latestMyCrew.distance
+              ? `${latestMyCrew.distance}km 이내`
+              : "",
           });
         }
       } catch (error) {
@@ -46,17 +55,29 @@ const MainMyCrewCard = () => {
 
   // 1. 아직 로그인하지 않은 비회원 유저인 경우
   if (!user) {
-    return <span className="card-empty-msg">로그인 후 내 크루 현황을 확인해 보세요.</span>;
+    return (
+      <span className="card-empty-msg">
+        로그인 후 내 크루 현황을 확인해 보세요.
+      </span>
+    );
   }
 
   // 2. 데이터를 불러오는 중일 경우
   if (loading) {
-    return <span className="card-empty-msg">내 크루 현황을 불러오는 중입니다...</span>;
+    return (
+      <span className="card-empty-msg">
+        내 크루 현황을 불러오는 중입니다...
+      </span>
+    );
   }
 
   // 3. 로그인은 했으나 가입한 크루가 하나도 없는 경우 (기존 UI 감성 유지)
   if (!myCrew) {
-    return <span className="card-empty-msg">현재 참여 중인 러닝 크루가 없습니다.</span>;
+    return (
+      <span className="card-empty-msg">
+        현재 참여 중인 러닝 크루가 없습니다.
+      </span>
+    );
   }
 
   // 4. 참여 중인 크루 데이터가 존재할 경우 매핑 출력
@@ -65,7 +86,9 @@ const MainMyCrewCard = () => {
       <span className="crew-level-tag Mycrew-tag">{myCrew.level}</span>
       <div className="crew-text-summary">
         <h4>{myCrew.title}</h4>
-        <p>{myCrew.schedule} {myCrew.distance && `• ${myCrew.distance}`}</p>
+        <p>
+          {myCrew.schedule} {myCrew.distance && `• ${myCrew.distance}`}
+        </p>
       </div>
     </div>
   );

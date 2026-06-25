@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Main.css";
 import Header from "./common/Header";
@@ -45,6 +45,8 @@ const Main = () => {
     );
   }
 
+  useEffect(() => {}, [isExpanded]);
+
   // 💡 안전한 클래스 결합 방식 적용 (공백 누락으로 인한 인식 불가 오류 원천 차단)
   const containerClasses = [
     "nature-runner-main-wrapper",
@@ -75,12 +77,12 @@ const Main = () => {
           </form>
         </div>
       </section>
-{isExpanded && (
+      {isExpanded && (
         <section className="main-search-result-section">
           <div className="result-section-header">
             <h3>'{keyword}' 검색 결과</h3>
           </div>
-          
+
           <div className="result-section-body">
             {/* 데이터 패칭 중일 때 */}
             {isSearching && (
@@ -98,9 +100,17 @@ const Main = () => {
             {!isSearching && searchResults.length > 0 && (
               <div className="search-result-grid">
                 {searchResults.map((item) => (
-                  <div key={item.id} className="search-result-card" onClick={() => navigate(`/course/${item.id}`)}>
+                  <div
+                    key={item.id}
+                    className="search-result-card"
+                    onClick={() => navigate(`/course/${item.id}`)}
+                  >
                     <h4>{item.title}</h4>
-                    <p>{item.description || item.content || "상세 정보가 없습니다."}</p>
+                    <p>
+                      {item.description ||
+                        item.content ||
+                        "상세 정보가 없습니다."}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -114,9 +124,10 @@ const Main = () => {
         <article className="dashboard-card-widget">
           <div className="card-widget-header">
             <h3>내 크루 현황</h3>
-            {token &&(
-              <button className="card-more-link" 
-              onClick={() => navigate("/mypage")}
+            {token && (
+              <button
+                className="card-more-link"
+                onClick={() => navigate("/mypage")}
               >
                 관리
               </button>

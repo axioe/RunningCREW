@@ -24,4 +24,5 @@ public class CrewPostMemberResponse {
     private String address;
     private String facilityInfo;
     private RunningLevel runningLevel;
+    private double distance;
 }

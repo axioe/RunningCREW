@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Post.css"; // Post.css 경로 매칭
 import Header from "./common/Header"; // 프로젝트 공통 상단 GNB 헤더
@@ -30,6 +30,7 @@ const Post = () => {
   const [memberPeople, setMemberPeople] = useState(0);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
+  const [search, setSearch] = useState(false);
 
   // 주소 검색 열기
   const openPostcode = () => {
@@ -41,6 +42,7 @@ const Post = () => {
     new window.daum.Postcode({
       oncomplete: function (data) {
         setAddress(data.address);
+        setSearch(true);
       },
     }).open();
   };
@@ -70,14 +72,6 @@ const Post = () => {
   // 작성하기 버튼 클릭 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
-    /* console.log({
-      title,
-      content,
-      date,
-      time: `${ampm} ${timeNum}`,
-      location,
-      difficulty,
-    });*/
 
     let runningLevel = "LOW";
     if (difficulty === "나무") runningLevel = "MEDIUM";
@@ -181,7 +175,27 @@ const Post = () => {
       fileInput.value = "";
     }
   };
+  const searchAddress = async (e) => {
+    try {
+      const response = await api.get(`/api/search?address=${address}`);
+      if (response) {
+        // console.log(response.data);
+        setLatitude(response.data.latitude);
+        setLongitude(response.data.longitude);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
+  useEffect(() => {
+    if (search) {
+      if (address) {
+        searchAddress();
+        setSearch(false);
+      }
+    }
+  }, [search]);
   return (
     <div className="nature-runner-main-wrapper">
       {/* 상단 공통 네비게이션 헤더 */}

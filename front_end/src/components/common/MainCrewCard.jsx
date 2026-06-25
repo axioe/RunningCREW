@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import api from "../../js/api.js"
+import api from "../../js/api.js";
+
+// 날짜 포맷팅 헬퍼 함수 (LocalDateTime -> YYYY.MM.DD)
+const formatDate = (dateString) => {
+  if (!dateString) return "날짜 정보 없음";
+  const date = new Date(dateString);
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
+};
 
 const MainCrewCard = () => {
   const [recommendCrew, setRecommendCrew] = useState(null);
@@ -9,23 +16,30 @@ const MainCrewCard = () => {
     const fetchRecommendCrew = async () => {
       try {
         // 🌟 백엔드의 크루 모집 전체 리스트 API를 찌릅니다.
-        // 최신순 정렬이 필요하다면 백엔드 쿼리나 파라미터(예: sort=id,desc)를 활용할 수 있습니다.
-        const response = await api.get("/api/crew"); 
-        
-        // 백엔드 응답 포맷(배열 구조 형태)에 맞추어 할당
-        const crewList = response.data || [];
-
-        // 데이터가 존재한다면 목록 중 첫 번째(최신) 크루를 추천 항목으로 선정
-        if (crewList.length > 0) {
-          const latestCrew = crewList[0];
-          
-          setRecommendCrew({
-            id: latestCrew.id,
-            level: latestCrew.level || "새싹", // levelType이나 기존 등급 필드 매핑
-            title: latestCrew.title || "등록된 제목이 없습니다.",
-            schedule: latestCrew.schedule || latestCrew.runningDate || "일정 미정",
-            distance: latestCrew.distance ? `${latestCrew.distance}km 이내` : "거리 미정"
-          });
+        const response = await api.get("/post/best_list?page=0&size=1");
+        if (response) {
+          if (response.data) {
+            if (response.data.content) {
+              // 백엔드 응답 포맷(배열 구조 형태)에 맞추어 할당
+              const crewList = response.data.content || [];
+              // 데이터가 존재한다면 목록 중 첫 번째(최신) 크루를 추천 항목으로 선정
+              if (crewList.length > 0) {
+                const latestCrew = crewList[0];
+                let difficulty = "새싹";
+                if (latestCrew.runningLevel === "MEDIUM") difficulty = "나무";
+                else if (latestCrew.runningLevel === "HIGH") difficulty = "숲";
+                setRecommendCrew({
+                  id: latestCrew.id,
+                  level: difficulty, // levelType이나 기존 등급 필드 매핑
+                  title: latestCrew.title || "등록된 제목이 없습니다.",
+                  schedule: formatDate(latestCrew.appliedAt) || "일정 미정",
+                  distance: latestCrew.distance
+                    ? `${latestCrew.distance}km 이내`
+                    : "거리 미정",
+                });
+              }
+            }
+          }
         }
       } catch (error) {
         console.error("메인 화면 추천 크루 로딩 에러:", error);
@@ -38,11 +52,17 @@ const MainCrewCard = () => {
   }, []);
 
   if (loading) {
-    return <span className="card-empty-msg">추천 크루를 불러오는 중입니다...</span>;
+    return (
+      <span className="card-empty-msg">추천 크루를 불러오는 중입니다...</span>
+    );
   }
 
   if (!recommendCrew) {
-    return <span className="card-empty-msg">현재 모집 중인 러닝 크루가 없습니다.</span>;
+    return (
+      <span className="card-empty-msg">
+        현재 모집 중인 러닝 크루가 없습니다.
+      </span>
+    );
   }
 
   return (
@@ -51,7 +71,9 @@ const MainCrewCard = () => {
       <span className="crew-level-tag">{recommendCrew.level}</span>
       <div className="crew-text-summary">
         <h4>{recommendCrew.title}</h4>
-        <p>{recommendCrew.schedule} • {recommendCrew.distance}</p>
+        <p>
+          {recommendCrew.schedule} • {recommendCrew.distance}
+        </p>
       </div>
     </div>
   );

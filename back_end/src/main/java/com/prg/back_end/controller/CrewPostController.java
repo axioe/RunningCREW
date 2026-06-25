@@ -59,10 +59,10 @@ public class CrewPostController {
     public PageResponse<CrewPostResponse> findAllCrewPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam String address,
+            @RequestParam (defaultValue = "") String address,
             @RequestParam(defaultValue = "10") int distance,
-            @RequestParam String difficulty,
-            @RequestParam String sortType){
+            @RequestParam (defaultValue = "") String difficulty,
+            @RequestParam (defaultValue = "") String sortType){
         return crewPostService.findAllCrewPosts(page,  size, address, distance, difficulty, sortType);
     }
 
@@ -70,10 +70,10 @@ public class CrewPostController {
     public PageResponse<CrewPostResponse> findBestCrewPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam String address,
+            @RequestParam (defaultValue = "") String address,
             @RequestParam(defaultValue = "10") int distance,
-            @RequestParam String difficulty,
-            @RequestParam String sortType){
+            @RequestParam (defaultValue = "") String difficulty,
+            @RequestParam (defaultValue = "") String sortType){
         return crewPostService.findBestCrewPosts(page,  size, address, distance, difficulty, sortType);
     }
 }

@@ -35,6 +35,8 @@ public class CrewPostResponse {
     private String address;
     private String facilityInfo;
     private RunningLevel runningLevel;
+    private LocalDateTime appliedAt;
+    private double distance;
 
     public static CrewPostResponse toDto(Object[] row){
         return new CrewPostResponse(
@@ -53,6 +55,8 @@ public class CrewPostResponse {
                 ((Number) row[12]).doubleValue(),
                 (String) row[13],
                 (String) row[14],
-                RunningLevel.valueOf((String) row[15]));
+                RunningLevel.valueOf((String) row[15]),
+                ((Timestamp) row[16]).toLocalDateTime(),
+                ((Number) row[17]).longValue());
     }
 }

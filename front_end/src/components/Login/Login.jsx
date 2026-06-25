@@ -15,17 +15,6 @@ const Login = () => {
       const userId = formData.get("userId");
       const password = formData.get("password");
 
-      // 임시 admin 테스트 계정 생성
-      if (userId === "admin" && password === "1234") {
-        const fakeToken = "Bearer fake-jwt-token-for-admin";
-        const fakeUserRole = "ADMIN";
-
-        login({ id: userId, role: fakeUserRole }, fakeToken);
-        alert("[테스트]관리자 계정 로그인.");
-        navigate("/adminMain");
-        return;
-      }
-
       const res = await api.post("/login", {
         userId: userId,
         password: password,
@@ -34,11 +23,10 @@ const Login = () => {
       const userRole = res.data.roleType;
       const id = res.data.id;
 
-      console.log("토큰: ", token);
-      console.log("유저 권한: ", userRole);
-      console.log("id: ", id);
-
-      login({ userId: userId, role: userRole, id:id }, token);
+      //console.log("토큰: ", token);
+      //console.log("유저 권한: ", userRole);
+      //console.log("id: ", id);
+      login({ userId: userId, role: userRole, id: id }, token);
 
       if (userRole === "ADMIN") {
         alert("관리자 계정으로 로그인 성공.");
