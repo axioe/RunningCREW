@@ -60,7 +60,7 @@ const Main = () => {
       {/* 중앙 히어로 섹션 */}
       <section className="main-hero-banner">
         <div className="hero-center-content">
-          <h2>함께 달리는 러닝, Running Crew와 함께하세요</h2>
+          <h2>자연을 품은 러닝, Nature Runner와 함께하세요</h2>
           <p>내 주변의 안전하고 쾌적한 러닝 코스와 크루를 탐색해 보세요.</p>
 
           {/* 메인 검색창 구조 */}
