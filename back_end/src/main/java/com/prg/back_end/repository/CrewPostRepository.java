@@ -87,7 +87,8 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
                     r.facility_info,
                     r.running_level,
                     p.applied_at,
-                    r.distance
+                    r.distance,
+                    p.course_id
                 from crew_post p
                 join crew_member m
                     on p.id = m.post_id
@@ -146,7 +147,8 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
                r.facility_info,
                r.running_level,
                p.applied_at,
-               r.distance
+               r.distance,
+               p.course_id
            from crew_post p
            join crew_member m
                on p.id = m.post_id

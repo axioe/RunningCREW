@@ -51,10 +51,10 @@ public class RunningController {
     public PageResponse<RunningResponse> findByAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam String address,
+            @RequestParam (defaultValue = "") String address,
             @RequestParam(defaultValue = "10") int distance,
-            @RequestParam String difficulty,
-            @RequestParam String sortType){
+            @RequestParam (defaultValue = "") String difficulty,
+            @RequestParam (defaultValue = "") String sortType){
         return runningService.findByAllFilter(page, size, address, distance, difficulty, sortType);
     }
 }

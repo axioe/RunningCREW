@@ -71,7 +71,6 @@ const Crew = () => {
     }
   };
 
-  // 🌟 [수정] 의존성 배열에서 currentPage를 제거합니다. 
   // 페이지 이동 시 API를 다시 찌르는 것이 아니라 프론트엔드에서 계산된 배열 조각만 바꿔 띄우기 위함입니다.
   useEffect(() => {
     fetchCrewPostList();
@@ -158,19 +157,23 @@ const Crew = () => {
               >
                 &lt;
               </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                <button
-                  key={pageNum}
-                  className={`pg-num-btn ${currentPage === pageNum ? "active" : ""}`}
-                  onClick={() => setCurrentPage(pageNum)}
-                >
-                  {pageNum}
-                </button>
-              ))}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (pageNum) => (
+                  <button
+                    key={pageNum}
+                    className={`pg-num-btn ${currentPage === pageNum ? "active" : ""}`}
+                    onClick={() => setCurrentPage(pageNum)}
+                  >
+                    {pageNum}
+                  </button>
+                ),
+              )}
               <button
                 className="pg-arrow"
                 disabled={currentPage >= totalPages}
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
               >
                 &gt;
               </button>
