@@ -88,7 +88,8 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
                     r.running_level,
                     p.applied_at,
                     r.distance,
-                    p.course_id
+                    p.course_id,
+                    m.id as member_id
                 from crew_post p
                 join crew_member m
                     on p.id = m.post_id
@@ -118,7 +119,8 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
                     r.address,
                     r.facility_info,
                     r.running_level,
-                    p.applied_at
+                    p.applied_at,
+                    m.id
                """,
             nativeQuery = true)
 
@@ -148,7 +150,8 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
                r.running_level,
                p.applied_at,
                r.distance,
-               p.course_id
+               p.course_id,
+               m.id as member_id
            from crew_post p
            join crew_member m
                on p.id = m.post_id
@@ -178,7 +181,8 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
                r.address,
                r.facility_info,
                r.running_level,
-               p.applied_at
+               p.applied_at,
+               m.id
            """,
             nativeQuery = true)
 

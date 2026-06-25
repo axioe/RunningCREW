@@ -10,7 +10,7 @@ export default function PostDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/member/getList/postId=${id}`);
+        const response = await api.get(`/member/getList?postId=${id}`);
         setPost(response.data);
       } catch (err) {
         console.error("데이터 로드 실패", err);

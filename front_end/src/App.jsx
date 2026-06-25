@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Main from "./components/Main.jsx";
 import Course from "./components/Course.jsx";
 import Search from "./components/Search.jsx";
@@ -14,7 +19,6 @@ import AdminPage from "./components/admin/AdminPage.jsx";
 import useAuthStore from "./components/common/useAuthStore.jsx";
 import PublicSafety from "./components/PublicSafety.jsx";
 import MyPostDetail from "./components/MyPage/MyPostDetail.jsx";
-
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -38,7 +42,7 @@ function App() {
         {/* 마이페이지 버튼 전용 독립 경로 */}
         <Route path="/mypage" element={<MyPage />} />
         {/* 게시글 상세 페이지 (신청자 관리 포함) */}
-        <Route path="/post/detail/:id" element={<MyPostDetail />} />
+        <Route path="/post/:id" element={<MyPostDetail />} />
 
         {/* 러닝 코스 상세 페이지 */}
         <Route path="/course-detail" element={<CourseDetail />} />
@@ -56,17 +60,16 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
 
         {/* 재난안전 전용 경로 */}
-        <Route path="/safety" element={<PublicSafety/>} />
+        <Route path="/safety" element={<PublicSafety />} />
 
         {/* 관리자 페이지 전용 독립 경로 */}
         <Route
           path="/adminMain"
           element={
-            user?.role &&(
-              user.role.toUpperCase() === "ROLE_ADMIN" ||
-              user.role.toUpperCase() === "ADMIN"
-            )?(
-              <AdminPage/>
+            user?.role &&
+            (user.role.toUpperCase() === "ROLE_ADMIN" ||
+              user.role.toUpperCase() === "ADMIN") ? (
+              <AdminPage />
             ) : (
               <Navigate to="/Login" replace />
             )

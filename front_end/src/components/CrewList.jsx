@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../js/api";
+import useAuthStore from "./common/useAuthStore";
+import FormatDate from "./common/FormatDate";
 
 const CrewList = ({ currentItems, loading }) => {
   const navigate = useNavigate();
-
+  const user = useAuthStore((state) => state.user);
   // 유저가 참가하기를 누른 게시글의 ID를 저장하는 상태
   const [userJoinId, setUserJoinId] = useState([]);
 
@@ -12,7 +14,11 @@ const CrewList = ({ currentItems, loading }) => {
   const handleJoin = async (e, crewId) => {
     e.stopPropagation(); // 카드 클릭 이동 방지
     try {
-      await api.post(`/post/apply?crewId=${crewId}`);
+      const res = await api.post("/post/applied", {
+        postId: crewId,
+        UserId: user.id,
+      });
+
       setUserJoinId((prev) => [...prev, crewId]);
       alert("참가 신청이 완료되었습니다.");
     } catch (error) {
@@ -25,20 +31,14 @@ const CrewList = ({ currentItems, loading }) => {
   const handleCancelJoin = async (crewId) => {
     if (!window.confirm("참가 신청을 취소하시겠습니까?")) return;
     try {
-      await api.delete(`/post/cancel?crewId=${crewId}`);
+      //id => memberId
+      const response = await api.delete(`/member/${id}`);
       setUserJoinId((prev) => prev.filter((id) => id !== crewId));
       alert("참가 신청이 취소되었습니다.");
     } catch (error) {
       console.error("취소 실패:", error);
       alert("취소 처리에 실패했습니다.");
     }
-  };
-
-  // 날짜 포맷팅 헬퍼 함수
-  const formatDate = (dateString) => {
-    if (!dateString) return "날짜 정보 없음";
-    const date = new Date(dateString);
-    return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
   };
 
   // 1. 로딩 상태 처리
@@ -110,7 +110,7 @@ const CrewList = ({ currentItems, loading }) => {
               <h5>{crew.title}</h5>
             </div>
             <div className="horizontal-spec-infos">
-              <span>📅 일정: {formatDate(crew.createdAt)}</span>
+              <span>📅 일정: {FormatDate(crew.createdAt)}</span>
             </div>
             <p className="row-item-sub-caption">{crew.content}</p>
           </div>
@@ -147,7 +147,7 @@ const CrewList = ({ currentItems, loading }) => {
                     className="cancel-action-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleCancelJoin(crew.id);
+                      handleCancelJoin(crew.memberId);
                     }}
                   >
                     취소하기
