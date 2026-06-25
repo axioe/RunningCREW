@@ -86,7 +86,7 @@ const CrewList = ({ currentItems, loading }) => {
 
           <div className="crw-list-row-right-status">
             <div className="ratio-number">
-              정원 <strong>{crew.currentPeople || 0} / {crew.maxPeople}</strong>명 제한
+              정원 <strong>{crew.currentPeople || 0} / {crew.maxPeople}</strong>
             </div>
 
             {/* 마감 상태 처리 */}
