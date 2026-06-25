@@ -38,6 +38,7 @@ public class CrewPostResponse {
     private LocalDateTime appliedAt;
     private double distance;
     private  Long courseId;
+    private  Long memberId;
 
     public static CrewPostResponse toDto(Object[] row){
         return new CrewPostResponse(
@@ -58,7 +59,8 @@ public class CrewPostResponse {
                 (String) row[14],
                 RunningLevel.valueOf((String) row[15]),
                 ((Timestamp) row[16]).toLocalDateTime(),
-                ((Number) row[17]).longValue(),
-                ((Number) row[18]).longValue());
+                ((Number) row[17]).doubleValue(),
+                ((Number) row[18]).longValue(),
+                ((Number) row[19]).longValue());
     }
 }

@@ -2,11 +2,13 @@ package com.prg.back_end.dto;
 
 import com.prg.back_end.entity.CrewRole;
 import com.prg.back_end.entity.CrewStatus;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
 public class CrewMemberResponse {
     private Long id;
     private String title;

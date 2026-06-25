@@ -21,4 +21,10 @@ public class CrewMemberController {
     public List<CrewMemberResponse> findById(@RequestParam Long postId){
         return crewMemberService.findByPostId(postId);
     }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id){
+        crewMemberService.delete(id);
+        return "OK";
+    }
 }
