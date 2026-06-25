@@ -100,16 +100,47 @@ public class CrewPostService {
         memberEntity.setPostId(request.getPostId());
         memberEntity.setUserId(request.getUserId());
         memberEntity.setCrewRole(CrewRole.Member);
-        memberEntity.setStatus(CrewStatus.PENDING);
+        memberEntity.setStatus(CrewStatus.APPROVED);
         crewMemberRepository.save(memberEntity);
     }
 
-    public PageResponse<CrewPostResponse> findAllCrewPosts(int page, int size) {
+    public PageResponse<CrewPostResponse> findAllCrewPosts(
+               int page,
+               int size,
+               String address,
+               int distance,
+               String difficulty,
+               String sortType) {
+
+        Sort.Order order;
+        switch (sortType) {
+            case "latest":
+                order = Sort.Order.desc("created_at");
+                break;
+            case "best":
+                order = Sort.Order.desc("member_count");
+                break;
+            default:
+                order = Sort.Order.desc("created_at");
+        }
+        Sort sort = Sort.by(order);
         Pageable pageable = PageRequest.of(
-                page, size,
-                Sort.by("created_at").descending()
+                page,
+                size,
+                sort
         );
-        Page<Object[]> posts = crewPostRepository.findAllCrewPosts(pageable);
+        if(ObjectUtils.isEmpty(address))
+            address = null;
+        if(difficulty.equals("새싹"))
+            difficulty = "LOW";
+        else if(difficulty.equals("나무"))
+            difficulty = "MEDIUM";
+        else if(difficulty.equals("숲"))
+            difficulty = "HIGH";
+        else
+            difficulty = null;
+
+        Page<Object[]> posts = crewPostRepository.findAllCrewPosts(address, distance, difficulty, pageable);
 
         Page<CrewPostResponse> response = posts.map(
                 post -> CrewPostResponse.toDto(post));
@@ -121,17 +152,46 @@ public class CrewPostService {
         return crewPostRepository.searchByUserIdOwner(userId);
     }
 
-    public PageResponse<CrewPostResponse> findBestCrewPosts(int page, int size) {
+    public PageResponse<CrewPostResponse> findBestCrewPosts(
+            int page,
+            int size,
+            String address,
+            int distance,
+            String difficulty,
+            String sortType) {
+
+        Sort.Order order;
+        switch (sortType) {
+            case "latest":
+                order = Sort.Order.desc("created_at");
+                break;
+            case "best":
+                order = Sort.Order.desc("member_count");
+                break;
+            default:
+                order = Sort.Order.desc("member_count");
+        }
+        Sort sort = Sort.by(order);
         Pageable pageable = PageRequest.of(
-                page, size,
-                Sort.by("created_at").descending()
+                page,
+                size,
+                sort
         );
-        Page<Object[]> posts = crewPostRepository.findBestCrewPosts(pageable);
+        if(ObjectUtils.isEmpty(address))
+            address = null;
+        if(difficulty.equals("새싹"))
+            difficulty = "LOW";
+        else if(difficulty.equals("나무"))
+            difficulty = "MEDIUM";
+        else if(difficulty.equals("숲"))
+            difficulty = "HIGH";
+        else
+            difficulty = null;
+        Page<Object[]> posts = crewPostRepository.findBestCrewPosts(address, distance, difficulty, pageable);
 
         Page<CrewPostResponse> response = posts.map(
                 post -> CrewPostResponse.toDto(post));
 
         return new PageResponse<>(response);
     }
-
 }

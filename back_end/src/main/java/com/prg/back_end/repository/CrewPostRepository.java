@@ -66,138 +66,119 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
             """)
     List<CrewPostMemberResponse> searchByUserIdOwner(@Param("userId") Long userId);
 
-//    @Query(value = """
-//           select p.id,
-//                p.title,
-//                p.content,
-//                p.max_people,
-//                p.created_at,
-//                u.id,
-//                u.user_id,
-//                u.nick_name,
-//                m.status,
-//                (
-//                    select count(*)
-//                    from crew_member m1
-//                        where m1.post_id = p.id
-//                ) as member_count,
-//                r.spot_name,
-//                r.latitude,
-//                r.longitude,
-//                r.address,
-//                r.facility_info,
-//                r.running_level,
-//                p.applied_at
-//           from crew_post p
-//              join crew_member m
-//              on p.id = m.post_id
-//              join running_course r
-//              on r.id = p.course_id
-//              join user u
-//              on m.user_id = u.id
-//             where m.crew_role = 'OWNER'
-//            """,
-//            nativeQuery = true)
-                @Query(value = """
-                   select
-                        p.id,
-                        p.title,
-                        p.content,
-                        p.max_people,
-                        p.created_at,
-                        u.id as user_pk,
-                        u.user_id,
-                        u.nick_name,
-                        m.status,
-                        count(cm.id) as member_count,
-                        r.spot_name,
-                        r.latitude,
-                        r.longitude,
-                        r.address,
-                        r.facility_info,
-                        r.running_level,
-                        p.applied_at
-                    from crew_post p
-                    join crew_member m
-                        on p.id = m.post_id
-                    join running_course r
-                        on r.id = p.course_id
-                    join `user` u
-                        on m.user_id = u.id
-                    left join crew_member cm
-                        on cm.post_id = p.id
-                    where m.crew_role = 'OWNER'
-                    group by
-                        p.id,
-                        p.title,
-                        p.content,
-                        p.max_people,
-                        p.created_at,
-                        u.id,
-                        u.user_id,
-                        u.nick_name,
-                        m.status,
-                        r.spot_name,
-                        r.latitude,
-                        r.longitude,
-                        r.address,
-                        r.facility_info,
-                        r.running_level,
-                        p.applied_at
-            """,
+    @Query(value = """
+               select
+                    p.id,
+                    p.title,
+                    p.content,
+                    p.max_people,
+                    p.created_at,
+                    u.id as user_pk,
+                    u.user_id,
+                    u.nick_name,
+                    m.status,
+                    count(cm.id) as member_count,
+                    r.spot_name,
+                    r.latitude,
+                    r.longitude,
+                    r.address,
+                    r.facility_info,
+                    r.running_level,
+                    p.applied_at
+                from crew_post p
+                join crew_member m
+                    on p.id = m.post_id
+                join running_course r
+                    on r.id = p.course_id
+                join `user` u
+                    on m.user_id = u.id
+                left join crew_member cm
+                    on cm.post_id = p.id
+                where m.crew_role = 'OWNER'
+                  AND (:distance IS NULL OR distance <= :distance)
+                  AND (:difficulty IS NULL OR running_level = :difficulty)
+                  AND (:address IS NULL OR address LIKE CONCAT('%', :address, '%'))
+                group by
+                    p.id,
+                    p.title,
+                    p.content,
+                    p.max_people,
+                    p.created_at,
+                    u.id,
+                    u.user_id,
+                    u.nick_name,
+                    m.status,
+                    r.spot_name,
+                    r.latitude,
+                    r.longitude,
+                    r.address,
+                    r.facility_info,
+                    r.running_level,
+                    p.applied_at
+               """,
             nativeQuery = true)
 
-    Page<Object[]> findAllCrewPosts(Pageable pageable);
+    Page<Object[]> findAllCrewPosts(
+            @Param("address") String address,
+            @Param("distance") int distance,
+            @Param("difficulty") String difficulty,
+            Pageable pageable);
 
     @Query(value = """
             select
-                                                   p.id,
-                                                   p.title,
-                                                   p.content,
-                                                   p.max_people,
-                                                   p.created_at,
-                                                   u.id as user_pk,
-                                                   u.user_id,
-                                                   u.nick_name,
-                                                   m.status,
-                                                   count(cm.id) as member_count,
-                                                   r.spot_name,
-                                                   r.latitude,
-                                                   r.longitude,
-                                                   r.address,
-                                                   r.facility_info,
-                                                   r.running_level,
-                                                   p.applied_at
-                                               from crew_post p
-                                               join crew_member m
-                                                   on p.id = m.post_id
-                                               join running_course r
-                                                   on r.id = p.course_id
-                                               join `user` u
-                                                   on m.user_id = u.id
-                                               left join crew_member cm
-                                                   on cm.post_id = p.id
-                                               where m.crew_role = 'OWNER'
-                                               group by
-                                                   p.id,
-                                                   p.title,
-                                                   p.content,
-                                                   p.max_people,
-                                                   p.created_at,
-                                                   u.id,
-                                                   u.user_id,
-                                                   u.nick_name,
-                                                   m.status,
-                                                   r.spot_name,
-                                                   r.latitude,
-                                                   r.longitude,
-                                                   r.address,
-                                                   r.facility_info,
-                                                   r.running_level,
-                                                   p.applied_at
-                                               order by member_count desc
-            """,
+               p.id,
+               p.title,
+               p.content,
+               p.max_people,
+               p.created_at,
+               u.id as user_pk,
+               u.user_id,
+               u.nick_name,
+               m.status,
+               count(cm.id) as member_count,
+               r.spot_name,
+               r.latitude,
+               r.longitude,
+               r.address,
+               r.facility_info,
+               r.running_level,
+               p.applied_at
+           from crew_post p
+           join crew_member m
+               on p.id = m.post_id
+           join running_course r
+               on r.id = p.course_id
+           join `user` u
+               on m.user_id = u.id
+           left join crew_member cm
+               on cm.post_id = p.id
+           where m.crew_role = 'OWNER'
+              AND (:distance IS NULL OR r.distance <= :distance)
+              AND (:difficulty IS NULL OR r.running_level = :difficulty)
+              AND (:address IS NULL OR r.address LIKE CONCAT('%', :address, '%'))
+           group by
+               p.id,
+               p.title,
+               p.content,
+               p.max_people,
+               p.created_at,
+               u.id,
+               u.user_id,
+               u.nick_name,
+               m.status,
+               r.spot_name,
+               r.latitude,
+               r.longitude,
+               r.address,
+               r.facility_info,
+               r.running_level,
+               p.applied_at
+           """,
             nativeQuery = true)
 
-    Page<Object[]> findBestCrewPosts(Pageable pageable);
+    Page<Object[]> findBestCrewPosts(
+            @Param("address") String address,
+            @Param("distance") int distance,
+            @Param("difficulty") String difficulty,
+            Pageable pageable);
 }
