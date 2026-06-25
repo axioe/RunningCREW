@@ -44,17 +44,45 @@ const CrewList = ({ currentItems, loading }) => {
   // 1. 로딩 상태 처리
   if (loading) {
     return (
-      <div style={{ textAlign: "center", padding: "80px 0", color: "#16A34A", fontWeight: "bold" }}>
-        <i className="fa-solid fa-spinner fa-spin"></i> 크루 데이터를 실시간으로 조회 중입니다...
+      <div
+        style={{
+          textAlign: "center",
+          padding: "80px 0",
+          color: "#16A34A",
+          fontWeight: "bold",
+        }}
+      >
+        <i className="fa-solid fa-spinner fa-spin"></i> 크루 데이터를 실시간으로
+        조회 중입니다...
       </div>
     );
   }
 
   // 2. 데이터가 없을 때 처리
-  if (!currentItems || !Array.isArray(currentItems) || currentItems.length === 0) {
+  if (
+    !currentItems ||
+    !Array.isArray(currentItems) ||
+    currentItems.length === 0
+  ) {
     return (
-      <div style={{ textAlign: "center", padding: "100px 0", color: "#94a3b8", fontSize: "16px", fontWeight: "500" }}>
-        <i className="fa-solid fa-database" style={{ display: "block", fontSize: "32px", marginBottom: "12px", color: "#cbd5e1" }}></i>
+      <div
+        style={{
+          textAlign: "center",
+          padding: "100px 0",
+          color: "#94a3b8",
+          fontSize: "16px",
+          fontWeight: "500",
+        }}
+      >
+        <i
+          className="fa-solid fa-database"
+          style={{
+            display: "block",
+            fontSize: "32px",
+            marginBottom: "12px",
+            color: "#cbd5e1",
+          }}
+        ></i>
         DB 데이터가 없습니다.
       </div>
     );
@@ -71,9 +99,12 @@ const CrewList = ({ currentItems, loading }) => {
           style={{ cursor: "pointer" }}
         >
           <div className="crw-list-row-img-placeholder">
-            <i className="fa-solid fa-users" style={{ fontSize: "24px", color: "#94a3b8" }}></i>
+            <i
+              className="fa-solid fa-users"
+              style={{ fontSize: "24px", color: "#94a3b8" }}
+            ></i>
           </div>
-          
+
           <div className="crw-list-row-details">
             <div className="title-row-line">
               <h5>{crew.title}</h5>
@@ -86,14 +117,21 @@ const CrewList = ({ currentItems, loading }) => {
 
           <div className="crw-list-row-right-status">
             <div className="ratio-number">
-              정원 <strong>{crew.currentPeople || 0} / {crew.maxPeople}</strong>명 제한
+              정원{" "}
+              <strong>
+                {crew.currentPeople || 0} / {crew.maxPeople}
+              </strong>
             </div>
 
             {/* 마감 상태 처리 */}
-            {(crew.currentPeople || 0) >= crew.maxPeople && !userJoinId.includes(crew.id) ? (
+            {(crew.currentPeople || 0) >= crew.maxPeople &&
+            !userJoinId.includes(crew.id) ? (
               <div className="crw-join-action-btn closed-status">마감</div>
             ) : (
-              <div className="action-button-group" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <div
+                className="action-button-group"
+                style={{ display: "flex", flexDirection: "column", gap: "5px" }}
+              >
                 <button
                   className={`crw-join-action-btn ${userJoinId.includes(crew.id) ? "pending-status" : ""}`}
                   onClick={(e) => {
@@ -105,7 +143,7 @@ const CrewList = ({ currentItems, loading }) => {
                 </button>
 
                 {userJoinId.includes(crew.id) && (
-                  <button 
+                  <button
                     className="cancel-action-btn"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -119,7 +157,9 @@ const CrewList = ({ currentItems, loading }) => {
             )}
 
             <div className="passed-time-stamp">
-              {(crew.currentPeople || 0) >= crew.maxPeople ? "모집완료" : "모집중"}
+              {(crew.currentPeople || 0) >= crew.maxPeople
+                ? "모집완료"
+                : "모집중"}
             </div>
             <i className="fa-regular fa-bookmark row-bookmark-icon"></i>
           </div>

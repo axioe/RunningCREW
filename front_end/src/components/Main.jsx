@@ -6,6 +6,7 @@ import MainSafetyCard from "./common/MainSafetyCard";
 import MainCrewCard from "./common/MainCrewCard";
 import MainMyCrewCard from "./common/MainMyCrewCard";
 import useAuthStore from "./common/useAuthStore";
+import api from "../js/api";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -45,7 +46,26 @@ const Main = () => {
     );
   }
 
-  useEffect(() => {}, [isExpanded]);
+  const searchKeyword = async () => {
+    if (isExpanded) {
+      try {
+        setIsSearching(true);
+        const response = await api.get(
+          `/running/getCourses?address=${keyword}`,
+        );
+        if (response) {
+          setSearchResults(response.data.content || []);
+        }
+      } catch (err) {
+      } finally {
+        setIsSearching(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    searchKeyword();
+  }, [isExpanded]);
 
   // 💡 안전한 클래스 결합 방식 적용 (공백 누락으로 인한 인식 불가 오류 원천 차단)
   const containerClasses = [
@@ -103,14 +123,10 @@ const Main = () => {
                   <div
                     key={item.id}
                     className="search-result-card"
-                    onClick={() => navigate(`/course/${item.id}`)}
+                    onClick={() => navigate(`/course`)}
                   >
-                    <h4>{item.title}</h4>
-                    <p>
-                      {item.description ||
-                        item.content ||
-                        "상세 정보가 없습니다."}
-                    </p>
+                    <h4>{item.spotName}</h4>
+                    <p>{item.address}</p>
                   </div>
                 ))}
               </div>
