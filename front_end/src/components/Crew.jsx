@@ -1,83 +1,68 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../css/Crew.css";
 import Header from "./common/Header";
-import api from "../js/api";
+import api from "../js/api.js";
 import { regionData } from "../js/region";
+import CrewList from "./CrewList.jsx";
 
 const Crew = () => {
   const navigate = useNavigate();
 
-  // 💡 DB 데이터 및 페이징/로딩 상태 관리
+  // DB 데이터 및 페이징 상태 관리
   const [crewList, setCrewList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 4; // 한 페이지당 보여줄 게시글 개수
+  const pageSize = 4;
 
-  // 상단 카테고리 탭 (전체, 신규, 인기)
   const [activeTab, setActiveTab] = useState("전체");
-
-  // 우측 필터 상세 상태들
   const [city, setCity] = useState("");
   const [district, setDistrict] = useState("");
   const [sortType, setSortType] = useState("latest");
-
   const [distance, setDistance] = useState(10);
   const [difficulty, setDifficulty] = useState("전체");
-  const difficulties = ["전체", "새싹", "나무", "숲"];
 
-  // 💡 CrewPostController(/post) 기준 목록 및 필터링 조회 함수
+  // 데이터 조회 함수
   const fetchCrewPostList = async () => {
     setLoading(true);
     try {
-      let response;
-      if (activeTab === "인기") {
-        response = await api.get("/post/best_list", {
-          params: {
-            page: currentPage - 1,
-            size: pageSize,
-            address: `${city} ${district}`.trim(),
-            distance: distance,
-            difficulty: difficulty,
-            sortType: sortType,
-          },
-        });
-      } else {
-        response = await api.get("/post/list", {
-          params: {
-            page: currentPage - 1,
-            size: pageSize,
-            address: `${city} ${district}`.trim(),
-            distance: distance,
-            difficulty: difficulty,
-            sortType: sortType,
-          },
-        });
-      }
+      const endpoint = activeTab === "인기" ? "/post/best_list" : "/post/list";
+      const response = await api.get(endpoint, {
+        params: {
+          page: activeTab === "전체" ? currentPage - 1 : 0,
+          size: activeTab === "전체" ? pageSize : 100,
+          address: `${city} ${district}`.trim(),
+          distance,
+          difficulty,
+          sortType,
+        },
+      });
+      let fetchedData =
+        response.data?.content || response.data?.data || response.data || [];
+      if (!Array.isArray(fetchedData)) fetchedData = [];
 
-      if (response.data) {
-        // 🎯 백엔드가 어떤 규격(순수 List, Page 객체, ResultResponse 등)으로 응답해도 배열을 뽑아내는 방어 로직
-        let fetchedData = [];
-
-        if (Array.isArray(response.data)) {
-          fetchedData = response.data;
-        } else if (
-          response.data.content &&
-          Array.isArray(response.data.content)
-        ) {
-          fetchedData = response.data.content;
-        } else if (typeof response.data === "object") {
-          fetchedData = response.data.data || [];
-        }
-
-        setCrewList(Array.isArray(fetchedData) ? fetchedData : []);
-        setTotalPages(Math.ceil((fetchedData.length || 1) / pageSize) || 1);
-      } else {
-        setCrewList([]);
+      // ✨ [조건 조작 구역] 탭별 데이터 정제
+      if (activeTab === "신규") {
+        // 1. 최신순 정렬 후 상위 5개만 추출
+        const sortedNew = [...fetchedData].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        );
+        fetchedData = sortedNew.slice(0, 5);
         setTotalPages(1);
+      } else if (activeTab === "인기") {
+        // 2. 조건 적용: 현재 인원이 총원(maxPeople)의 절반 이상인 게시글 필터링 후 상위 5개 추출
+        const filteredBest = fetchedData.filter(
+          (crew) => (crew.currentPeople || 0) >= crew.maxPeople / 2,
+        );
+        fetchedData = filteredBest.slice(0, 5);
+        setTotalPages(1);
+      } else {
+        // '전체' 탭일 때 기존 페이징 계산 규칙 적용
+        setTotalPages(Math.ceil((fetchedData.length || 1) / pageSize) || 1);
       }
+
+      setCrewList(fetchedData);
     } catch (error) {
       console.error("크루 모집글 목록 로드 실패:", error);
       setCrewList([]);
@@ -272,7 +257,7 @@ const Crew = () => {
           </div>
         </section>
 
-        {/* [우측 배치] 인터랙티브 필터 사이드바 */}
+        {/* [우측 배치] 필터 사이드바 */}
         <aside className="crw-filter-right-sidebar">
           <div className="crw-sidebar-top-meta">
             <h4>필터</h4>
@@ -283,7 +268,6 @@ const Crew = () => {
 
           <div className="cr-sidebar-form-group">
             <label>지역 검색</label>
-            {/* 시도 */}
             <select
               className="cr-form-combo-box"
               value={city}
@@ -299,7 +283,6 @@ const Crew = () => {
                 </option>
               ))}
             </select>
-            {/* 시군구 */}
             <select
               className="cr-form-combo-box"
               style={{ marginTop: "8px" }}
@@ -319,6 +302,7 @@ const Crew = () => {
                 ))}
             </select>
           </div>
+
           <div className="crw-filter-widget">
             <label>거리 (범위 제어: {distance}km 이내)</label>
             <input
@@ -372,7 +356,6 @@ const Crew = () => {
         </aside>
       </main>
 
-      {/* 하단 디자인 바 */}
       <footer className="crw-footer-core-value-bar">
         <div className="value-item">
           <div className="value-icon">👥</div>

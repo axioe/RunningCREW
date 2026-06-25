@@ -13,6 +13,8 @@ import CourseDetail from "./components/CourseDetail.jsx";
 import AdminPage from "./components/admin/AdminPage.jsx";
 import useAuthStore from "./components/common/useAuthStore.jsx";
 import PublicSafety from "./components/PublicSafety.jsx";
+import MyPostDetail from "./components/MyPage/MyPostDetail.jsx";
+
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -35,6 +37,8 @@ function App() {
 
         {/* 마이페이지 버튼 전용 독립 경로 */}
         <Route path="/mypage" element={<MyPage />} />
+        {/* 게시글 상세 페이지 (신청자 관리 포함) */}
+        <Route path="/post/detail/:id" element={<MyPostDetail />} />
 
         {/* 러닝 코스 상세 페이지 */}
         <Route path="/course-detail" element={<CourseDetail />} />
