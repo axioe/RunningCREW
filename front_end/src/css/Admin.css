@@ -1,154 +1,154 @@
 /* 관리자 페이지 레이아웃 커스텀 확장 */
 .admin-container {
-    display: flex;
-    width: 1100px; /* 관리자 데이터 전용으로 폭을 좀 더 넓게 확장 */
-    max-width: 95%;
-    height: 650px;
+  display: flex;
+  width: 1100px; /* 관리자 데이터 전용으로 폭을 좀 더 넓게 확장 */
+  max-width: 95%;
+  height: 650px;
 }
 
 /* 좌측 사이드바 */
 .admin-sidebar {
-    width: 260px;
-    background-color: #f9fafb;
-    border-right: 1px solid #e5e7eb;
-    display: flex;
-    flex-direction: column;
-    padding: 30px 20px;
-    justify-content: space-between;
+  width: 260px;
+  background-color: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  justify-content: space-between;
 }
 
 .sidebar-header h2 {
-    font-size: 22px;
-    color: #111827;
-    font-weight: 700;
+  font-size: 22px;
+  color: #111827;
+  font-weight: 700;
 }
 
 .sidebar-header p {
-    font-size: 13px;
-    color: #6b7280;
-    margin-top: 4px;
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 4px;
 }
 
 .sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: -100px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: -100px;
 }
 
 .sidebar-menu button {
-    width: 100%;
-    background: none;
-    border: none;
-    color: #4b5563;
-    padding: 14px 20px;
-    text-align: left;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #4b5563;
+  padding: 14px 20px;
+  text-align: left;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.sidebar-menu button:hover, 
+.sidebar-menu button:hover,
 .sidebar-menu button.active {
-    background-color: rgba(16, 185, 129, 0.1);
-    color: #10B981;
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
 }
 
 .sidebar-footer button {
-    width: 100%;
-    border: 1px solid #10B981 !important;
-    color: #10B981 !important;
-    font-size: 13px;
+  width: 100%;
+  border: 1px solid #10b981 !important;
+  color: #10b981 !important;
+  font-size: 13px;
 }
 
 /* 우측 콘텐츠 영역 */
 .admin-content-area {
-    flex: 1;
-    padding: 40px;
-    overflow-y: auto;
-    background-color: #fff;
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  background-color: #fff;
 }
 
 .admin-card-inner {
-    width: 100%;
+  width: 100%;
 }
 
 .content-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
 .content-header h3 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #111827;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
 }
 
 .count-tag {
-    font-size: 13px;
-    background: #f3f4f6;
-    padding: 2px 8px;
-    border-radius: 20px;
-    color: #4b5563;
-    vertical-align: middle;
+  font-size: 13px;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 20px;
+  color: #4b5563;
+  vertical-align: middle;
 }
 
 .btn-admin-add {
-    font-size: 13px !important;
-    padding: 8px 18px !important;
-    margin-top: 0 !important;
+  font-size: 13px !important;
+  padding: 8px 18px !important;
+  margin-top: 0 !important;
 }
 
 /* 관리자 공통 테이블 디자인 */
 .admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
 }
 
 .admin-table th {
-    background-color: #f9fafb;
-    color: #4b5563;
-    font-weight: 600;
-    padding: 14px;
-    border-bottom: 2px solid #e5e7eb;
-    text-align: center;
+  background-color: #f9fafb;
+  color: #4b5563;
+  font-weight: 600;
+  padding: 14px;
+  border-bottom: 2px solid #e5e7eb;
+  text-align: center;
 }
 
 .admin-table td {
-    padding: 14px;
-    border-bottom: 1px solid #f3f4f6;
-    text-align: center;
-    color: #374151;
+  padding: 14px;
+  border-bottom: 1px solid #f3f4f6;
+  text-align: center;
+  color: #374151;
 }
 
 .admin-table tr:hover {
-    background-color: #fbfbfb;
+  background-color: #fbfbfb;
 }
 
 .text-left {
-    text-align: left !important;
+  text-align: left !important;
 }
 
 .btn-table-delete {
-    background-color: #ef4444;
-    color: white;
-    border: none;
-    padding: 5px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    transition: 0.2s;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: 0.2s;
 }
 
 .btn-table-delete:hover {
-    background-color: #dc2626;
+  background-color: #dc2626;
 }

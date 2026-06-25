@@ -80,6 +80,9 @@ public class UserService {
         UserEntity user = userRepository.findById(id).orElse(null);
         if(ObjectUtils.isEmpty(user))
             return;
+        ImageEntity imageEntity = imageRepository.findByUserId(user.getId());
+        if(!ObjectUtils.isEmpty(imageEntity))
+            imageRepository.delete(imageEntity);
         userRepository.delete(user);
     }
 

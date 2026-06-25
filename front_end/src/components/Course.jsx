@@ -111,7 +111,7 @@ const Course = () => {
       });
 
       const responseData = response.data;
-      console.log(response.data);
+      //console.log(response.data);
 
       if (
         responseData &&

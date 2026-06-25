@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import api from "../../js/api";
 
 const AdminCrews = () => {
   const [crews, setCrews] = useState([]);
@@ -6,26 +7,22 @@ const AdminCrews = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  const fetchCrews = (pageNumber) => {
-    setLoading(true);
-    fetch(`http://localhost:8080/admin/posts?page=${pageNumber}&size=10`)
-      .then((res) => {
-        if (!res.ok) throw new Error("네트워크 응답에 문제가 있습니다.");
-        return res.json();
-      })
-      .then((data) => {
-        setCrews(data.content || []);
-        setTotalPages(data.totalPages || 0);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Crew 로딩 에러:", error);
-        setLoading(false);
-      });
+  const fetchCrews = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get(`/admin/posts?page=${page}&size=10`);
+      //console.log(response.data);
+      setCrews(response.data.content || []);
+      setTotalPages(response.data.totalPages || 0);
+    } catch (error) {
+      console.log("Error : ", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetchCrews(page);
+    fetchCrews();
   }, [page]);
 
   const handleDeleteCrew = (id) => {
@@ -35,7 +32,8 @@ const AdminCrews = () => {
     }
   };
 
-  if (loading) return <div className="admin-loading">크루 데이터를 불러오는 중...</div>;
+  if (loading)
+    return <div className="admin-loading">크루 데이터를 불러오는 중...</div>;
 
   return (
     <div className="admin-card-inner">
@@ -64,7 +62,10 @@ const AdminCrews = () => {
               <td className="text-left">{crew.content}</td>
               <td>{crew.userId}</td>
               <td>
-                <button className="btn-table-delete" onClick={() => handleDeleteCrew(crew.id)}>
+                <button
+                  className="btn-table-delete"
+                  onClick={() => handleDeleteCrew(crew.id)}
+                >
                   삭제
                 </button>
               </td>
@@ -74,10 +75,22 @@ const AdminCrews = () => {
       </table>
 
       {/* 페이징 네비게이션 추가 */}
-      <div className="admin-pagination" style={{ marginTop: "20px", textAlign: "center" }}>
-        <button disabled={page === 0} onClick={() => setPage(page - 1)}>이전</button>
-        <span style={{ margin: "0 15px" }}>{page + 1} / {totalPages}</span>
-        <button disabled={page >= totalPages - 1} onClick={() => setPage(page + 1)}>다음</button>
+      <div
+        className="admin-pagination"
+        style={{ marginTop: "20px", textAlign: "center" }}
+      >
+        <button disabled={page === 0} onClick={() => setPage(page - 1)}>
+          이전
+        </button>
+        <span style={{ margin: "0 15px" }}>
+          {page + 1} / {totalPages}
+        </span>
+        <button
+          disabled={page >= totalPages - 1}
+          onClick={() => setPage(page + 1)}
+        >
+          다음
+        </button>
       </div>
     </div>
   );
