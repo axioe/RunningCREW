@@ -18,7 +18,7 @@ class CrewPostServiceTest {
     @Test
     @DisplayName("모집글전체목록조회")
     void findAllCrewPosts() {
-        PageResponse<CrewPostResponse> posts = crewPostService.findAllCrewPosts(0, 10);
+        PageResponse<CrewPostResponse> posts = crewPostService.findAllCrewPosts(0, 10, "안양천", 10, "", "");
         for (CrewPostResponse post : posts.getContent()) {
             log.info(post.toString());
         }

@@ -58,14 +58,22 @@ public class CrewPostController {
     @GetMapping("/list")
     public PageResponse<CrewPostResponse> findAllCrewPosts(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
-        return crewPostService.findAllCrewPosts(page,  size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam String address,
+            @RequestParam(defaultValue = "10") int distance,
+            @RequestParam String difficulty,
+            @RequestParam String sortType){
+        return crewPostService.findAllCrewPosts(page,  size, address, distance, difficulty, sortType);
     }
 
     @GetMapping("/best_list")
     public PageResponse<CrewPostResponse> findBestCrewPosts(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
-        return crewPostService.findBestCrewPosts(page,  size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam String address,
+            @RequestParam(defaultValue = "10") int distance,
+            @RequestParam String difficulty,
+            @RequestParam String sortType){
+        return crewPostService.findBestCrewPosts(page,  size, address, distance, difficulty, sortType);
     }
 }

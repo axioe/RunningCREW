@@ -4,6 +4,7 @@ import axios from "axios";
 import "../css/Crew.css";
 import Header from "./common/Header";
 import api from "../js/api";
+import { regionData } from "../js/region";
 
 const Crew = () => {
   const navigate = useNavigate();
@@ -19,11 +20,13 @@ const Crew = () => {
   const [activeTab, setActiveTab] = useState("전체");
 
   // 우측 필터 상세 상태들
-  const [region, setRegion] = useState("전체 지역");
+  const [city, setCity] = useState("");
+  const [district, setDistrict] = useState("");
+  const [sortType, setSortType] = useState("latest");
+
   const [distance, setDistance] = useState(10);
   const [difficulty, setDifficulty] = useState("전체");
-  const [recruitmentStatus, setRecruitmentStatus] = useState("전체");
-  const [sortOrder, setSortOrder] = useState("최신순");
+  const difficulties = ["전체", "새싹", "나무", "숲"];
 
   // 💡 CrewPostController(/post) 기준 목록 및 필터링 조회 함수
   const fetchCrewPostList = async () => {
@@ -33,27 +36,23 @@ const Crew = () => {
       if (activeTab === "인기") {
         response = await api.get("/post/best_list", {
           params: {
-            // tab: activeTab,
-            // region: region,
-            // distance: distance,
-            // difficulty: difficulty,
-            // status: recruitmentStatus,
-            // sort: sortOrder,
             page: currentPage - 1,
             size: pageSize,
+            address: `${city} ${district}`.trim(),
+            distance: distance,
+            difficulty: difficulty,
+            sortType: sortType,
           },
         });
       } else {
         response = await api.get("/post/list", {
           params: {
-            // tab: activeTab,
-            // region: region,
-            // distance: distance,
-            // difficulty: difficulty,
-            // status: recruitmentStatus,
-            // sort: sortOrder,
             page: currentPage - 1,
             size: pageSize,
+            address: `${city} ${district}`.trim(),
+            distance: distance,
+            difficulty: difficulty,
+            sortType: sortType,
           },
         });
       }
@@ -95,11 +94,10 @@ const Crew = () => {
 
   // 필터 초기화 핸들러
   const handleResetFilter = () => {
-    setRegion("전체 지역");
+    setCity("");
     setDistance(10);
     setDifficulty("전체");
-    setRecruitmentStatus("전체");
-    setSortOrder("최신순");
+    setSortType("latest");
     setCurrentPage(1);
   };
 
@@ -283,19 +281,44 @@ const Crew = () => {
             </button>
           </div>
 
-          <div className="crw-filter-widget">
-            <label>지역</label>
+          <div className="cr-sidebar-form-group">
+            <label>지역 검색</label>
+            {/* 시도 */}
             <select
-              className="crw-dropdown-box"
-              value={region}
-              onChange={(e) => setRegion(e.target.value)}
+              className="cr-form-combo-box"
+              value={city}
+              onChange={(e) => {
+                setCity(e.target.value);
+                setDistrict("");
+              }}
             >
-              <option value="전체 지역">전체 지역</option>
-              <option value="서울특별시">서울특별시</option>
-              <option value="경기도">경기도</option>
+              <option value="">시·도 선택</option>
+              {Object.keys(regionData).map((sidoName) => (
+                <option key={sidoName} value={sidoName}>
+                  {sidoName}
+                </option>
+              ))}
+            </select>
+            {/* 시군구 */}
+            <select
+              className="cr-form-combo-box"
+              style={{ marginTop: "8px" }}
+              value={district}
+              onChange={(e) => {
+                setDistrict(e.target.value);
+                setCurrentPage(1);
+              }}
+              disabled={!city}
+            >
+              <option value="">시·군·구 선택</option>
+              {city &&
+                regionData[city].map((sigunguName) => (
+                  <option key={sigunguName} value={sigunguName}>
+                    {sigunguName}
+                  </option>
+                ))}
             </select>
           </div>
-
           <div className="crw-filter-widget">
             <label>거리 (범위 제어: {distance}km 이내)</label>
             <input
@@ -329,27 +352,14 @@ const Crew = () => {
           </div>
 
           <div className="crw-filter-widget">
-            <label>모집 현황</label>
-            <select
-              className="crw-dropdown-box"
-              value={recruitmentStatus}
-              onChange={(e) => setRecruitmentStatus(e.target.value)}
-            >
-              <option value="전체">전체</option>
-              <option value="모집중">모집중</option>
-              <option value="만료">만료</option>
-            </select>
-          </div>
-
-          <div className="crw-filter-widget">
             <label>정렬</label>
             <select
               className="crw-dropdown-box"
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
+              value={sortType}
+              onChange={(e) => setSortType(e.target.value)}
             >
-              <option value="최신순">최신순</option>
-              <option value="인기순">인기순</option>
+              <option value="latest">최신순</option>
+              <option value="best">인기순</option>
             </select>
           </div>
 
