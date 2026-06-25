@@ -1,83 +1,68 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../css/Crew.css";
 import Header from "./common/Header";
-import api from "../js/api";
+import api from "../js/api.js";
 import { regionData } from "../js/region";
+import CrewList from "./CrewList.jsx";
 
 const Crew = () => {
   const navigate = useNavigate();
 
-  // 💡 DB 데이터 및 페이징/로딩 상태 관리
+  // DB 데이터 및 페이징 상태 관리
   const [crewList, setCrewList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 4; // 한 페이지당 보여줄 게시글 개수
+  const pageSize = 4;
 
-  // 상단 카테고리 탭 (전체, 신규, 인기)
   const [activeTab, setActiveTab] = useState("전체");
-
-  // 우측 필터 상세 상태들
   const [city, setCity] = useState("");
   const [district, setDistrict] = useState("");
   const [sortType, setSortType] = useState("latest");
-
   const [distance, setDistance] = useState(10);
   const [difficulty, setDifficulty] = useState("전체");
-  const difficulties = ["전체", "새싹", "나무", "숲"];
 
-  // 💡 CrewPostController(/post) 기준 목록 및 필터링 조회 함수
+  // 데이터 조회 함수
   const fetchCrewPostList = async () => {
     setLoading(true);
     try {
-      let response;
-      if (activeTab === "인기") {
-        response = await api.get("/post/best_list", {
-          params: {
-            page: currentPage - 1,
-            size: pageSize,
-            address: `${city} ${district}`.trim(),
-            distance: distance,
-            difficulty: difficulty,
-            sortType: sortType,
-          },
-        });
-      } else {
-        response = await api.get("/post/list", {
-          params: {
-            page: currentPage - 1,
-            size: pageSize,
-            address: `${city} ${district}`.trim(),
-            distance: distance,
-            difficulty: difficulty,
-            sortType: sortType,
-          },
-        });
-      }
+      const endpoint = activeTab === "인기" ? "/post/best_list" : "/post/list";
+      const response = await api.get(endpoint, {
+        params: {
+          page: activeTab === "전체" ? currentPage - 1 : 0,
+          size: activeTab === "전체" ? pageSize : 100,
+          address: `${city} ${district}`.trim(),
+          distance,
+          difficulty,
+          sortType,
+        },
+      });
+      let fetchedData =
+        response.data?.content || response.data?.data || response.data || [];
+      if (!Array.isArray(fetchedData)) fetchedData = [];
 
-      if (response.data) {
-        // 🎯 백엔드가 어떤 규격(순수 List, Page 객체, ResultResponse 등)으로 응답해도 배열을 뽑아내는 방어 로직
-        let fetchedData = [];
-
-        if (Array.isArray(response.data)) {
-          fetchedData = response.data;
-        } else if (
-          response.data.content &&
-          Array.isArray(response.data.content)
-        ) {
-          fetchedData = response.data.content;
-        } else if (typeof response.data === "object") {
-          fetchedData = response.data.data || [];
-        }
-
-        setCrewList(Array.isArray(fetchedData) ? fetchedData : []);
-        setTotalPages(Math.ceil((fetchedData.length || 1) / pageSize) || 1);
-      } else {
-        setCrewList([]);
+      // ✨ [조건 조작 구역] 탭별 데이터 정제
+      if (activeTab === "신규") {
+        // 1. 최신순 정렬 후 상위 5개만 추출
+        const sortedNew = [...fetchedData].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        );
+        fetchedData = sortedNew.slice(0, 5);
         setTotalPages(1);
+      } else if (activeTab === "인기") {
+        // 2. 조건 적용: 현재 인원이 총원(maxPeople)의 절반 이상인 게시글 필터링 후 상위 5개 추출
+        const filteredBest = fetchedData.filter(
+          (crew) => (crew.currentPeople || 0) >= crew.maxPeople / 2,
+        );
+        fetchedData = filteredBest.slice(0, 5);
+        setTotalPages(1);
+      } else {
+        // '전체' 탭일 때 기존 페이징 계산 규칙 적용
+        setTotalPages(Math.ceil((fetchedData.length || 1) / pageSize) || 1);
       }
+
+      setCrewList(fetchedData);
     } catch (error) {
       console.error("크루 모집글 목록 로드 실패:", error);
       setCrewList([]);
@@ -87,45 +72,35 @@ const Crew = () => {
     }
   };
 
-  // 💡 탭이 바뀌거나 페이지가 바뀔 때 실시간 자동 연동
   useEffect(() => {
     fetchCrewPostList();
   }, [currentPage, activeTab]);
 
-  // 필터 초기화 핸들러
   const handleResetFilter = () => {
     setCity("");
+    setDistrict("");
     setDistance(10);
     setDifficulty("전체");
     setSortType("latest");
     setCurrentPage(1);
   };
 
-  // 검색하기 제출 핸들러
   const handleSearchSubmit = () => {
     setCurrentPage(1);
     fetchCrewPostList();
   };
 
-  // 날짜 포맷팅 헬퍼 함수 (LocalDateTime -> YYYY.MM.DD)
-  const formatDate = (dateString) => {
-    if (!dateString) return "날짜 정보 없음";
-    const date = new Date(dateString);
-    return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
-  };
-
-  // 현재 페이지에 해당하는 데이터 조각 추출 (배열 여부 확인 후 안전하게 슬라이싱)
+  // 현재 페이지 데이터 추출
   const indexOfLastItem = currentPage * pageSize;
   const indexOfFirstItem = indexOfLastItem - pageSize;
   const currentItems = Array.isArray(crewList)
-    ? crewList.slice(indexOfFirstItem, indexOfLastItem)
+    ? (activeTab === "전체" ? crewList.slice(indexOfFirstItem, indexOfLastItem) : crewList)
     : [];
 
   return (
     <div className="crw-global-container">
       <Header />
 
-      {/* 메인 배너 섹션 */}
       <section className="crw-hero-banner">
         <div className="crw-banner-inner">
           <h1>
@@ -140,7 +115,6 @@ const Crew = () => {
         </div>
       </section>
 
-      {/* 대시보드 하단 레이아웃 콘텐츠 분할 구역 */}
       <main className="crw-split-main-dashboard" style={{ marginTop: "40px" }}>
         {/* [좌측 배치] 게시판 영역 */}
         <section className="crw-board-left-container">
@@ -166,81 +140,10 @@ const Crew = () => {
             </button>
           </div>
 
-          <div className="crw-list-items-stack">
-            {loading ? (
-              <div
-                style={{
-                  textAlign: "center",
-                  padding: "80px 0",
-                  color: "#16A34A",
-                  fontWeight: "bold",
-                }}
-              >
-                <i className="fa-solid fa-spinner fa-spin"></i> 크루 데이터를
-                실시간으로 조회 중입니다...
-              </div>
-            ) : !currentItems ||
-              !Array.isArray(currentItems) ||
-              currentItems.length === 0 ? (
-              // 🎯 [예외 및 안전장치] currentItems가 없거나 빈 배열일 때 표출될 예외 처리 레이아웃
-              <div
-                style={{
-                  textAlign: "center",
-                  padding: "100px 0",
-                  color: "#94a3b8",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                }}
-              >
-                <i
-                  className="fa-solid fa-database"
-                  style={{
-                    display: "block",
-                    fontSize: "32px",
-                    marginBottom: "12px",
-                    color: "#cbd5e1",
-                  }}
-                ></i>
-                DB 데이터가 없습니다.
-              </div>
-            ) : (
-              // 🎯 [실시간 루프 구역] 오직 데이터가 확실한 '배열' 상태일 때만 안전하게 돌리는 맵
-              currentItems.map((crew) => (
-                <div
-                  key={crew.id}
-                  className="crw-list-row-item"
-                  onClick={() => navigate(`/post/${crew.id}`)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <div className="crw-list-row-img-placeholder">
-                    <i
-                      className="fa-solid fa-users"
-                      style={{ fontSize: "24px", color: "#94a3b8" }}
-                    ></i>
-                  </div>
-                  <div className="crw-list-row-details">
-                    <div className="title-row-line">
-                      <h5>{crew.title}</h5>
-                    </div>
-                    <div className="horizontal-spec-infos">
-                      {/* <span>📍 코스 ID: {crew.courseId}</span> */}
-                      <span>📅 일정: {formatDate(crew.createdAt)}</span>
-                    </div>
-                    <p className="row-item-sub-caption">{crew.content}</p>
-                  </div>
-                  <div className="crw-list-row-right-status">
-                    <div className="ratio-number">
-                      정원 <strong>{crew.maxPeople}</strong>명 제한
-                    </div>
-                    <div className="passed-time-stamp">모집중</div>
-                    <i className="fa-regular fa-bookmark row-bookmark-icon"></i>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+          {/* 📌 분리된 컴포넌트 삽입 영역 */}
+          <CrewList currentItems={currentItems} loading={loading} />
 
-          {/* 페이지네이션 바 */}
+          {/* 페이지네이션 */}
           <div className="crw-pagination-container">
             <button
               className="pg-arrow"
@@ -272,7 +175,7 @@ const Crew = () => {
           </div>
         </section>
 
-        {/* [우측 배치] 인터랙티브 필터 사이드바 */}
+        {/* [우측 배치] 필터 사이드바 */}
         <aside className="crw-filter-right-sidebar">
           <div className="crw-sidebar-top-meta">
             <h4>필터</h4>
@@ -283,7 +186,6 @@ const Crew = () => {
 
           <div className="cr-sidebar-form-group">
             <label>지역 검색</label>
-            {/* 시도 */}
             <select
               className="cr-form-combo-box"
               value={city}
@@ -299,7 +201,6 @@ const Crew = () => {
                 </option>
               ))}
             </select>
-            {/* 시군구 */}
             <select
               className="cr-form-combo-box"
               style={{ marginTop: "8px" }}
@@ -319,6 +220,7 @@ const Crew = () => {
                 ))}
             </select>
           </div>
+
           <div className="crw-filter-widget">
             <label>거리 (범위 제어: {distance}km 이내)</label>
             <input
@@ -372,7 +274,6 @@ const Crew = () => {
         </aside>
       </main>
 
-      {/* 하단 디자인 바 */}
       <footer className="crw-footer-core-value-bar">
         <div className="value-item">
           <div className="value-icon">👥</div>
