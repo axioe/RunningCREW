@@ -43,6 +43,22 @@ public class RunningResponse {
                 .build();
     }
 
+    public static RunningResponse from(RunningCourseEntity data, String imageUrl){
+        return RunningResponse.builder()
+                .id(data.getId())
+                .spotName(data.getSpotName())
+                .latitude(data.getLatitude())
+                .longitude(data.getLongitude())
+                .address(data.getAddress())
+                .facilityInfo(data.getFacilityInfo())
+                .runningLevel(data.getRunningLevel())
+                .distance(data.getDistance())
+                .createdAt(data.getCreatedAt())
+                .updatedAt(data.getUpdatedAt())
+                .imageUrl(imageUrl)
+                .build();
+    }
+
     public static RunningResponse toDto(Object[] row){
         return new RunningResponse(
                 ((Number) row[0]).longValue(),

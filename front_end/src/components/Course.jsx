@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "../css/Course.css";
 import Header from "./common/Header";
@@ -9,6 +9,11 @@ import { regionData } from "../js/region";
 
 const Course = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [selectedItems, setSelectedItems] = useState(
+    location.state?.selectedItems ?? [],
+  );
 
   // API 데이터 및 페이징 상태 정의
   const [courses, setCourses] = useState([]);
@@ -29,10 +34,17 @@ const Course = () => {
   const [courseType, setCourseType] = useState("running");
   const difficulties = ["전체", "새싹", "나무", "숲"];
 
-  const resetFilters = () => {
+  const handleResetFilter = () => {
     setDistance(10);
     setDifficulty("전체");
     setCourseType("running");
+    setCity("");
+    setDistrict("");
+    setSortType("latest");
+    if (selectedItems && selectedItems.length > 0) {
+      setSelectedItems([]);
+    }
+    setCurrentPage(0)
   };
 
   // 백엔드 PublicSearchController 호출 함수
@@ -99,26 +111,35 @@ const Course = () => {
   const getRunningCourses = async () => {
     setLoading(true);
     try {
-      const response = await api.get("/running/getCourses", {
-        params: {
-          page: currentPage,
-          size: numOfRows,
-          address: `${city} ${district}`.trim(), // 예: "서울특별시 성동구"
-          distance: distance,
-          difficulty: difficulty,
-          sortType: sortType,
-        },
-      });
+      let responseData = "";
+      if (selectedItems && selectedItems.length > 0) {
+        const response = await api.post("/running/list", {
+          ids: selectedItems,
+        });
 
-      const responseData = response.data;
-      //console.log(response.data);
+        if (response) {
+          responseData = response.data;
+          setTotalCount(responseData.length);
+        }
+      } else {
+        const response = await api.get("/running/getCourses", {
+          params: {
+            page: currentPage,
+            size: numOfRows,
+            address: `${city} ${district}`.trim(), // 예: "서울특별시 성동구"
+            distance: distance,
+            difficulty: difficulty,
+            sortType: sortType,
+          },
+        });
 
-      if (
-        responseData &&
-        responseData.content &&
-        responseData.content.length > 0
-      ) {
-        const mappedData = responseData.content.map((item, index) => ({
+        if (response && response.data && response.data.content) {
+          responseData = response.data.content;
+          setTotalCount(response.data.totalElements || 0);
+        }
+      }
+      if (responseData) {
+        const mappedData = responseData.map((item, index) => ({
           id: item.id,
           type: courseType,
           title: item.spotName, // 장소
@@ -134,7 +155,6 @@ const Course = () => {
         }));
 
         setCourses(mappedData);
-        setTotalCount(responseData.totalElements || 0);
       } else {
         setCourses([]);
         setImages([]);
@@ -150,14 +170,22 @@ const Course = () => {
     }
   };
 
-  // 페이지 번호나 자치구 변경 시 백엔드 API 재호출
-  useEffect(() => {
+  const searchCourse = () => {
     if (courseType === "running") {
       getRunningCourses();
     } else {
       fetchPublicParks();
     }
-  }, [currentPage, district, courseType]);
+  };
+
+  // 페이지 번호나 자치구 변경 시 백엔드 API 재호출
+  useEffect(() => {
+    searchCourse();
+  }, [currentPage, courseType]);
+
+  useEffect(() => {
+    searchCourse();
+  }, [selectedItems]);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -208,10 +236,16 @@ const Course = () => {
       <main className="cr-main-split-layout">
         {/* [좌측 구역] 상세 필터 사이드바 */}
         <aside className="cr-filter-sidebar-wrapper">
-          <div className="cr-sidebar-header-box">
+          {/* <div className="cr-sidebar-header-box">
             <h4>
               <i className="fa-solid fa-magnifying-glass"></i> 검색 및 필터
             </h4>
+          </div> */}
+          <div className="cr-sidebar-header-box">
+            <h4>검색 및 필터</h4>
+            <button className="cr-clear-all-btn" onClick={handleResetFilter}>
+              초기화 <i className="fa-solid fa-rotate-right"></i>
+            </button>
           </div>
 
           <div className="cr-sidebar-form-group">
@@ -320,9 +354,8 @@ const Course = () => {
             </label>
           </div>
 
-          {/* 초기화 */}
-          <button className="cr-filter-reset-action-btn" onClick={resetFilters}>
-            필터 초기화
+          <button className="cr-filter-reset-action-btn" onClick={searchCourse}>
+            검색하기
           </button>
         </aside>
 

@@ -2,188 +2,191 @@
    중앙 히어로 섹션 및 메인 검색창 (기존 스타일 전면 유지 + transition 추가)
    -------------------------------------------------------------------------- */
 .main-hero-banner {
-    background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
-                url('https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=1920') no-repeat center/cover !important;
-    padding: 100px 20px !important;
-    text-align: center !important;
-    color: #ffffff !important;
-    
-    /* 💡 부드러운 압축 효과를 위한 변환 애니메이션 시간 설정 */
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  background:
+    linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)),
+    url("https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=1920")
+      no-repeat center/cover !important;
+  padding: 100px 20px !important;
+  text-align: center !important;
+  color: #ffffff !important;
+
+  /* 💡 부드러운 압축 효과를 위한 변환 애니메이션 시간 설정 */
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
 .hero-center-content h2 {
-    font-size: 36px !important;
-    margin-bottom: 10px !important;
-    font-weight: bold !important;
-    color: #ffffff !important;
-    transition: all 0.4s ease-in-out !important;
+  font-size: 36px !important;
+  margin-bottom: 10px !important;
+  font-weight: bold !important;
+  color: #ffffff !important;
+  transition: all 0.4s ease-in-out !important;
 }
 
 .hero-center-content p {
-    font-size: 18px !important;
-    margin-bottom: 30px !important;
-    color: #cbd5e1 !important;
-    transition: all 0.4s ease-in-out !important;
+  font-size: 18px !important;
+  margin-bottom: 30px !important;
+  color: #cbd5e1 !important;
+  transition: all 0.4s ease-in-out !important;
 }
 
 .main-page-search-bar {
-    display: inline-flex !important;
-    width: 650px !important;
-    background: #ffffff !important;
-    padding: 5px !important;
-    border-radius: 30px !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
-    transition: all 0.5s ease-in-out !important;
+  display: inline-flex !important;
+  width: 650px !important;
+  background: #ffffff !important;
+  padding: 5px !important;
+  border-radius: 30px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.5s ease-in-out !important;
 }
 
 .main-page-search-bar input {
-    flex: 1 !important;
-    border: none !important;
-    padding: 15px 25px !important;
-    font-size: 16px !important;
-    border-radius: 30px 0 0 30px !important;
-    outline: none !important;
-    background: transparent !important;
-    color: #333 !important;
+  flex: 1 !important;
+  border: none !important;
+  padding: 15px 25px !important;
+  font-size: 16px !important;
+  border-radius: 30px 0 0 30px !important;
+  outline: none !important;
+  background: transparent !important;
+  color: #333 !important;
 }
 
 .main-page-search-bar button {
-    background: #16A34A !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 0 35px !important;
-    font-size: 16px !important;
-    font-weight: bold !important;
-    border-radius: 30px !important;
-    cursor: pointer !important;
+  background: #16a34a !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 0 35px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  border-radius: 30px !important;
+  cursor: pointer !important;
 }
-
 
 /* --------------------------------------------------------------------------
    3단 대시보드 그리드 레이아웃 (기존 스타일 전면 유지 + transition 추가)
    -------------------------------------------------------------------------- */
 .main-dashboard-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 30px !important;
-    padding: 50px !important;
-    max-width: 1400px !important;
-    margin: 0 auto !important;
-    
-    /* 💡 사라질 때 아래로 밀려나며 부드럽게 페이드아웃 되도록 추가 */
-    transition: opacity 0.4s ease-in-out, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), max-height 0.5s ease-in-out !important;
-    max-height: 1000px; 
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 30px !important;
+  padding: 50px !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+
+  /* 💡 사라질 때 아래로 밀려나며 부드럽게 페이드아웃 되도록 추가 */
+  transition:
+    opacity 0.4s ease-in-out,
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    max-height 0.5s ease-in-out !important;
+  max-height: 1000px;
 }
 
 .dashboard-card-widget {
-    background: #ffffff !important;
-    border-radius: 16px !important;
-    padding: 25px !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.04) !important;
-    border: 1px solid #f1f5f9 !important;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  padding: 25px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid #f1f5f9 !important;
 }
 
 .card-widget-header {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    margin-bottom: 20px !important;
-    border-bottom: 2px solid #f1f5f9 !important;
-    padding-bottom: 12px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 20px !important;
+  border-bottom: 2px solid #f1f5f9 !important;
+  padding-bottom: 12px !important;
 }
 
 .card-widget-header h3 {
-    font-size: 18px !important;
-    color: #1e293b !important;
-    margin: 0 !important;
+  font-size: 18px !important;
+  color: #1e293b !important;
+  margin: 0 !important;
 }
 
 .card-more-link {
-    background: none !important;
-    border: none !important;
-    color: #16A34A !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
+  background: none !important;
+  border: none !important;
+  color: #16a34a !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
 }
 
 .card-widget-body {
-    min-height: 120px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+  min-height: 120px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .card-empty-msg {
-    color: #94a3b8 !important;
-    font-size: 14px !important;
+  color: #94a3b8 !important;
+  font-size: 14px !important;
 }
 
 .main-crew-card-item {
-    width: 100% !important;
-    background: #f8fafc !important;
-    border-radius: 10px !important;
-    padding: 15px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 15px !important;
-    border-left: 4px solid #16A34A !important;
+  width: 100% !important;
+  background: #f8fafc !important;
+  border-radius: 10px !important;
+  padding: 15px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 15px !important;
+  border-left: 4px solid #16a34a !important;
 }
 
 .crew-level-tag {
-    background: #dcfce7 !important;
-    color: #15803d !important;
-    padding: 4px 10px !important;
-    border-radius: 6px !important;
-    font-size: 12px !important;
-    font-weight: bold !important;
+  background: #dcfce7 !important;
+  color: #15803d !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
 }
 
 .crew-text-summary h4 {
-    margin: 0 0 5px 0 !important;
-    font-size: 15px !important;
-    color: #334155 !important;
-    text-align: left !important;
+  margin: 0 0 5px 0 !important;
+  font-size: 15px !important;
+  color: #334155 !important;
+  text-align: left !important;
 }
 
 .crew-text-summary p {
-    margin: 0 !important;
-    font-size: 13px !important;
-    color: #64748b !important;
-    text-align: left !important;
+  margin: 0 !important;
+  font-size: 13px !important;
+  color: #64748b !important;
+  text-align: left !important;
 }
 
 /* 날씨 위젯 */
 .main-weather-box {
-    display: flex !important;
-    align-items: center !important;
-    gap: 20px !important;
-    width: 100% !important;
-    justify-content: center !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  width: 100% !important;
+  justify-content: center !important;
 }
 
 .weather-large-icon {
-    font-size: 45px !important;
+  font-size: 45px !important;
 }
 
 .weather-info-text {
-    display: flex !important;
-    flex-direction: column !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .temp-number {
-    font-size: 28px !important;
-    font-weight: bold !important;
-    color: #1e293b !important;
-    text-align: left !important;
+  font-size: 28px !important;
+  font-weight: bold !important;
+  color: #1e293b !important;
+  text-align: left !important;
 }
 
 .temp-status-desc {
-    font-size: 14px !important;
-    color: #64748b !important;
-    margin-top: 2px !important;
+  font-size: 14px !important;
+  color: #64748b !important;
+  margin-top: 2px !important;
 }
-
 
 /* ==========================================================================
    🎯 [핵심] expanded-mode 클래스가 활성화 되었을 때 스타일 재정의
@@ -192,83 +195,70 @@
 
 /* 1. 상단 배경 배너 슬림화 (패딩과 마진 축소) */
 .nature-runner-main-wrapper.expanded-mode .main-hero-banner {
-    padding: 25px 20px !important; /* 상하 패딩을 줄여서 위로 밀착시킴 */
+  padding: 25px 20px !important; /* 상하 패딩을 줄여서 위로 밀착시킴 */
 }
 
 /* 2. 글씨 타이틀은 투명하게 줄이며 숨기기 */
 .nature-runner-main-wrapper.expanded-mode .hero-center-content h2,
 .nature-runner-main-wrapper.expanded-mode .hero-center-content p {
-    opacity: 0 !important;
-    max-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
+  opacity: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 
 /* 3. 하단 3단 대시보드 카드 세트는 아래로 내려앉으며 숨김 */
 .nature-runner-main-wrapper.expanded-mode .main-dashboard-grid {
-    opacity: 0 !important;
-    transform: translateY(60px) !important; /* 바닥 쪽으로 슬라이딩 모션 */
-    max-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
+  opacity: 0 !important;
+  transform: translateY(60px) !important; /* 바닥 쪽으로 슬라이딩 모션 */
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 /* --------------------------------------------------------------------------
    🔄 [원래대로 되돌리기] 디자인 버튼 스타일
    -------------------------------------------------------------------------- */
 .back-to-main-btn {
-    position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%); /* 화면 가로 중앙 정렬 */
-    
-    /* 기존 초록색 포인트 컬러 및 폰트 스타일 반영 */
-    background: #16A34A !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 12px 28px !important;
-    font-size: 15px !important;
-    font-weight: bold !important;
-    border-radius: 30px !important;
-    cursor: pointer !important;
-    
-    /* 화면의 카드 컴포넌트와 어우러지는 부드러운 그림자 */
-    box-shadow: 0 10px 20px rgba(22, 163, 74, 0.25) !important;
-    
-    /* 등장 및 호버 시의 유기적인 전환 효과 */
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    transition: all 0.3s ease-in-out !important;
-    z-index: 1000 !important;
-    
-    /* 처음에 아래에서 위로 살짝 떠오르는 애니메이션 */
-    animation: floatingUp 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  background: #f1f5f9;
+  color: #64748b;
+  border: none;
+  padding: 14px 36px;
+  border-radius: 9999px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  box-shadow: 0 8px 20px rgba(100, 116, 139, 0.18);
+  transition: 0.2s;
 }
 
 /* 마우스 호버(올렸을 때) 효과 - 살짝 위로 뜨며 색상 반전 */
 .back-to-main-btn:hover {
-    background: #15803d !important; /* 조금 더 깊은 초록색 */
-    transform: translateX(-50%) translateY(-3px) !important;
-    box-shadow: 0 12px 25px rgba(22, 163, 74, 0.35) !important;
+  background: #e2e8f0;
+  transform: translateY(-2px);
 }
 
 /* 마우스 클릭(누르고 있을 때) 효과 */
 .back-to-main-btn:active {
-    transform: translateX(-50%) translateY(-1px) !important;
+  transform: translateX(-50%) translateY(-1px) !important;
 }
 
 /* 되돌리기 버튼 등장 애니메이션 */
 @keyframes floatingUp {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 .main-search-result-section {
   width: 100%;
@@ -309,4 +299,69 @@
 .search-result-card:hover {
   border-color: #4caf50;
   transform: translateY(-2px);
+}
+
+.checkbox input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #16a34a; /* 버튼과 동일한 초록색 */
+}
+
+.button-group {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 20px;
+  z-index: 1000;
+}
+
+.selected-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 14px 36px;
+
+  background: #16a34a;
+  color: #fff;
+
+  border: none;
+  border-radius: 9999px;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
+
+  transition: all 0.2s ease;
+}
+
+.selected-btn:hover {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+.selected-btn:active {
+  transform: scale(0.98);
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 120px;
+}
+
+.bottom-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-top: 40px;
 }

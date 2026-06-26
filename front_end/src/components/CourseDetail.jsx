@@ -192,7 +192,7 @@ const CourseDetail = () => {
                 <button className="btn-back-list" onClick={() => navigate(-1)}>
                   목록으로 돌아가기
                 </button>
-                <button
+                {/* <button
                   className="btn-join-crew"
                   onClick={() =>
                     alert(
@@ -201,7 +201,7 @@ const CourseDetail = () => {
                   }
                 >
                   크루 참여하기
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
