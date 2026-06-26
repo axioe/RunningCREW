@@ -16,6 +16,7 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
     @Query("""
            select  new com.prg.back_end.dto.CrewPostMemberResponse(
                 p.id,
+                m.id,
                 p.title,
                 p.content,
                 p.maxPeople,
@@ -43,6 +44,7 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
     @Query("""
            select  new com.prg.back_end.dto.CrewPostMemberResponse(
                 p.id,
+                m.id,
                 p.title,
                 p.content,
                 p.maxPeople,
@@ -63,7 +65,7 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
               join RunningCourseEntity r
               on r.id = p.courseId
            where m.userId = :userId
-              and  m.crewRole = 'OWNER'
+              and  m.crewRole = 'Owner'
               order by p.createdAt desc
             """)
     List<CrewPostMemberResponse> searchByUserIdOwner(@Param("userId") Long userId);
@@ -98,8 +100,8 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
                 join `user` u
                     on m.user_id = u.id
                 left join crew_member cm
-                    on cm.post_id = p.id
-                where m.crew_role = 'OWNER'
+                    on cm.post_id = p.id and cm.status = 'APPROVED'
+                where m.crew_role = 'Owner'
                   AND (:distance IS NULL OR distance <= :distance)
                   AND (:difficulty IS NULL OR running_level = :difficulty)
                   AND (:address IS NULL OR address LIKE CONCAT('%', :address, '%'))
@@ -160,8 +162,8 @@ public interface CrewPostRepository extends JpaRepository<CrewPostEntity, Long> 
            join `user` u
                on m.user_id = u.id
            left join crew_member cm
-               on cm.post_id = p.id
-           where m.crew_role = 'OWNER'
+               on cm.post_id = p.id and cm.status = 'APPROVED'
+           where m.crew_role = 'Owner'
               AND (:distance IS NULL OR r.distance <= :distance)
               AND (:difficulty IS NULL OR r.running_level = :difficulty)
               AND (:address IS NULL OR r.address LIKE CONCAT('%', :address, '%'))

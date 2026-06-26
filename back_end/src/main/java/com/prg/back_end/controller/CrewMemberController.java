@@ -1,5 +1,6 @@
 package com.prg.back_end.controller;
 
+import com.prg.back_end.dto.CrewActionResponse;
 import com.prg.back_end.dto.CrewMemberResponse;
 import com.prg.back_end.dto.CrewPostMemberResponse;
 import com.prg.back_end.dto.ResultResponse;
@@ -26,5 +27,14 @@ public class CrewMemberController {
     public String delete(@PathVariable Long id){
         crewMemberService.delete(id);
         return "OK";
+    }
+    @PatchMapping("/{id}/approve")
+    public CrewActionResponse approve(@PathVariable Long id, @RequestParam Long requesterId){
+        return crewMemberService.approve(id, requesterId);
+    }
+
+    @PatchMapping("/{id}/reject")
+    public CrewActionResponse reject(@PathVariable Long id, @RequestParam Long requesterId){
+        return crewMemberService.reject(id, requesterId);
     }
 }

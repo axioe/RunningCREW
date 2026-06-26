@@ -45,9 +45,8 @@ public class CrewPostController {
     }
 
     @PostMapping("/applied")
-    public String applied(@RequestBody CrewPostAppliedRequest request){
-        crewPostService.insertPost(request);
-        return "OK";
+    public CrewJoinResponse applied(@RequestBody CrewPostAppliedRequest request){
+        return crewPostService.insertPost(request);
     }
 
     @GetMapping("/getByUserId")

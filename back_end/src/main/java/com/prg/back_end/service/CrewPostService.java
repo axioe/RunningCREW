@@ -94,23 +94,47 @@ public class CrewPostService {
         return crewPostRepository.searchByUserId(userId);
     }
 
-    public void insertPost(CrewPostAppliedRequest request) {
-        //  crew_member insert
+    @Transactional
+    public CrewJoinResponse insertPost(CrewPostAppliedRequest request) {
+        //  1. 모집글 존재 여부 확인
+        CrewPostEntity postEntity = crewPostRepository.findById(request.getPostId()).orElse(null);
+        if (ObjectUtils.isEmpty(postEntity))
+            return CrewJoinResponse.postNotFound();
+
+        //  2. 기존 신청 기록 확인
+        CrewMemberEntity existing = crewMemberRepository
+                .findByPostIdAndUserId(request.getPostId(), request.getUserId())
+                .orElse(null);
+
+        if (!ObjectUtils.isEmpty(existing)) {
+            //  대기중이거나 이미 승인된 경우는 중복 신청으로 차단
+            if (existing.getStatus() == CrewStatus.PENDING || existing.getStatus() == CrewStatus.APPROVED) {
+                return CrewJoinResponse.alreadyApplied();
+            }
+            //  거절(CANCELLED)된 기록은 재사용하여 다시 대기 상태로 신청
+            existing.setStatus(CrewStatus.PENDING);
+            crewMemberRepository.save(existing);
+            return CrewJoinResponse.ok();
+        }
+
+        //  3. crew_member insert (승인 대기 상태로 신청)
         CrewMemberEntity memberEntity = new CrewMemberEntity();
         memberEntity.setPostId(request.getPostId());
         memberEntity.setUserId(request.getUserId());
         memberEntity.setCrewRole(CrewRole.Member);
-        memberEntity.setStatus(CrewStatus.APPROVED);
+        memberEntity.setStatus(CrewStatus.PENDING);
         crewMemberRepository.save(memberEntity);
+
+        return CrewJoinResponse.ok();
     }
 
     public PageResponse<CrewPostResponse> findAllCrewPosts(
-               int page,
-               int size,
-               String address,
-               int distance,
-               String difficulty,
-               String sortType) {
+            int page,
+            int size,
+            String address,
+            int distance,
+            String difficulty,
+            String sortType) {
 
         Sort.Order order;
         switch (sortType) {

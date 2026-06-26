@@ -39,7 +39,7 @@
 .crw-list-items-stack { display: flex; flex-direction: column; gap: 15px; }
 .crw-list-row-item { display: flex; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; align-items: center; transition: box-shadow 0.2s; }
 .crw-list-row-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-.crw-list-row-img-placeholder { width: 70px; height: 70px; background-color: #cbd5e1; border-radius: 8px; flex-shrink: 0; margin-right: 15px; }
+.crw-list-row-img-placeholder { width: 70px; height: 70px; background-color: #cbd5e1; border-radius: 8px; flex-shrink: 0; margin-right: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .crw-list-row-details { flex: 1; }
 .crw-list-row-details h5 { font-size: 15px; color: #1e293b; margin: 0 0 6px 0; display: flex; align-items: center; gap: 8px; }
 .new-flash-badge { background: #ef4444; color: #fff; font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
@@ -143,6 +143,52 @@
     color: #475569;
     cursor: default;
     text-align: center;
+}
+
+/* 4-0. 정원 초과 상태 스타일 */
+.over-status {
+    background-color: #FEE2E2 !important;
+    color: #DC2626;
+    cursor: default;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* 4-1. 승인 대기 중 상태 스타일 */
+.pending-status {
+    background-color: #F1F5F9 !important;
+    color: #475569 !important;
+}
+
+/* 4-2. 내가 작성한(방장) 모집글 상태 스타일 */
+.owner-status {
+    background-color: #E0F2FE !important;
+    color: #0369A1;
+    cursor: default;
+    text-align: center;
+}
+
+/* 4-3. 신청 취소 버튼 */
+.cancel-action-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    color: #B91C1C;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cancel-action-btn:hover {
+    background-color: #FEE2E2;
+}
+
+.cancel-action-btn:disabled {
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
 }
 
 /* 5. 모집중/완료 태그 스타일 */

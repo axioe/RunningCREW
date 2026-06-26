@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 @Builder
 public class CrewMemberResponse {
     private Long id;
+    private Long postId;
+    private Long userId;
     private String title;
     private String content;
     private Integer maxPeople;

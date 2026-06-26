@@ -51,8 +51,9 @@ const Crew = () => {
         fetchedData = sortedNew.slice(0, 5);
         setTotalPages(1);
       } else if (activeTab === "인기") {
+        // 🔧 [수정] currentPeople → appliedCnt (백엔드 실제 필드명)
         const filteredBest = fetchedData.filter(
-          (crew) => (crew.currentPeople || 0) >= crew.maxPeople / 2,
+          (crew) => (crew.appliedCnt || 0) >= crew.maxPeople / 2,
         );
         fetchedData = filteredBest.slice(0, 5);
         setTotalPages(1);
@@ -257,18 +258,6 @@ const Crew = () => {
                 </button>
               ))}
             </div>
-          </div>
-
-          <div className="crw-filter-widget">
-            <label>정렬</label>
-            <select
-              className="crw-dropdown-box"
-              value={sortType}
-              onChange={(e) => setSortType(e.target.value)}
-            >
-              <option value="latest">최신순</option>
-              <option value="best">인기순</option>
-            </select>
           </div>
 
           <button className="crw-search-action-btn" onClick={handleSearchSubmit}>

@@ -12,7 +12,9 @@ import java.util.List;
 public interface CrewMemberRepository extends JpaRepository<CrewMemberEntity, Long> {
     @Query("""
            select  new com.prg.back_end.dto.CrewMemberResponse(
-                p.id,
+                m.id,
+                m.postId,
+                m.userId,
                 p.title,
                 p.content,
                 p.maxPeople,
@@ -30,4 +32,7 @@ public interface CrewMemberRepository extends JpaRepository<CrewMemberEntity, Lo
            where m.postId = :postId
               order by m.createdAt
            """)
-    List<CrewMemberResponse> findByPostId(@Param("postId") Long postId);}
+    List<CrewMemberResponse> findByPostId(@Param("postId") Long postId);
+
+    java.util.Optional<CrewMemberEntity> findByPostIdAndUserId(Long postId, Long userId);
+}
