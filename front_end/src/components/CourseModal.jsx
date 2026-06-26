@@ -82,6 +82,12 @@ function CourseModal({ setOpen, onSelectCourse }) {
               onChange={(e) => {
                 setSpotName(e.target.value);
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  searchSpotName();
+                }
+              }}
             />
           </div>
 

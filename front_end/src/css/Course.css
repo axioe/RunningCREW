@@ -41,10 +41,16 @@
   height: fit-content;
 }
 
+.cr-sidebar-header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .cr-sidebar-header-box h4 {
   font-size: 16px;
   color: #1e293b;
-  margin: 0 0 20px 0;
   font-weight: bold;
 }
 
@@ -643,4 +649,21 @@
   height: 100%;
   object-fit: cover;
   border-radius: 12px;
+}
+
+.cr-clear-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cr-clear-all-btn:hover {
+  color: #16a34a;
 }

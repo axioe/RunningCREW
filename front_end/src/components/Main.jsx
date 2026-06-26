@@ -7,32 +7,36 @@ import MainCrewCard from "./common/MainCrewCard";
 import MainMyCrewCard from "./common/MainMyCrewCard";
 import useAuthStore from "./common/useAuthStore";
 import api from "../js/api";
+import { MdCheckBox } from "react-icons/md";
+import { Pagination } from "react-bootstrap";
 
 const Main = () => {
   const navigate = useNavigate();
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [keyword, setKeyword] = useState("");
-
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-
   const token = useAuthStore((state) => state.accessToken);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [pageCount, setPageCount] = useState(6);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-
-    // 디버깅용: 함수가 실행되는지 브라우저 콘솔(F12)에서 먼저 확인
-    console.log("1. handleSearchSubmit 실행됨, 현재 입력값:", keyword);
-
+    setPage(0);
+    setTotalPage(0);
     if (!keyword.trim()) {
-      alert("검색어를 입력해주세요!"); // 동작 여부 확인용 알림
+      alert("검색어를 입력해주세요!");
       return;
     }
-
-    // 상태 변경 트리거
-    setIsExpanded(true);
-    console.log("2. isExpanded 상태를 true로 변경했습니다.");
+    if (!isExpanded) {
+      // 상태 변경 트리거
+      setIsExpanded(true);
+    } else {
+      searchKeyword();
+    }
   };
 
   function WeatherIcon({ icon }) {
@@ -50,11 +54,13 @@ const Main = () => {
     if (isExpanded) {
       try {
         setIsSearching(true);
+        setSearchResults([]);
         const response = await api.get(
-          `/running/getCourses?address=${keyword}`,
+          `/running/search?page=${page}&size=${pageCount}&keyword=${keyword}`,
         );
-        if (response) {
+        if (response && response.data) {
           setSearchResults(response.data.content || []);
+          setTotalPage(response.data.totalPages || 0);
         }
       } catch (err) {
       } finally {
@@ -65,7 +71,7 @@ const Main = () => {
 
   useEffect(() => {
     searchKeyword();
-  }, [isExpanded]);
+  }, [isExpanded, page]);
 
   // 💡 안전한 클래스 결합 방식 적용 (공백 누락으로 인한 인식 불가 오류 원천 차단)
   const containerClasses = [
@@ -74,6 +80,19 @@ const Main = () => {
   ]
     .filter(Boolean)
     .join(" ");
+
+  const handleSelect = (id) => {
+    setSelectedItems(
+      (prev) =>
+        prev.includes(id)
+          ? prev.filter((item) => item !== id) // 선택 해제
+          : [...prev, id], // 선택
+    );
+  };
+
+  const pageGroup = Math.floor(page / pageCount);
+  const startPage = pageGroup * pageCount;
+  const endPage = Math.min(startPage + pageCount, totalPage);
 
   return (
     <div className={containerClasses}>
@@ -119,12 +138,21 @@ const Main = () => {
             {/* 결과가 정상적으로 존재할 때 */}
             {!isSearching && searchResults.length > 0 && (
               <div className="search-result-grid">
-                {searchResults.map((item) => (
+                {searchResults.map((item) => (                 
                   <div
                     key={item.id}
-                    className="search-result-card"
-                    onClick={() => navigate(`/course`)}
+                    className={`search-result-card ${
+                      selectedItems.includes(item.id) ? "selected" : ""
+                    }`}
+                    onClick={() => handleSelect(item.id)}
                   >
+                    <div className="checkbox">
+                      <input
+                        type="checkbox"
+                        checked={selectedItems.includes(item.id)}
+                        readOnly
+                      />
+                    </div>
                     <h4>{item.spotName}</h4>
                     <p>{item.address}</p>
                   </div>
@@ -188,16 +216,76 @@ const Main = () => {
       </main>
 
       {isExpanded && (
-        <button
-          className="back-to-main-btn"
-          onClick={() => {
-            setIsExpanded(false);
-            setKeyword("");
-          }}
-        >
-          {/* 왼쪽 화살표 곡선 아이콘 혹은 이모지 결합 */}
-          <span>↩</span> 메인 화면으로 돌아가기
-        </button>
+        <div className="bottom-area">
+          <div className="pagination-wrapper">
+            <Pagination>
+              <Pagination.First
+                disabled={page < pageCount}
+                onClick={() => {
+                  if (page > pageCount) setPage(page - pageCount);
+                }}
+              />
+              <Pagination.Prev
+                disabled={page == 0}
+                onClick={() => {
+                  if (page > 0) setPage(page - 1);
+                }}
+              />
+              {[...Array(endPage - startPage)].map((_, index) => {
+                const pageNumber = startPage + index;
+                return (
+                  <Pagination.Item
+                    key={pageNumber}
+                    active={page == pageNumber}
+                    onClick={() => setPage(pageNumber)}
+                  >
+                    {pageNumber + 1}
+                  </Pagination.Item>
+                );
+              })}
+              <Pagination.Next
+                disabled={page == totalPage - 1}
+                onClick={() => {
+                  if (page < totalPage - 1) setPage(page + 1);
+                }}
+              />
+              <Pagination.Last
+                disabled={page >= totalPage - pageCount}
+                onClick={() => {
+                  if (page < totalPage - pageCount) setPage(page + pageCount);
+                }}
+              />
+            </Pagination>
+          </div>
+          <div className="button-group">
+            <button
+              className="selected-btn"
+              onClick={() => {
+                if (selectedItems.length > 0) {
+                  navigate("/course", {
+                    state: {
+                      selectedItems,
+                    },
+                  });
+                }
+              }}
+            >
+              <MdCheckBox size={22} /> 러닝 코스 보기
+            </button>
+            <button
+              className="back-to-main-btn"
+              onClick={() => {
+                setIsExpanded(false);
+                setKeyword("");
+                setSearchResults([]);
+                setSelectedItems([]);
+              }}
+            >
+              {/* 왼쪽 화살표 곡선 아이콘 혹은 이모지 결합 */}
+              <span>↩</span> 메인 화면으로 돌아가기
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

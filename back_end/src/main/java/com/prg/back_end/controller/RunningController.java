@@ -1,12 +1,11 @@
 package com.prg.back_end.controller;
 
-import com.prg.back_end.dto.ResultResponse;
-import com.prg.back_end.dto.PageResponse;
-import com.prg.back_end.dto.RunningRequest;
-import com.prg.back_end.dto.RunningResponse;
+import com.prg.back_end.dto.*;
 import com.prg.back_end.entity.RunningLevel;
 import com.prg.back_end.service.RunningService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/running")
@@ -56,5 +55,20 @@ public class RunningController {
             @RequestParam (defaultValue = "") String difficulty,
             @RequestParam (defaultValue = "") String sortType){
         return runningService.findByAllFilter(page, size, address, distance, difficulty, sortType);
+    }
+
+    @GetMapping("/search")
+    public PageResponse<RunningResponse> search(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam (defaultValue = "") String keyword){
+        return runningService.searchKeyword(page, size, keyword);
+    }
+
+    @PostMapping("/list")
+    public List<RunningResponse> getCourseList(
+            @RequestBody CourseRequest request) {
+
+      return runningService.getCourseList(request);
     }
 }

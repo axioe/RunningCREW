@@ -116,10 +116,10 @@ const Post = () => {
       const crew_id = crew_res.data.id;
       //console.log("crew_id = " + crew_id);
       uploadImage(course_id);
-      alert("작성 성공!");
+      alert("작성 성공");
     } catch (e) {
       console.error(e);
-      alert("작성 실패.");
+      alert("작성 실패");
     }
   };
 
@@ -145,7 +145,7 @@ const Post = () => {
   };
 
   const handleSelectCourse = (course) => {
-    setLocation(course.title);
+    setLocation(course.spotName);
     setAddress(course.address);
     let difficulty = "새싹";
     if (course.runningLevel === "MEDIUM") difficulty = "나무";
