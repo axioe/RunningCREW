@@ -1,51 +1,48 @@
-import React, { use, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "../css/MyPage.css";
 import Header from "./common/Header";
 import MyPost from "./MyPage/MyPost";
-import TabContent from "./MyPage/TabContent";
 import useAuthStore from "./common/useAuthStore";
 import api from "../js/api";
 import axios from "axios";
 
-const fetchUser = async () => {
-  const userId = localStorage.getItem("userId");
+// const fetchUser = async () => {
+//   const userId = localStorage.getItem("userId");
 
-  const res = await axios.get(
-    `http://localhost:8080/user/getUser?user_id=${userId}`,
-  );
+//   const res = await axios.get(
+//     `http://localhost:8080/user/getUser?user_id=${userId}`,
+//   );
 
-  setUser(res.data);
-};
+//   setUser(res.data);
+// };
 
-const updateUser = async () => {
-  await axios.put(`http://localhost:8080/user/${user.id}`, {
-    userId: user.userId,
-    email: user.email,
-    nickName: user.nickName,
-    userLevel: user.userLevel,
-  });
+// const updateUser = async () => {
+//   await axios.put(`http://localhost:8080/user/${user.id}`, {
+//     userId: user.userId,
+//     email: user.email,
+//     nickName: user.nickName,
+//     userLevel: user.userLevel,
+//   });
 
-  alert("회원 정보 수정 완료");
-};
+//   alert("회원 정보 수정 완료");
+// };
 
-const changePassword = async () => {
-  if (!newPassword) {
-    alert("비밀번호 입력 필요");
-    return;
-  }
+// const changePassword = async () => {
+//   if (!newPassword) {
+//     alert("비밀번호 입력 필요");
+//     return;
+//   }
 
-  await axios.post("http://localhost:8080/user/updatePassword", {
-    id: user.id,
-    password: newPassword,
-  });
+//   await axios.post("http://localhost:8080/user/updatePassword", {
+//     id: user.id,
+//     password: newPassword,
+//   });
 
-  alert("비밀번호 변경 완료");
-  setNewPassword("");
-};
+//   alert("비밀번호 변경 완료");
+//   setNewPassword("");
+// };
 
 const Page = () => {
-  const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
 
   // 현재 활성화된 서브 메뉴 탭 상태 관리 ('profile', 'crew', 'bookmark', 'post')
@@ -89,9 +86,11 @@ const Page = () => {
   };
 
   const getUser = async () => {
+    if (!user?.id) return;
+
     try {
       const response = await api.get(`/user/${user.id}`);
-      console.log(response.data);
+
       setUserProfile({
         nickname: response.data.nickName,
         email: response.data.email,
@@ -106,6 +105,8 @@ const Page = () => {
   let [crewPosts, setCrewPosts] = useState([]);
   //  내 러닝 크루 현황
   const getCrewPosts = async () => {
+    if (!user?.id) return;
+
     try {
       const response = await api.get(`/post/getAllByUserId?userId=${user.id}`);
       //console.log(response.data);
@@ -116,9 +117,11 @@ const Page = () => {
   };
 
   useEffect(() => {
+    if (!user?.id) return;
+
     getUser();
     getCrewPosts();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const loadImage = async () => {
@@ -141,6 +144,11 @@ const Page = () => {
     };
     loadImage();
   }, [userProfile]);
+
+  // 참여 횟수
+  const runningCount = crewPosts.filter(
+    (post) => post.crewStatus === "APPROVED",
+  ).length;
 
   return (
     <div className="nature-runner-main-wrapper nature-runner-mypage-wrapper">
@@ -211,8 +219,10 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="stat-card">
-                  <span className="stat-label">이번 달 러닝 시간</span>
-                  <div className="stat-value">4시간 18분</div>
+                  <span className="stat-label">러닝 참여 횟수</span>
+                  <div className="stat-value">
+                    {runningCount} <span className="stat-unit">번</span>
+                  </div>
                 </div>
               </div>
 

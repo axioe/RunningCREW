@@ -81,7 +81,7 @@ const Post = () => {
     if (mvmFclty) info = "운동시설";
     if (cnvnncFclty && info.length > 0) {
       info += "/";
-      info += "편익시설";
+      info += "편익 시설";
     }
     if (cltrFclty && info.length > 0) {
       info += "/";
@@ -116,10 +116,10 @@ const Post = () => {
       const crew_id = crew_res.data.id;
       //console.log("crew_id = " + crew_id);
       uploadImage(course_id);
-      alert("작성하기 성공했습니다.");
+      alert("작성 성공!");
     } catch (e) {
       console.error(e);
-      alert("작성하기 실패했습니다.");
+      alert("작성 실패.");
     }
   };
 
@@ -203,7 +203,7 @@ const Post = () => {
 
       {/* 메인 폼 컨테이너 (2단 분할 레이아웃 적용) */}
       <div className="post-form-container split-layout">
-        {/* [좌측 구역] 입력 폼 서브미션 */}
+        {/* [좌측 구역] 입력 폼 서브 미션 */}
         <form onSubmit={handleSubmit} className="form-left-section">
           <div className="form-header">
             <h2>크루 모집글 작성하기</h2>
@@ -230,7 +230,7 @@ const Post = () => {
             <textarea
               id="content"
               className="form-textarea"
-              placeholder="모집글 내용을 상세히 입력해주세요"
+              placeholder="모집글 내용을 상세히 입력해 주세요."
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required
@@ -239,7 +239,7 @@ const Post = () => {
 
           {/* 이미지 등록 */}
           <div className="form-row">
-            <label className="form-label fw-bold mb-2">러닝코스 이미지</label>
+            <label className="form-label fw-bold mb-2">러닝 코스 이미지</label>
 
             <input
               id="imageUpload"
@@ -271,7 +271,7 @@ const Post = () => {
                   <div className="upload-plus">+</div>
                   <div className="upload-title">이미지 등록</div>
                   <div className="upload-desc">
-                    클릭하여 이미지를 선택하세요
+                    클릭하여 이미지를 선택하세요.
                   </div>
                 </div>
               )}
@@ -389,7 +389,7 @@ const Post = () => {
           </div>
 
           <div className="form-row">
-            <label className="form-label">인원수</label>
+            <label className="form-label">인원 수</label>
             <input
               type="number"
               min="1"
@@ -397,7 +397,7 @@ const Post = () => {
               className="form-input"
               value={memberPeople}
               onChange={(e) => setMemberPeople(e.target.value)}
-              placeholder="인원수를 입력하세요"
+              placeholder="인원수를 입력하세요."
             />
           </div>
 
@@ -418,7 +418,7 @@ const Post = () => {
                   checked={cnvnncFclty}
                   onChange={(e) => setCnvnncFclty(e.target.checked)}
                 />{" "}
-                편익시설
+                편익 시설
               </label>
               <label>
                 <input
@@ -473,29 +473,29 @@ const Post = () => {
           ></button>
         </form>
 
-        {/* [우측 구역] 실시간 미리보기 & 액션 제어 사이드바 */}
+        {/* [우측 구역] 실시간 미리보기 & 액션 제어 사이드 바 */}
         <div className="form-right-sidebar">
           <div className="summary-box sticky-box">
             <h3>🏃‍♂️ 러닝 정보 미리보기</h3>
             <ul>
               <li>
-                <strong>날짜 :</strong> {date || "미정"}
+                <strong>날짜: </strong> {date || "미정"}
               </li>
               <li>
-                <strong>시간 :</strong> {ampm} {timeNum || "12:00"}
+                <strong>시간: </strong> {ampm} {timeNum || "12:00"}
               </li>
               <li>
-                <strong>장소 :</strong> {location || "미정"}
+                <strong>장소: </strong> {location || "미정"}
               </li>
               <li>
-                <strong>거리 :</strong> {distance} km
+                <strong>거리: </strong> {distance} km
               </li>
 
               <li>
-                <strong>인원수 :</strong> {memberPeople}
+                <strong>인원 수: </strong> {memberPeople}
               </li>
               <li>
-                <strong>난이도 :</strong>{" "}
+                <strong>난이도: </strong>{" "}
                 <span className="highlight-text">{difficulty}</span>
               </li>
             </ul>
