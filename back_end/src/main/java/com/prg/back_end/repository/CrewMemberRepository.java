@@ -22,11 +22,16 @@ public interface CrewMemberRepository extends JpaRepository<CrewMemberEntity, Lo
                 m.createdAt,
                 m.crewRole,
                 m.status,
-                u.nickName
+                u.nickName,
+                r.spotName,
+                r.address,
+                r.runningLevel
                 )
            from CrewMemberEntity m
               left join CrewPostEntity p
               on p.id = m.postId
+              left join RunningCourseEntity r
+              on r.id = p.courseId
               join UserEntity u
               on u.id = m.userId
            where m.postId = :postId

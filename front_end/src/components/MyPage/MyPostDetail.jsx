@@ -75,12 +75,11 @@ export default function PostDetail() {
   };
 
   // 4. 방장의 승인/거절 처리
-  // 🔧 [수정] CrewMemberResponse의 crew_member PK 필드명은 'id' (memberId 아님)
-  const handleApprove = async (memberPk) => {
+  const handleApprove = async (memberId) => {
     if (!user) return;
     try {
       setActionLoading(true);
-      await api.patch(`/member/${memberPk}/approve`, null, {
+      await api.patch(`/member/${memberId}/approve`, null, {
         params: { requesterId: user.id },
       });
       fetchData();
@@ -92,11 +91,11 @@ export default function PostDetail() {
     }
   };
 
-  const handleReject = async (memberPk) => {
+  const handleReject = async (memberId) => {
     if (!user) return;
     try {
       setActionLoading(true);
-      await api.patch(`/member/${memberPk}/reject`, null, {
+      await api.patch(`/member/${memberId}/reject`, null, {
         params: { requesterId: user.id },
       });
       fetchData();
@@ -147,8 +146,12 @@ export default function PostDetail() {
         <div className="detail-left-gradient-card">
           <div className="card-content-wrap">
             <span className="location-badge">기존 러닝장소</span>
-            <h1 className="location-main-title">{post[0]?.title}</h1>
-            <p className="location-sub-address">{post[0]?.content}</p>
+            <h1 className="location-main-title">
+              {post[0]?.spotName || post[0]?.title}
+            </h1>
+            <p className="location-sub-address">
+              {post[0]?.address || post[0]?.content}
+            </p>
           </div>
         </div>
 
@@ -159,12 +162,29 @@ export default function PostDetail() {
             
             <div className="summary-card-flex-row">
               <div className="summary-mini-box">
-                <span className="mini-box-label"> 장소 </span>
-                <strong className="mini-box-value"> 00시</strong>
+                <span className="mini-box-label"> 난이도 </span>
+                <strong className="mini-box-value">
+                  {post[0]?.runningLevel
+                    ? post[0].runningLevel === "HIGH"
+                      ? "숲"
+                      : post[0].runningLevel === "MEDIUM"
+                      ? "나무"
+                      : "새싹"
+                    : "난이도 정보 없음"}
+                </strong>
               </div>
               <div className="summary-mini-box">
                 <span className="mini-box-label">시간</span>
-                <strong className="mini-box-value"> 00시</strong>
+                <strong className="mini-box-value">
+                  {post[0]?.appliedAt
+                    ? new Date(post[0].appliedAt).toLocaleString("ko-KR", {
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    : "시간 정보 없음"}
+                </strong>
               </div>
             </div>
 
@@ -190,33 +210,6 @@ export default function PostDetail() {
 
       <hr className="detail-divider" />
 
-      {/* 참여 인원 닉네임 목록 - 모든 유저에게 노출 */}
-      <div className="applicant-management-box">
-        <h3 className="mypost-title mb-3">참여 인원</h3>
-        {(() => {
-          const approved = post.filter((app) => app.crewStatus === "APPROVED");
-          if (approved.length === 0) {
-            return (
-              <p className="text-muted" style={{ fontSize: "14px", margin: 0 }}>
-                아직 승인된 참여자가 없습니다.
-              </p>
-            );
-          }
-          return (
-            <div className="participant-nickname-list">
-              {approved.map((app) => (
-                <span key={app.id} className="participant-nickname-pill">
-                  {app.crewRole === "Owner" ? "👑 " : "🏃 "}
-                  {app.nickName}
-                </span>
-              ))}
-            </div>
-          );
-        })()}
-      </div>
-
-      <hr className="detail-divider" />
-
       {/* 신청자 관리 테이블 구역 - 방장만 노출 */}
       {isOwner && (
         <div className="applicant-management-box">
@@ -234,7 +227,7 @@ export default function PostDetail() {
               {post
                 .filter((app) => app.crewRole !== "Owner")
                 .map((app) => (
-                  <tr key={app.id}>
+                  <tr key={app.memberId}>
                     <td className="applicant-nickname">{app.nickName}</td>
                     <td>
                       <span
@@ -253,14 +246,14 @@ export default function PostDetail() {
                         <div className="applicant-action-group">
                           <button
                             className="btn-approve"
-                            onClick={() => handleApprove(app.id)}
+                            onClick={() => handleApprove(app.memberId)}
                             disabled={actionLoading}
                           >
                             승인
                           </button>
                           <button
                             className="btn-reject"
-                            onClick={() => handleReject(app.id)}
+                            onClick={() => handleReject(app.memberId)}
                             disabled={actionLoading}
                           >
                             거절
