@@ -48,11 +48,10 @@ const Page = () => {
   // 현재 활성화된 서브 메뉴 탭 상태 관리 ('profile', 'crew', 'bookmark', 'post')
   const [activeTab, setActiveTab] = useState("profile");
 
-  // 임시 데이터 (기존 페이지 톤앤매너 매칭용)
   const [userProfile, setUserProfile] = useState({
-    nickname: "러닝이",
-    email: "runner@naturerunner.com",
-    role: "소프트웨어 개발자",
+    nickname: "",
+    email: "",
+    role: "",
     imageUrl: "",
   });
 
@@ -109,7 +108,7 @@ const Page = () => {
 
     try {
       const response = await api.get(`/post/getAllByUserId?userId=${user.id}`);
-      //console.log(response.data);
+      console.log(response.data);
       setCrewPosts(response.data);
     } catch (error) {
       console.log("Error : ", error);
