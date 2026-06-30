@@ -34,9 +34,8 @@ public class CrewPostController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id){
-        crewPostService.delete(id);
-        return "OK";
+    public CrewActionResponse delete(@PathVariable Long id, @RequestParam Long requesterId){
+        return crewPostService.delete(id, requesterId);
     }
 
     @GetMapping("/getAllByUserId")

@@ -27,6 +27,28 @@ export default function MyPost() {
     getCrewPostsOwner();
   }, []);
 
+  const handleDelete = async (e, postId) => {
+    e.stopPropagation(); // 행 클릭(상세 이동) 방지
+
+    if (!window.confirm("이 모집글을 삭제하시겠습니까? 삭제하면 신청자 정보도 함께 사라집니다."))
+      return;
+
+    try {
+      const response = await api.delete(`/post/${postId}`, {
+        params: { requesterId: user.id },
+      });
+      if (response.data?.success) {
+        alert("모집글이 삭제되었습니다.");
+        setPosts((prev) => prev.filter((p) => p.id !== postId));
+      } else {
+        alert(response.data?.message || "삭제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("삭제 실패:", error);
+      alert("삭제 처리 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <div className="mypost-container">
       <div className="mypost-header">
@@ -46,6 +68,7 @@ export default function MyPost() {
               <th>제목</th>
               <th style={{ width: "15%" }}>러닝 일정</th>
               <th style={{ width: "12%" }}>난이도</th>
+              <th style={{ width: "10%" }}>관리</th>
             </tr>
           </thead>
           <tbody>
@@ -62,6 +85,15 @@ export default function MyPost() {
                   <span className={`badge ${po.runningLevel === "LOW" ? "bg-success" : po.runningLevel === "MEDIUM" ? "bg-primary" : "bg-danger"}`}>
                     {po.runningLevel === "HIGH" ? "숲" : po.runningLevel === "MEDIUM" ? "나무" : "새싹"}
                   </span>
+                </td>
+                <td>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={(e) => handleDelete(e, po.id)}
+                  >
+                    삭제
+                  </Button>
                 </td>
               </tr>
             ))}

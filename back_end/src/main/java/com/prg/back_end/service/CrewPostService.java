@@ -82,12 +82,25 @@ public class CrewPostService {
         return ResultResponse.from(postEntity);
     }
 
-    public void delete(Long id) {
+    @Transactional
+    public CrewActionResponse delete(Long id, Long requesterId) {
+        //  1. 모집글 존재 여부 확인
         CrewPostEntity postEntity = crewPostRepository.findById(id).orElse(null);
         if (ObjectUtils.isEmpty(postEntity))
-            return;
+            return CrewActionResponse.notFound();
 
+        //  2. 요청자가 이 모집글의 방장(Owner)인지 확인
+        CrewMemberEntity owner = crewMemberRepository
+                .findByPostIdAndUserId(id, requesterId)
+                .orElse(null);
+        if (ObjectUtils.isEmpty(owner) || owner.getCrewRole() != CrewRole.Owner)
+            return CrewActionResponse.forbidden();
+
+        //  3. 연관된 crew_member(신청자/방장) 레코드 먼저 정리 후 모집글 삭제
+        crewMemberRepository.deleteByPostId(id);
         crewPostRepository.delete(postEntity);
+
+        return CrewActionResponse.ok(null);
     }
 
     public List<CrewPostMemberResponse> getOrdersByUserId(Long userId) {

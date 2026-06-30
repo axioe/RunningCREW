@@ -40,4 +40,6 @@ public interface CrewMemberRepository extends JpaRepository<CrewMemberEntity, Lo
     List<CrewMemberResponse> findByPostId(@Param("postId") Long postId);
 
     java.util.Optional<CrewMemberEntity> findByPostIdAndUserId(Long postId, Long userId);
+
+    void deleteByPostId(Long postId);
 }
