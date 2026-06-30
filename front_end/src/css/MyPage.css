@@ -133,15 +133,23 @@
 .nature-runner-mypage-wrapper .tab-content-wrapper {
   background-color: #ffffff !important;
   border-radius: 16px !important;
-  padding: 2rem !important;
+  padding: 2.5rem !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* 섹션 간 공통 간격 */
+.page-section {
+  margin-bottom: 2rem;
 }
 
 .nature-runner-mypage-wrapper .content-title {
   font-size: 1.4rem;
+  font-weight: 700;
   color: #1e293b;
-  margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin: 0;
 }
 
 /* --- 탭 1 스타일: 인포그래픽 통계 위젯 & 입력창 --- */
@@ -149,14 +157,14 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  margin-bottom: 2rem;
 }
 
 .nature-runner-mypage-wrapper .stat-card {
   background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-left: 4px solid #16a34a;
   padding: 1rem 1.25rem;
-  border-radius: 8px;
+  border-radius: 12px;
 }
 
 .nature-runner-mypage-wrapper .stat-label {
@@ -181,12 +189,15 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  margin-bottom: 2rem;
 }
 
 .nature-runner-mypage-wrapper .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.25rem;
+  padding-top: 0; /* 핵심 */
+  margin: 0;
 }
 
 .nature-runner-mypage-wrapper .form-group label {
@@ -198,7 +209,7 @@
 .nature-runner-mypage-wrapper .mypage-input {
   width: 100%;
   padding: 0.8rem 1.2rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #e2e8f0;
   border-radius: 16px !important; /* 기획 규격 매칭 (16px) */
   font-size: 0.95rem;
   box-sizing: border-box;
@@ -208,6 +219,7 @@
 
 .nature-runner-mypage-wrapper .mypage-input:focus {
   border-color: #16a34a !important;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.1);
 }
 
 .nature-runner-mypage-wrapper .mypage-input:disabled {
@@ -220,14 +232,14 @@
   background-color: #16a34a !important;
   color: #ffffff !important;
   border: none;
-  padding: 0.8rem;
+  padding: 0.75rem 2rem;
   border-radius: 30px !important; /* 가이드 안의 강조 라운딩 */
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
   margin-top: 0.5rem;
   transition: opacity 0.2s;
-  width: 180px;
+  width: fit-content;
   display: inline-block;
   margin: 20px auto 0;
 }
@@ -241,21 +253,19 @@
   overflow-x: auto;
 }
 
-.nature-runner-mypage-wrapper .crew-status-table {
+.crew-status-table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
 }
 
-.nature-runner-mypage-wrapper .crew-status-table th {
-  background-color: #f8fafc;
+.crew-status-table th {
+  background: #f8fafc;
   color: #64748b;
-  padding: 0.75rem 1rem;
   font-size: 0.9rem;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 0.75rem 1rem;
 }
 
-.nature-runner-mypage-wrapper .crew-status-table td {
+.crew-status-table td {
   padding: 1rem;
   border-bottom: 1px solid #f1f5f9;
   font-size: 0.95rem;
@@ -356,6 +366,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .profile-image {

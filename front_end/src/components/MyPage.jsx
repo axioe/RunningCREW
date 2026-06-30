@@ -171,7 +171,7 @@ const Page = () => {
               </div>
             )}
             <h3 className="profile-nickname">{userProfile.nickname}</h3>
-            <span className="profile-role-tag">{userProfile.role}</span>
+            {/* <span className="profile-role-tag">{userProfile.role}</span> */}
           </div>
 
           <nav className="sidebar-menu-list">
@@ -211,12 +211,6 @@ const Page = () => {
 
               {/* 러닝 통계 요약 위젯 */}
               <div className="stats-grid">
-                <div className="stat-card">
-                  <span className="stat-label">이번 달 달린 거리</span>
-                  <div className="stat-value">
-                    42.5 <span className="stat-unit">km</span>
-                  </div>
-                </div>
                 <div className="stat-card">
                   <span className="stat-label">러닝 참여 횟수</span>
                   <div className="stat-value">

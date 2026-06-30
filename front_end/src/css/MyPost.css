@@ -1,64 +1,69 @@
 /* MyPost.css */
 .mypost-container {
   width: 100%;
+  background: #ffffff;
+  border-radius: 16px !important;
+  padding: 2rem !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
   padding-left: 20px;
-  margin-top: 1rem;
 }
 
 .mypost-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 }
 
 .mypost-title {
-  color: #1e293b;
   font-size: 1.4rem;
-  font-weight: bold;
-  margin: 0;
+  color: #1e293b;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
 }
 
-/* Crew 테이블 스타일 재사용 */
-
 .mypost-title-cell {
-  font-weight: bold;
+  font-weight: 600;
   color: #1e293b;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .mypost-title-cell:hover {
   color: #16a34a;
 }
 
+v
+
+/* 작성 버튼 (MyPage 버튼 톤 통일) */
 .write-btn {
   background-color: #16a34a !important;
   border: none !important;
-  border-radius: 20px !important;
-  padding: 8px 18px !important;
+  border-radius: 30px !important;
+  padding: 0.6rem 1.2rem !important;
   font-weight: 600 !important;
+  font-size: 0.95rem;
 }
 
 .write-btn:hover {
   background-color: #15803d !important;
+  opacity: 0.9;
 }
 
 /* 삭제 버튼 */
 
 .mypost-delete-btn {
-  border: none;
-  background: #fee2e2;
+  background-color: #fee2e2;
   color: #dc2626;
-  padding: 6px 14px;
+  border: none;
+  padding: 6px 12px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
-  transition: 0.2s;
+  cursor: pointer;
 }
 
 .mypost-delete-btn:hover {
-  background: #fecaca;
+  background-color: #fecaca;
 }
 
 .post-table {
@@ -86,12 +91,13 @@
 .empty-state {
   background: #f8fafc;
   text-align: center;
-  padding: 60px 20px;
+  padding: 3rem 1rem;
   border: 1px dashed #d1d5db;
-  background-color: #f9fafb;
+  background-color: #f8fafc;
   color: #64748b;
   margin: 20px 0;
-  border-radius: 16px;
+  margin-top: 1rem;
+  border-radius: 12px;
 }
 /* ==========================================================================
    MyPostDetail (상세페이지) 확장 스타일 시트 구역
@@ -350,6 +356,26 @@
 
 .btn-reject:hover {
   background-color: #fee2e2;
+}
+
+.crew-status-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.crew-status-table th {
+  background-color: #f8fafc;
+  color: #64748b;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.crew-status-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.95rem;
 }
 
 .btn-join-crew:disabled {
