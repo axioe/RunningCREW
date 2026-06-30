@@ -220,13 +220,16 @@
   background-color: #16a34a !important;
   color: #ffffff !important;
   border: none;
-  padding: 0.9rem;
+  padding: 0.8rem;
   border-radius: 30px !important; /* 가이드 안의 강조 라운딩 */
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   margin-top: 0.5rem;
   transition: opacity 0.2s;
+  width: 180px;
+  display: inline-block;
+  margin: 20px auto 0;
 }
 
 .nature-runner-mypage-wrapper .mypage-submit-btn:hover {
