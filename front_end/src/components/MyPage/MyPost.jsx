@@ -28,49 +28,73 @@ export default function MyPost() {
   }, []);
 
   return (
-    <div className="mypost-container">
+    <div className="tab-content-wrapper">
       <div className="mypost-header">
-        <h5 className="mypost-title">내가 작성한 모집글 리스트</h5>
-        <Button variant="success" size="sm" className="write-btn" onClick={() => navigate("/write")}>
+        <h2 className="content-title">내가 작성한 글</h2>
+
+        <button
+          className="mypage-submit-btn"
+          style={{ width: "160px", margin: 0 }}
+          onClick={() => navigate("/write")}
+        >
           + 새 모집글 작성
-        </Button>
+        </button>
       </div>
 
       {loading ? (
-        <div className="text-center py-5 text-muted">데이터를 불러오는 중입니다...</div>
-      ) : posts && posts.length > 0 ? (
-        <Table hover responsive className="post-table">
-          <thead>
-            <tr>
-              <th style={{ width: "8%" }}>번호</th>
-              <th>제목</th>
-              <th style={{ width: "15%" }}>러닝 일정</th>
-              <th style={{ width: "12%" }}>난이도</th>
-            </tr>
-          </thead>
-          <tbody>
-            {posts.map((po, index) => (
-              <tr key={po.id || index} className="post-row">
-                <td>{index + 1}</td>
-                <td className="post-title-cell" onClick={() => navigate(`/post/detail/${po.id}`)}>
-                  {po.title}
-                </td>
-                <td className="text-muted" style={{ fontSize: "13px" }}>
-                  {new Date(po.appliedAt).toLocaleDateString("ko-KR")}
-                </td>
-                <td>
-                  <span className={`badge ${po.runningLevel === "LOW" ? "bg-success" : po.runningLevel === "MEDIUM" ? "bg-primary" : "bg-danger"}`}>
-                    {po.runningLevel === "HIGH" ? "숲" : po.runningLevel === "MEDIUM" ? "나무" : "새싹"}
-                  </span>
-                </td>
+        <div className="empty-state">데이터를 불러오는 중입니다...</div>
+      ) : posts.length > 0 ? (
+        <div className="crew-list-container">
+          <table className="crew-status-table">
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>러닝 일정</th>
+                <th>레벨</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+
+            <tbody>
+              {posts.map((po, index) => (
+                <tr key={po.id}>
+                  <td>{index + 1}</td>
+
+                  <td
+                    className="crew-name-cell"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/post/detail/${po.id}`)}
+                  >
+                    {po.title}
+                  </td>
+
+                  <td>{new Date(po.appliedAt).toLocaleDateString("ko-KR")}</td>
+
+                  <td>
+                    <span
+                      className={`crew-level-tag ${
+                        po.runningLevel === "HIGH"
+                          ? "level-advanced"
+                          : po.runningLevel === "MEDIUM"
+                            ? "level-medium"
+                            : "level-beginner"
+                      }`}
+                    >
+                      {po.runningLevel === "HIGH"
+                        ? "숲"
+                        : po.runningLevel === "MEDIUM"
+                          ? "나무"
+                          : "새싹"}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <div className="empty-state">
-          <div style={{ fontSize: "24px" }}>📋</div>
-          <p>등록된 리스트가 없습니다.</p>
+          <p>등록된 모집글이 없습니다.</p>
         </div>
       )}
     </div>
