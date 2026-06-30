@@ -389,7 +389,7 @@ const Post = () => {
           </div>
 
           <div className="form-row">
-            <label className="form-label">인원 수</label>
+            <label className="form-label">인원수</label>
             <input
               type="number"
               min="1"
@@ -492,7 +492,7 @@ const Post = () => {
               </li>
 
               <li>
-                <strong>인원 수: </strong> {memberPeople}
+                <strong>인원수: </strong> {memberPeople}
               </li>
               <li>
                 <strong>난이도: </strong>{" "}
