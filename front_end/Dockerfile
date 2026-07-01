@@ -1,5 +1,7 @@
 # ===== Build assets =====
 FROM node:20-alpine AS build
+ARG VITE_KAKAO_JS_KEY
+ENV VITE_KAKAO_JS_KEY=$VITE_KAKAO_JS_KEY
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
