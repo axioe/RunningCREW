@@ -2,6 +2,7 @@ package com.prg.back_end.dto;
 
 import com.prg.back_end.entity.UserEntity;
 import com.prg.back_end.entity.UserLevel;
+import com.prg.back_end.service.UserLevelService;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,11 +16,11 @@ public class UserResponse {
     private String email;
     private String nickName;
     private UserLevel userLevel;
+    private String userLevelLabel;   // 한글 등급명: 씨앗/새싹/가지/나무/숲
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String imageUrl;
 
-    //  Users Entity -> UserResponse Dto
     public static UserResponse from(UserEntity user){
         return UserResponse.builder()
                 .id(user.getId())
@@ -27,6 +28,7 @@ public class UserResponse {
                 .email(user.getEmail())
                 .nickName(user.getNickName())
                 .userLevel(user.getUserLevel())
+                .userLevelLabel(UserLevelService.toKorean(user.getUserLevel()))
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();
@@ -39,6 +41,7 @@ public class UserResponse {
                 .email(user.getEmail())
                 .nickName(user.getNickName())
                 .userLevel(user.getUserLevel())
+                .userLevelLabel(UserLevelService.toKorean(user.getUserLevel()))
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .imageUrl(imageUrl)

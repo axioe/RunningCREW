@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CrewMemberService {
     private final CrewMemberRepository crewMemberRepository;
+    private final UserLevelService userLevelService;
 
     public List<CrewMemberResponse> findByPostId(Long postId) {
         return crewMemberRepository.findByPostId(postId);
@@ -55,6 +56,9 @@ public class CrewMemberService {
         //  3. 상태 변경
         target.setStatus(newStatus);
         crewMemberRepository.save(target);
+
+        //  4. 승인/거절 후 해당 멤버의 등급 자동 재계산
+        userLevelService.refreshLevel(target.getUserId());
 
         return CrewActionResponse.ok(newStatus);
     }

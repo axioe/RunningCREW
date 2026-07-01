@@ -3,6 +3,7 @@ package com.prg.back_end.repository;
 import com.prg.back_end.dto.CrewMemberResponse;
 import com.prg.back_end.dto.CrewPostMemberResponse;
 import com.prg.back_end.entity.CrewMemberEntity;
+import com.prg.back_end.entity.CrewStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,4 +43,6 @@ public interface CrewMemberRepository extends JpaRepository<CrewMemberEntity, Lo
     java.util.Optional<CrewMemberEntity> findByPostIdAndUserId(Long postId, Long userId);
 
     void deleteByPostId(Long postId);
+
+    long countByUserIdAndStatus(Long userId, CrewStatus status);
 }

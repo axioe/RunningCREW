@@ -45,7 +45,7 @@ public class UserService {
         user.setNickName(request.getNickName());
         user.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
         user.setUserRole(RoleType.USER);
-        user.setUserLevel(UserLevel.Beginner);
+        user.setUserLevel(UserLevel.SEED);
         UserEntity savedUser = userRepository.save(user);
 
         return UserResponse.from(savedUser);

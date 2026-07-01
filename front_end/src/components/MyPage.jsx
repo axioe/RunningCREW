@@ -53,6 +53,8 @@ const Page = () => {
     email: "",
     role: "",
     imageUrl: "",
+    userLevel: "SEED",
+    userLevelLabel: "씨앗",
   });
 
   const [newPassword, setNewPassword] = useState("");
@@ -95,6 +97,8 @@ const Page = () => {
         email: response.data.email,
         role: response.data.userLevel,
         imageUrl: response.data.imageUrl,
+        userLevel: response.data.userLevel,
+        userLevelLabel: response.data.userLevelLabel || "씨앗",
       });
     } catch (error) {
       console.error(error);
@@ -172,6 +176,9 @@ const Page = () => {
             )}
             <h3 className="profile-nickname">{userProfile.nickname}</h3>
             {/* <span className="profile-role-tag">{userProfile.role}</span> */}
+            <span className={`profile-level-badge level-${userProfile.userLevel?.toLowerCase()}`}>
+              {userProfile.userLevelLabel}
+            </span>
           </div>
 
           <nav className="sidebar-menu-list">

@@ -133,23 +133,15 @@
 .nature-runner-mypage-wrapper .tab-content-wrapper {
   background-color: #ffffff !important;
   border-radius: 16px !important;
-  padding: 2.5rem !important;
+  padding: 2rem !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-/* 섹션 간 공통 간격 */
-.page-section {
-  margin-bottom: 2rem;
 }
 
 .nature-runner-mypage-wrapper .content-title {
   font-size: 1.4rem;
-  font-weight: 700;
   color: #1e293b;
-  margin: 0;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
 }
 
 /* --- 탭 1 스타일: 인포그래픽 통계 위젯 & 입력창 --- */
@@ -157,14 +149,14 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .nature-runner-mypage-wrapper .stat-card {
   background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
   border-left: 4px solid #16a34a;
   padding: 1rem 1.25rem;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .nature-runner-mypage-wrapper .stat-label {
@@ -189,15 +181,12 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  margin-bottom: 2rem;
 }
 
 .nature-runner-mypage-wrapper .form-group {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding-top: 0; /* 핵심 */
-  margin: 0;
+  gap: 0.5rem;
 }
 
 .nature-runner-mypage-wrapper .form-group label {
@@ -209,7 +198,7 @@
 .nature-runner-mypage-wrapper .mypage-input {
   width: 100%;
   padding: 0.8rem 1.2rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 16px !important; /* 기획 규격 매칭 (16px) */
   font-size: 0.95rem;
   box-sizing: border-box;
@@ -219,7 +208,6 @@
 
 .nature-runner-mypage-wrapper .mypage-input:focus {
   border-color: #16a34a !important;
-  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.1);
 }
 
 .nature-runner-mypage-wrapper .mypage-input:disabled {
@@ -232,16 +220,13 @@
   background-color: #16a34a !important;
   color: #ffffff !important;
   border: none;
-  padding: 0.75rem 2rem;
+  padding: 0.9rem;
   border-radius: 30px !important; /* 가이드 안의 강조 라운딩 */
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
   margin-top: 0.5rem;
   transition: opacity 0.2s;
-  width: fit-content;
-  display: inline-block;
-  margin: 20px auto 0;
 }
 
 .nature-runner-mypage-wrapper .mypage-submit-btn:hover {
@@ -253,19 +238,21 @@
   overflow-x: auto;
 }
 
-.crew-status-table {
+.nature-runner-mypage-wrapper .crew-status-table {
   width: 100%;
   border-collapse: collapse;
+  text-align: left;
 }
 
-.crew-status-table th {
-  background: #f8fafc;
+.nature-runner-mypage-wrapper .crew-status-table th {
+  background-color: #f8fafc;
   color: #64748b;
-  font-size: 0.9rem;
   padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.crew-status-table td {
+.nature-runner-mypage-wrapper .crew-status-table td {
   padding: 1rem;
   border-bottom: 1px solid #f1f5f9;
   font-size: 0.95rem;
@@ -288,12 +275,6 @@
   background-color: #dcfce7;
   color: #16a34a;
 }
-
-.level-medium {
-  background-color: #dbeafe;
-  color: #2563eb;
-}
-
 .nature-runner-mypage-wrapper .level-advanced {
   background-color: #fef9c3;
   color: #ca8a04;
@@ -366,7 +347,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
 }
 
 .profile-image {
@@ -386,4 +366,40 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* ── 사용자 등급 뱃지 ── */
+.profile-level-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.profile-level-badge.level-seed {
+  background-color: #F1F5F9;
+  color: #64748B;
+}
+
+.profile-level-badge.level-sprout {
+  background-color: #DCFCE7;
+  color: #16A34A;
+}
+
+.profile-level-badge.level-branch {
+  background-color: #D1FAE5;
+  color: #059669;
+}
+
+.profile-level-badge.level-tree {
+  background-color: #A7F3D0;
+  color: #065F46;
+}
+
+.profile-level-badge.level-forest {
+  background-color: #064E3B;
+  color: #ECFDF5;
 }

@@ -4,23 +4,22 @@ import com.prg.back_end.dto.ResultResponse;
 import com.prg.back_end.dto.UserPasswordRequest;
 import com.prg.back_end.dto.UserResponse;
 import com.prg.back_end.dto.UserUpdateRequest;
+import com.prg.back_end.service.UserLevelService;
 import com.prg.back_end.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/user")
-
+@AllArgsConstructor
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserLevelService userLevelService;
 
     @GetMapping("/{id}")
     public UserResponse findById(@PathVariable Long id){
+        // 프로필 조회 시 등급을 최신 상태로 갱신
+        userLevelService.refreshLevel(id);
         return userService.findById(id);
     }
 
@@ -45,7 +44,6 @@ public class UserController {
     public UserResponse findByUserIdAndEmail(
             @RequestParam("user_id") String userId,
             @RequestParam("email") String email){
-
         return userService.findByUserIdAndEmail(userId, email);
     }
 
