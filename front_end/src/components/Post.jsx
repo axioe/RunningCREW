@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/Post.css"; // Post.css 경로 매칭
-import Header from "./common/Header"; // 프로젝트 공통 상단 GNB 헤더
+import "../css/Post.css"; 
+import Header from "./common/Header"; 
 import useAuthStore from "./common/useAuthStore";
 import api from "../js/api";
 import CourseModal from "./CourseModal";
@@ -50,11 +50,34 @@ const Post = () => {
   const handleMapClick = () => {};
   // 취소 버튼 클릭 핸들러
   const handleCancel = () => {
-    if (
-      window.confirm("작성 중인 내용이 저장되지 않습니다. 취소하시겠습니까?")
-    ) {
-      navigate("/write");
+    if (window.confirm("작성 중인 내용이 저장되지 않습니다. 취소하시겠습니까?")) {
+      navigate("/crew");
     }
+  };
+
+  // 초기화 핸들러
+  const handleReset = () => {
+    if (!window.confirm("입력한 모든 내용을 초기화하시겠습니까?")) return;
+    setTitle("");
+    setContent("");
+    setDate("");
+    setTimeNum("12:00");
+    setAmpm("AM");
+    setLocation("");
+    setDifficulty("새싹");
+    setAddress("");
+    setLatitude(0.0);
+    setLongitude(0.0);
+    setFacilityInfo("");
+    setDistance(0.0);
+    setMvmFclty(false);
+    setCnvnncFclty(false);
+    setCltrFclty(false);
+    setMemberPeople(0);
+    setImage(null);
+    setPreview("");
+    const fileInput = document.getElementById("imageUpload");
+    if (fileInput) fileInput.value = "";
   };
 
   function toLocalDateTime(date, time, ampm) {
@@ -117,6 +140,7 @@ const Post = () => {
       //console.log("crew_id = " + crew_id);
       uploadImage(course_id);
       alert("작성 성공");
+      navigate("/crew");
     } catch (e) {
       console.error(e);
       alert("작성 실패");
@@ -476,7 +500,25 @@ const Post = () => {
         {/* [우측 구역] 실시간 미리보기 & 액션 제어 사이드 바 */}
         <div className="form-right-sidebar">
           <div className="summary-box sticky-box">
-            <h3>🏃‍♂️ 러닝 정보 미리보기</h3>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <h3 style={{ margin: 0 }}>🏃‍♂️ 러닝 정보 미리보기</h3>
+              <button
+                type="button"
+                onClick={handleReset}
+                style={{
+                  fontSize: "12px",
+                  padding: "4px 10px",
+                  backgroundColor: "#f1f5f9",
+                  color: "#64748b",
+                  border: "1px solid #e2e8f0",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontWeight: "600",
+                }}
+              >
+                초기화
+              </button>
+            </div>
             <ul>
               <li>
                 <strong>날짜: </strong> {date || "미정"}
