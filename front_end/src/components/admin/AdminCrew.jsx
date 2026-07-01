@@ -11,7 +11,6 @@ const AdminCrews = () => {
     try {
       setLoading(true);
       const response = await api.get(`/admin/posts?page=${page}&size=10`);
-      //console.log(response.data);
       setCrews(response.data.content || []);
       setTotalPages(response.data.totalPages || 0);
     } catch (error) {
@@ -25,10 +24,20 @@ const AdminCrews = () => {
     fetchCrews();
   }, [page]);
 
-  const handleDeleteCrew = (id) => {
-    if (window.confirm("해당 크루 모집글을 삭제하시겠습니까?")) {
-      // 차후 백엔드 DELETE API 호출 연동 영역
-      setCrews(crews.filter((crew) => crew.id !== id));
+  // 🌟 [수정] 실제 DELETE /admin/posts/{id} API 연동
+  const handleDeleteCrew = async (id) => {
+    if (!window.confirm("해당 크루 모집글을 삭제하시겠습니까?\n연관된 신청자 데이터도 함께 삭제됩니다.")) return;
+    try {
+      const response = await api.delete(`/admin/posts/${id}`);
+      if (response.data?.success) {
+        setCrews(crews.filter((crew) => crew.id !== id));
+        alert("모집글이 삭제되었습니다.");
+      } else {
+        alert(response.data?.message || "삭제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.log("Error : ", error);
+      alert("삭제 처리 중 오류가 발생했습니다.");
     }
   };
 
@@ -74,23 +83,10 @@ const AdminCrews = () => {
         </tbody>
       </table>
 
-      {/* 페이징 네비게이션 추가 */}
-      <div
-        className="admin-pagination"
-        style={{ marginTop: "20px", textAlign: "center" }}
-      >
-        <button disabled={page === 0} onClick={() => setPage(page - 1)}>
-          이전
-        </button>
-        <span style={{ margin: "0 15px" }}>
-          {page + 1} / {totalPages}
-        </span>
-        <button
-          disabled={page >= totalPages - 1}
-          onClick={() => setPage(page + 1)}
-        >
-          다음
-        </button>
+      <div className="admin-pagination" style={{ marginTop: "20px", textAlign: "center" }}>
+        <button disabled={page === 0} onClick={() => setPage(page - 1)}>이전</button>
+        <span style={{ margin: "0 15px" }}>{page + 1} / {totalPages}</span>
+        <button disabled={page >= totalPages - 1} onClick={() => setPage(page + 1)}>다음</button>
       </div>
     </div>
   );

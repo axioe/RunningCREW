@@ -19,6 +19,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class UserService {
@@ -36,7 +38,10 @@ public class UserService {
     public UserResponse create(UserCreateRequest request) {
         boolean isExist = userRepository.existsByUserId(request.getUserId());
         if(isExist){
-            return null;
+            throw new org.springframework.web.server.ResponseStatusException(
+                    org.springframework.http.HttpStatus.CONFLICT,
+                    "이미 사용 중인 아이디입니다."
+            );
         }
 
         UserEntity user = new UserEntity();
@@ -99,11 +104,20 @@ public class UserService {
             user.setNickName(request.getNickName());
         if(!ObjectUtils.isEmpty(request.getUserLevel()))
             user.setUserLevel(request.getUserLevel());
+        if(!ObjectUtils.isEmpty(request.getUserRole()))
+            user.setUserRole(request.getUserRole());
         if(!ObjectUtils.isEmpty(request.getPassword()))
             user.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
         UserEntity savedUser = userRepository.save(user);
 
         return UserResponse.from(savedUser);
+    }
+
+    public List<UserResponse> findAdmins() {
+        return userRepository.findByUserRole(com.prg.back_end.entity.RoleType.ADMIN)
+                .stream()
+                .map(UserResponse::from)
+                .collect(java.util.stream.Collectors.toList());
     }
 
     @Transactional(readOnly = true)

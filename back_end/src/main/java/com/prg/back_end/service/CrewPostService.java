@@ -83,6 +83,17 @@ public class CrewPostService {
     }
 
     @Transactional
+    public CrewActionResponse adminDelete(Long id) {
+        CrewPostEntity postEntity = crewPostRepository.findById(id).orElse(null);
+        if (ObjectUtils.isEmpty(postEntity))
+            return CrewActionResponse.notFound();
+
+        crewMemberRepository.deleteByPostId(id);
+        crewPostRepository.delete(postEntity);
+        return CrewActionResponse.ok(null);
+    }
+
+    @Transactional
     public CrewActionResponse delete(Long id, Long requesterId) {
         //  1. 모집글 존재 여부 확인
         CrewPostEntity postEntity = crewPostRepository.findById(id).orElse(null);

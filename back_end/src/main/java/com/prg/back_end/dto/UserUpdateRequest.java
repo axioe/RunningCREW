@@ -1,5 +1,6 @@
 package com.prg.back_end.dto;
 
+import com.prg.back_end.entity.RoleType;
 import com.prg.back_end.entity.UserLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,5 +12,6 @@ public class UserUpdateRequest {
     private String email;
     private String nickName;
     private UserLevel userLevel;
+    private RoleType userRole;
     private String password;
 }
