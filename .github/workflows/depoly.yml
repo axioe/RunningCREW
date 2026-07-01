@@ -4,8 +4,8 @@ on:
   push:
     branches: ["main"]
     paths:
-      - "backend/**"
-      - "frontend/**"
+      - "back_end/**"
+      - "front_end/**"
       - "infra/**"
       - ".github/workflows/deploy.yml"
 
@@ -16,10 +16,10 @@ jobs:
       matrix:
         include:
           - name: backend
-            context: backend
+            context: back_end
             imagename: runningcrew-backend # ← 앞의 네임스페이스는 빼고
           - name: frontend
-            context: frontend
+            context: front_end
             imagename: runningcrew-frontend
     steps:
       - uses: actions/checkout@v4
