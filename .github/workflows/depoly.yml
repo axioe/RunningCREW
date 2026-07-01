@@ -38,6 +38,8 @@ jobs:
         with:
           context: ${{ matrix.context }}
           push: true
+          build-args: |
+            VITE_KAKAO_JS_KEY=${{ secrets.VITE_KAKAO_JS_KEY }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.imagename }}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.imagename }}:${{ github.sha }}
