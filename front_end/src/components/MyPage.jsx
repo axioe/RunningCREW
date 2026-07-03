@@ -108,11 +108,12 @@ const Page = () => {
   let [crewPosts, setCrewPosts] = useState([]);
   //  내 러닝 크루 현황
   const getCrewPosts = async () => {
+    console.log("11");
     if (!user?.id) return;
 
     try {
       const response = await api.get(`/post/getAllByUserId?userId=${user.id}`);
-      console.log(response.data);
+      //console.log(response.data);
       setCrewPosts(response.data);
     } catch (error) {
       console.log("Error : ", error);
@@ -176,7 +177,9 @@ const Page = () => {
             )}
             <h3 className="profile-nickname">{userProfile.nickname}</h3>
             {/* <span className="profile-role-tag">{userProfile.role}</span> */}
-            <span className={`profile-level-badge level-${userProfile.userLevel?.toLowerCase()}`}>
+            <span
+              className={`profile-level-badge level-${userProfile.userLevel?.toLowerCase()}`}
+            >
               {userProfile.userLevelLabel}
             </span>
           </div>
