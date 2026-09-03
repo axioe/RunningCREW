@@ -173,3 +173,13 @@ npm run dev
 ```
 
 프론트엔드는 기본적으로 `http://localhost:3000` (CORS 허용 Origin 기준)에서 백엔드 API(JWT 인증 필요 구간 포함)와 통신하도록 구성되어 있습니다.
+
+### 배포 (CI/CD)
+
+GitHub Actions를 통해 `main` 브랜치에 push되면 Backend/Frontend Docker 이미지를 빌드해 Docker Hub에 푸시하고, AWS EC2에 SSH로 접속해 `docker compose`로 무중단 배포되는 CI/CD 파이프라인을 구축했습니다.
+
+- **Frontend** : Nginx 컨테이너 (정적 파일 서빙 + `/api` 리버스 프록시)
+- **Backend** : Spring Boot 컨테이너
+- **Infra** : AWS EC2(애플리케이션 서버), AWS RDS(MySQL), AWS S3(이미지 저장)
+
+> ⚠️ 실제 운영 서버는 개발 기간 중 한시적으로 열어두었으며, 현재는 비용(금전적) 이슈로 서버를 닫아둔 상태입니다. 로컬 환경에서는 위 실행 방법으로 동일하게 구동해 확인할 수 있습니다.
